@@ -1,0 +1,104 @@
+"use client";
+import { useRef, useEffect } from "react";
+
+const DOCS = [
+  {
+    badge: "GUIDE",
+    date: "Jun 28, 2026",
+    title: "Getting started with Agentic Vnus in under 5 minutes",
+    description: "Install, connect your first integration, and run your first agentic task — complete walkthrough.",
+    color: "#FF3B30",
+  },
+  {
+    badge: "REFERENCE",
+    date: "Jun 20, 2026",
+    title: "Vnus Skill API: build your own automations",
+    description: "Deep-dive into the Vnus plugin system. Write custom skills, handle OAuth, and publish to the registry.",
+    color: "#8B5CF6",
+  },
+  {
+    badge: "LATEST",
+    date: "Jun 15, 2026",
+    title: "Calendar & Email integration: full docs",
+    description: "Everything about Gmail, Outlook, and Google Calendar — permissions, token refresh, edge cases.",
+    color: "#10B981",
+  },
+  {
+    badge: "TUTORIAL",
+    date: "Jun 8, 2026",
+    title: "Using Vnus from WhatsApp & Telegram",
+    description: "Set up the bot integration, configure triggers, and manage multi-account workflows from a single chat.",
+    color: "#F59E0B",
+  },
+];
+
+export default function DocsSection() {
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const observers = cardRefs.current.map((card, i) => {
+      if (!card) return null;
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setTimeout(() => card.classList.add("visible"), i * 100); },
+        { threshold: 0.1 }
+      );
+      obs.observe(card);
+      return obs;
+    });
+    return () => observers.forEach((o) => o?.disconnect());
+  }, []);
+
+  return (
+    <section id="docs" className="relative z-10 max-w-6xl mx-auto px-6 py-20">
+      <div className="flex items-center justify-between flex-wrap gap-4 mb-12">
+        <div>
+          <p className="text-[#FF3B30] uppercase tracking-widest text-xs font-semibold mb-2">LATEST</p>
+          <h2 className="text-white text-3xl md:text-4xl font-black">
+            Docs with depth.
+          </h2>
+        </div>
+        <a
+          href="#docs"
+          className="text-[#FF3B30] text-sm hover:underline flex items-center gap-1 shrink-0"
+        >
+          Read all
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {DOCS.map((doc, i) => (
+          <div
+            key={doc.title}
+            ref={(el) => { cardRefs.current[i] = el; }}
+            className="reveal glass-card rounded-xl p-6 group cursor-pointer"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <span
+                className="text-xs font-bold px-2.5 py-0.5 rounded-full"
+                style={{ background: `${doc.color}20`, color: doc.color, border: `1px solid ${doc.color}40` }}
+              >
+                {doc.badge}
+              </span>
+              <span className="text-gray-600 text-xs">{doc.date}</span>
+            </div>
+
+            <h3 className="text-white font-bold text-base mb-2 group-hover:text-[#FF3B30] transition-colors">
+              {doc.title}
+            </h3>
+            <p className="text-gray-400 text-sm leading-relaxed">{doc.description}</p>
+
+            <div className="flex items-center gap-1 mt-4 text-[#FF3B30] text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+              Read more
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
