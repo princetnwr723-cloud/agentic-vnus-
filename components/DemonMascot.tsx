@@ -5,171 +5,183 @@ export default function DemonMascot({ size = 160 }: { size?: number }) {
   const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    const svg = svgRef.current;
-    if (!svg) return;
-
-    // Continuous eye colour cycle
-    const leftEye = svg.querySelector("#left-eye") as SVGCircleElement;
-    const rightEye = svg.querySelector("#right-eye") as SVGCircleElement;
-
-    let phase = 0;
-    const raf = setInterval(() => {
-      phase += 0.025;
-      const r = Math.round(150 + 105 * Math.sin(phase));
-      const g = Math.round(30 + 20 * Math.sin(phase + 1));
-      const b = Math.round(200 + 55 * Math.sin(phase + 2));
-      const color = `rgb(${r},${g},${b})`;
-      if (leftEye) leftEye.setAttribute("fill", color);
-      if (rightEye) rightEye.setAttribute("fill", color);
+    let ph = 0;
+    const interval = setInterval(() => {
+      ph += 0.04;
+      const intensity = 0.5 + 0.5 * Math.sin(ph);
+      const r = Math.round(180 + 75 * intensity);
+      const g = Math.round(intensity * 30);
+      const b = 0;
+      const c = `rgb(${r},${g},${b})`;
+      const le = svgRef.current?.querySelector("#left-eye") as SVGEllipseElement;
+      const re = svgRef.current?.querySelector("#right-eye") as SVGEllipseElement;
+      if (le) le.setAttribute("fill", c);
+      if (re) re.setAttribute("fill", c);
     }, 40);
-
-    return () => clearInterval(raf);
+    return () => clearInterval(interval);
   }, []);
-
-  const s = size;
-  const cx = s / 2;
 
   return (
     <svg
       ref={svgRef}
-      width={s}
-      height={s * 1.25}
-      viewBox="0 0 200 250"
+      width={size}
+      height={size * 1.25}
+      viewBox="0 0 200 260"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="demon-float"
       aria-label="Vnus AI demon mascot"
     >
       <defs>
-        <radialGradient id="bodyGrad" cx="50%" cy="45%" r="55%">
-          <stop offset="0%" stopColor="#FF5A4A" />
-          <stop offset="60%" stopColor="#E02A1E" />
-          <stop offset="100%" stopColor="#8B1010" />
+        <radialGradient id="bodyG" cx="50%" cy="40%" r="60%">
+          <stop offset="0%" stopColor="#1a1a1a"/>
+          <stop offset="55%" stopColor="#0d0d0d"/>
+          <stop offset="85%" stopColor="#220000"/>
+          <stop offset="100%" stopColor="#550000"/>
         </radialGradient>
-        <radialGradient id="bellyGrad" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#FF8070" />
-          <stop offset="100%" stopColor="#FF4535" />
+        <radialGradient id="faceG" cx="50%" cy="45%" r="55%">
+          <stop offset="0%" stopColor="#222222"/>
+          <stop offset="60%" stopColor="#111111"/>
+          <stop offset="100%" stopColor="#330000"/>
         </radialGradient>
-        <radialGradient id="wingGrad" cx="30%" cy="30%" r="70%">
-          <stop offset="0%" stopColor="#CC2A1A" />
-          <stop offset="100%" stopColor="#550808" />
+        <radialGradient id="wingG" cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stopColor="#1a0000"/>
+          <stop offset="100%" stopColor="#050000"/>
         </radialGradient>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="3" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-        <filter id="hornGlow">
-          <feGaussianBlur stdDeviation="2.5" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
+        <radialGradient id="bellyG" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#2a0000"/>
+          <stop offset="100%" stopColor="#110000"/>
+        </radialGradient>
+        <radialGradient id="eyeGrad" cx="40%" cy="35%" r="60%">
+          <stop offset="0%" stopColor="#FF4400"/>
+          <stop offset="50%" stopColor="#CC0000"/>
+          <stop offset="100%" stopColor="#660000"/>
+        </radialGradient>
+        <linearGradient id="hornG" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#FF2200"/>
+          <stop offset="100%" stopColor="#880000"/>
+        </linearGradient>
       </defs>
 
-      {/* ── WINGS (behind body) ── */}
-      <g className="wing-left" style={{ transformOrigin: "80px 130px", animation: "wingBeat 2.8s ease-in-out infinite" }}>
-        <path
-          d="M80 130 C50 110, 15 95, 10 70 C8 55, 25 50, 45 60 C30 75, 35 90, 55 100 C40 80, 42 60, 65 68 C55 85, 65 105, 80 118 Z"
-          fill="url(#wingGrad)"
-          opacity="0.9"
-        />
-        {/* Wing ribs */}
-        <path d="M80 130 C60 115, 20 90, 12 68" stroke="#FF3B30" strokeWidth="0.8" strokeOpacity="0.4" fill="none" />
-        <path d="M78 125 C55 108, 30 82, 40 62" stroke="#FF3B30" strokeWidth="0.6" strokeOpacity="0.3" fill="none" />
+      {/* ── WINGS ── */}
+      <g style={{ transformOrigin: "82px 128px", animation: "wingBeat 2.6s ease-in-out infinite" }}>
+        <path d="M80 128 C52 108,18 92,10 66 C7 50,24 46,44 57 C30 72,34 88,54 98 C38 78,40 57,63 65 C54 82,63 104,80 116Z" fill="url(#wingG)"/>
+        <path d="M78 126 C56 110,22 86,13 64" stroke="#990000" strokeWidth="0.8" fill="none" opacity="0.7"/>
+        <path d="M76 120 C54 104,34 78,42 58" stroke="#770000" strokeWidth="0.6" fill="none" opacity="0.5"/>
+        <path d="M80 128 C52 108,18 92,10 66 C7 50,24 46,44 57" stroke="#CC0000" strokeWidth="1.2" fill="none" opacity="0.5"/>
       </g>
-
-      <g className="wing-right" style={{ transformOrigin: "120px 130px", animation: "wingBeat 2.8s ease-in-out infinite reverse" }}>
-        <path
-          d="M120 130 C150 110, 185 95, 190 70 C192 55, 175 50, 155 60 C170 75, 165 90, 145 100 C160 80, 158 60, 135 68 C145 85, 135 105, 120 118 Z"
-          fill="url(#wingGrad)"
-          opacity="0.9"
-        />
-        <path d="M120 130 C140 115, 180 90, 188 68" stroke="#FF3B30" strokeWidth="0.8" strokeOpacity="0.4" fill="none" />
-        <path d="M122 125 C145 108, 170 82, 160 62" stroke="#FF3B30" strokeWidth="0.6" strokeOpacity="0.3" fill="none" />
+      <g style={{ transformOrigin: "118px 128px", animation: "wingBeat 2.6s ease-in-out infinite reverse" }}>
+        <path d="M120 128 C148 108,182 92,190 66 C193 50,176 46,156 57 C170 72,166 88,146 98 C162 78,160 57,137 65 C146 82,137 104,120 116Z" fill="url(#wingG)"/>
+        <path d="M122 126 C144 110,178 86,187 64" stroke="#990000" strokeWidth="0.8" fill="none" opacity="0.7"/>
+        <path d="M124 120 C146 104,166 78,158 58" stroke="#770000" strokeWidth="0.6" fill="none" opacity="0.5"/>
+        <path d="M120 128 C148 108,182 92,190 66 C193 50,176 46,156 57" stroke="#CC0000" strokeWidth="1.2" fill="none" opacity="0.5"/>
       </g>
 
       {/* ── HORNS ── */}
-      <g filter="url(#hornGlow)" style={{ animation: "hornPulse 2s ease-in-out infinite" }}>
-        {/* Left horn */}
-        <path d="M78 58 C70 45, 62 30, 66 18 C70 28, 74 40, 80 52 Z" fill="#FF3B30" />
-        <path d="M78 58 C73 48, 68 35, 70 22" stroke="#FF6B5B" strokeWidth="1.5" fill="none" strokeOpacity="0.6" />
-        {/* Right horn */}
-        <path d="M122 58 C130 45, 138 30, 134 18 C130 28, 126 40, 120 52 Z" fill="#FF3B30" />
-        <path d="M122 58 C127 48, 132 35, 130 22" stroke="#FF6B5B" strokeWidth="1.5" fill="none" strokeOpacity="0.6" />
-        {/* Small inner horns */}
-        <path d="M88 60 C84 50, 82 40, 85 32 C87 40, 89 50, 92 58 Z" fill="#CC2A1A" />
-        <path d="M112 60 C116 50, 118 40, 115 32 C113 40, 111 50, 108 58 Z" fill="#CC2A1A" />
+      <g style={{ animation: "hornGlow 2s ease-in-out infinite" }}>
+        <path d="M76 58 C68 44,60 28,64 14 C68 26,72 42,78 54Z" fill="url(#hornG)"/>
+        <path d="M76 58 C71 46,66 32,68 18" stroke="#FF4400" strokeWidth="1.2" fill="none" opacity="0.5"/>
+        <path d="M124 58 C132 44,140 28,136 14 C132 26,128 42,122 54Z" fill="url(#hornG)"/>
+        <path d="M124 58 C129 46,134 32,132 18" stroke="#FF4400" strokeWidth="1.2" fill="none" opacity="0.5"/>
+        <path d="M87 60 C83 49,80 38,84 28 C86 38,88 50,91 58Z" fill="#AA1100"/>
+        <path d="M113 60 C117 49,120 38,116 28 C114 38,112 50,109 58Z" fill="#AA1100"/>
       </g>
 
-      {/* ── MAIN BODY ── */}
-      <ellipse cx="100" cy="140" rx="55" ry="62" fill="url(#bodyGrad)" />
+      {/* ── BODY ── */}
+      <ellipse cx="100" cy="142" rx="57" ry="64" fill="#440000" opacity="0.8"/>
+      <ellipse cx="100" cy="140" rx="54" ry="61" fill="url(#bodyG)"/>
+      <ellipse cx="100" cy="152" rx="30" ry="36" fill="url(#bellyG)" opacity="0.6"/>
 
-      {/* ── BELLY ── */}
-      <ellipse cx="100" cy="150" rx="32" ry="38" fill="url(#bellyGrad)" opacity="0.45" />
+      {/* ── FACE ── */}
+      <ellipse cx="100" cy="117" rx="44" ry="40" fill="#330000" opacity="0.7"/>
+      <ellipse cx="100" cy="116" rx="42" ry="38" fill="url(#faceG)"/>
 
-      {/* ── FACE AREA ── */}
-      <ellipse cx="100" cy="118" rx="42" ry="38" fill="url(#bodyGrad)" />
+      {/* ── ANGRY BROWS ── */}
+      <path d="M68 100 C78 92,88 96,100 94 C112 96,122 92,132 100" stroke="#000000" strokeWidth="6" fill="none" strokeLinecap="round" opacity="0.9"/>
+      <path d="M70 103 C78 97,88 100,96 103" stroke="#CC0000" strokeWidth="3.5" fill="none" strokeLinecap="round"/>
+      <path d="M70 103 C78 97,88 100,96 103" stroke="#FF2200" strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.7"/>
+      <path d="M130 103 C122 97,112 100,104 103" stroke="#CC0000" strokeWidth="3.5" fill="none" strokeLinecap="round"/>
+      <path d="M130 103 C122 97,112 100,104 103" stroke="#FF2200" strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.7"/>
+      <path d="M94 103 L100 108 L106 103" stroke="#440000" strokeWidth="2" fill="none" strokeLinecap="round"/>
 
       {/* ── EYES ── */}
-      {/* Eye whites */}
-      <ellipse cx="84" cy="115" rx="13" ry="14" fill="white" />
-      <ellipse cx="116" cy="115" rx="13" ry="14" fill="white" />
-      {/* Pupils */}
-      <circle id="left-eye" cx="86" cy="116" r="8" fill="#00BFFF" filter="url(#glow)" />
-      <circle id="right-eye" cx="118" cy="116" r="8" fill="#00BFFF" filter="url(#glow)" />
-      {/* Pupil blacks */}
-      <circle cx="87" cy="117" r="4.5" fill="#0a0a0a" />
-      <circle cx="119" cy="117" r="4.5" fill="#0a0a0a" />
-      {/* Eye shine */}
-      <circle cx="83" cy="113" r="2" fill="white" opacity="0.9" />
-      <circle cx="115" cy="113" r="2" fill="white" opacity="0.9" />
-
-      {/* ── FROWN / MOUTH ── */}
-      <path d="M89 138 Q100 148 111 138" stroke="#6B1010" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-      {/* Fangs */}
-      <path d="M94 140 L91 150 L97 140 Z" fill="white" />
-      <path d="M106 140 L103 150 L109 140 Z" fill="white" />
-
-      {/* ── BLUSH MARKS (subtle) ── */}
-      <ellipse cx="72" cy="128" rx="9" ry="5" fill="#FF6B5B" opacity="0.3" />
-      <ellipse cx="128" cy="128" rx="9" ry="5" fill="#FF6B5B" opacity="0.3" />
-
-      {/* ── ARMS ── */}
-      <path d="M47 148 C35 140, 28 150, 32 162 C36 172, 47 168, 52 158" fill="url(#bodyGrad)" stroke="#CC2A1A" strokeWidth="1" />
-      {/* Left claws */}
-      <path d="M32 162 L24 168 M32 162 L28 174 M32 162 L36 170" stroke="#FF3B30" strokeWidth="2" strokeLinecap="round" />
-
-      <path d="M153 148 C165 140, 172 150, 168 162 C164 172, 153 168, 148 158" fill="url(#bodyGrad)" stroke="#CC2A1A" strokeWidth="1" />
-      {/* Right claws */}
-      <path d="M168 162 L176 168 M168 162 L172 174 M168 162 L164 170" stroke="#FF3B30" strokeWidth="2" strokeLinecap="round" />
-
-      {/* ── LEGS ── */}
-      <ellipse cx="82" cy="198" rx="18" ry="10" fill="#CC2A1A" />
-      <ellipse cx="118" cy="198" rx="18" ry="10" fill="#CC2A1A" />
-      {/* Feet claws */}
-      <path d="M66 200 L60 208 M72 202 L68 212 M78 203 L76 213" stroke="#FF3B30" strokeWidth="2" strokeLinecap="round" />
-      <path d="M134 200 L140 208 M128 202 L132 212 M122 203 L124 213" stroke="#FF3B30" strokeWidth="2" strokeLinecap="round" />
-
-      {/* ── TAIL ── */}
-      <g style={{ transformOrigin: "100px 195px", animation: "tailSwing 3s ease-in-out infinite" }}>
-        <path
-          d="M100 195 C108 205, 120 210, 125 222 C130 234, 120 240, 115 235 C122 232, 124 225, 118 220 C112 215, 100 212, 97 220 C94 228, 102 235, 108 230"
-          stroke="#CC2A1A"
-          strokeWidth="5"
-          fill="none"
-          strokeLinecap="round"
-        />
-        {/* Tail tip — arrow/spade shape */}
-        <path d="M108 230 C104 236, 98 240, 102 246 C106 252, 114 248, 112 242 C116 246, 122 242, 118 237 Z" fill="#FF3B30" />
+      <g style={{ animation: "eyeAngry 1.8s ease-in-out infinite" }}>
+        <ellipse cx="83" cy="116" rx="15" ry="13" fill="#000000" opacity="0.8"/>
+        <ellipse cx="117" cy="116" rx="15" ry="13" fill="#000000" opacity="0.8"/>
+        <ellipse cx="83" cy="116" rx="13" ry="11" fill="#0a0000"/>
+        <ellipse id="left-eye" cx="83" cy="116" rx="10" ry="8" fill="url(#eyeGrad)"/>
+        <ellipse cx="83" cy="116" rx="3" ry="7" fill="#000000"/>
+        <ellipse cx="80" cy="113" rx="1.5" ry="1" fill="#FF6644" opacity="0.8"/>
+        <ellipse cx="117" cy="116" rx="13" ry="11" fill="#0a0000"/>
+        <ellipse id="right-eye" cx="117" cy="116" rx="10" ry="8" fill="url(#eyeGrad)"/>
+        <ellipse cx="117" cy="116" rx="3" ry="7" fill="#000000"/>
+        <ellipse cx="114" cy="113" rx="1.5" ry="1" fill="#FF6644" opacity="0.8"/>
+        <ellipse cx="83" cy="116" rx="13" ry="11" fill="none" stroke="#CC0000" strokeWidth="1" opacity="0.6"/>
+        <ellipse cx="117" cy="116" rx="13" ry="11" fill="none" stroke="#CC0000" strokeWidth="1" opacity="0.6"/>
       </g>
 
-      {/* ── BODY TEXTURE LINES ── */}
-      <path d="M85 170 C100 175, 115 170" stroke="#FF6B5B" strokeWidth="0.8" fill="none" strokeOpacity="0.25" />
-      <path d="M80 182 C100 188, 120 182" stroke="#FF6B5B" strokeWidth="0.8" fill="none" strokeOpacity="0.2" />
+      {/* ── NOSE ── */}
+      <path d="M97 128 L100 133 L103 128" stroke="#550000" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+      <circle cx="97" cy="129" r="1.5" fill="#220000"/>
+      <circle cx="103" cy="129" r="1.5" fill="#220000"/>
+
+      {/* ── SNARL MOUTH ── */}
+      <path d="M82 138 C88 134,94 135,100 133 C106 135,112 134,118 138" stroke="#110000" strokeWidth="2" fill="none" strokeLinecap="round"/>
+      <path d="M80 140 C88 148,112 148,120 140" fill="#110000"/>
+      <path d="M82 141 L79 152 L85 141Z" fill="#DDDDDD"/>
+      <path d="M88 142 L87 153 L93 142Z" fill="#CCCCCC"/>
+      <path d="M95 141 L92 156 L98 141Z" fill="#EEEEEE"/>
+      <path d="M105 141 L102 156 L108 141Z" fill="#EEEEEE"/>
+      <path d="M112 142 L107 153 L113 142Z" fill="#CCCCCC"/>
+      <path d="M118 141 L115 152 L121 141Z" fill="#DDDDDD"/>
+      <path d="M80 140 C88 150,112 150,120 140" stroke="#330000" strokeWidth="1.5" fill="none"/>
+      <ellipse cx="100" cy="156" rx="1.5" ry="3" fill="#220011" opacity="0.6"/>
+
+      {/* ── SCAR MARKINGS ── */}
+      <path d="M68 125 L62 118 M66 130 L60 126" stroke="#AA0000" strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
+      <path d="M132 125 L138 118 M134 130 L140 126" stroke="#AA0000" strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
+
+      {/* ── BODY RIM GLOW ── */}
+      <ellipse cx="100" cy="140" rx="54" ry="61" fill="none" stroke="#660000" strokeWidth="2" opacity="0.5"/>
+      <ellipse cx="100" cy="140" rx="52" ry="59" fill="none" stroke="#440000" strokeWidth="1" opacity="0.3"/>
+
+      {/* ── LEFT ARM ── */}
+      <g style={{ transformOrigin: "50px 150px", animation: "armSwingL 2.2s ease-in-out infinite" }}>
+        <path d="M50 150 C36 142,26 152,30 165 C34 176,48 172,53 160" fill="url(#bodyG)" stroke="#440000" strokeWidth="1.5"/>
+        <circle cx="36" cy="155" r="5" fill="#1a0000" stroke="#550000" strokeWidth="1"/>
+        <path d="M30 165 L20 172" stroke="#DD1100" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M30 165 L24 178" stroke="#DD1100" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M30 165 L34 176" stroke="#DD1100" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M20 172 L17 175" stroke="#FF2200" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M24 178 L22 182" stroke="#FF2200" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M34 176 L34 180" stroke="#FF2200" strokeWidth="1.5" strokeLinecap="round"/>
+      </g>
+
+      {/* ── RIGHT ARM ── */}
+      <g style={{ transformOrigin: "150px 150px", animation: "armSwingR 2.2s ease-in-out infinite 0.1s" }}>
+        <path d="M150 150 C164 142,174 152,170 165 C166 176,152 172,147 160" fill="url(#bodyG)" stroke="#440000" strokeWidth="1.5"/>
+        <circle cx="164" cy="155" r="5" fill="#1a0000" stroke="#550000" strokeWidth="1"/>
+        <path d="M170 165 L180 172" stroke="#DD1100" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M170 165 L176 178" stroke="#DD1100" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M170 165 L166 176" stroke="#DD1100" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M180 172 L183 175" stroke="#FF2200" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M176 178 L178 182" stroke="#FF2200" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M166 176 L166 180" stroke="#FF2200" strokeWidth="1.5" strokeLinecap="round"/>
+      </g>
+
+      {/* ── LEGS ── */}
+      <ellipse cx="82" cy="200" rx="18" ry="10" fill="#1a0000" stroke="#440000" strokeWidth="1"/>
+      <ellipse cx="118" cy="200" rx="18" ry="10" fill="#1a0000" stroke="#440000" strokeWidth="1"/>
+      <path d="M66 202 L60 210 M72 204 L68 214 M78 205 L76 215" stroke="#AA0000" strokeWidth="1.8" strokeLinecap="round"/>
+      <path d="M134 202 L140 210 M128 204 L132 214 M122 205 L124 215" stroke="#AA0000" strokeWidth="1.8" strokeLinecap="round"/>
+
+      {/* ── TAIL ── */}
+      <g style={{ transformOrigin: "100px 197px", animation: "tailSwing 2.8s ease-in-out infinite" }}>
+        <path d="M100 197 C110 208,122 213,127 226 C132 238,122 244,117 238 C124 235,126 228,120 222 C114 217,102 214,99 222 C96 230,104 237,110 232" stroke="#1a0000" strokeWidth="6" fill="none" strokeLinecap="round"/>
+        <path d="M100 197 C110 208,122 213,127 226 C132 238,122 244,117 238 C124 235,126 228,120 222 C114 217,102 214,99 222 C96 230,104 237,110 232" stroke="#550000" strokeWidth="3" fill="none" strokeLinecap="round"/>
+        <path d="M110 232 C106 238,100 242,104 248 C108 254,116 250,114 244 C118 248,124 244,120 239Z" fill="#CC0000"/>
+        <path d="M110 232 C106 238,100 242,104 248 C108 254,116 250,114 244 C118 248,124 244,120 239Z" fill="#FF2200" opacity="0.5"/>
+      </g>
     </svg>
   );
 }
