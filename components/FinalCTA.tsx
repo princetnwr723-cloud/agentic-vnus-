@@ -53,7 +53,7 @@ export default function FinalCTA() {
               href="/dashboard"
               className="btn-primary px-10 py-4 rounded-xl text-white font-bold text-base flex items-center gap-2"
             >
-              Dashboard Kholo 😈
+              Open Dashboard 😈
             </a>
           ) : (
             <button
