@@ -57,7 +57,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
         toast.success(`Wapas aa gaye, ${cred.user.displayName || "bhai"}! 😈`);
       }
       onClose();
-      window.location.href = "/dashboard";
+      window.location.href = tab === "signup" ? "/onboarding" : "/dashboard";
     } catch (err: unknown) {
       const code = (err as { code?: string }).code;
       if (code === "auth/email-already-in-use") toast.error("Ye email pehle se registered hai!");
@@ -76,7 +76,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
       await signInWithPopup(auth, googleProvider);
       toast.success("Google se login ho gaya! 😈");
       onClose();
-      window.location.href = "/dashboard";
+      window.location.href = tab === "signup" ? "/onboarding" : "/dashboard";
     } catch {
       toast.error("Google login failed, dobara try karo!");
     } finally {
