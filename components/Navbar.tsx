@@ -37,7 +37,7 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     await signOut(auth);
-    toast.success("Logout ho gaye! 👋");
+    toast.success("Signed out! 👋");
     setDropdownOpen(false);
     window.location.href = "/";
   };
