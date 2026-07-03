@@ -1,11 +1,16 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import DemonMascot from "./DemonMascot";
+import AuthModal from "./auth/AuthModal";
+import { useAuth } from "@/lib/AuthContext";
 
 export default function HeroSection() {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const subRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTab, setModalTab] = useState<"login" | "signup">("signup");
+  const { user } = useAuth();
 
   useEffect(() => {
     const els = [headingRef.current, subRef.current, ctaRef.current];
@@ -22,115 +27,143 @@ export default function HeroSection() {
     });
   }, []);
 
+  const openModal = (tab: "login" | "signup") => {
+    setModalTab(tab);
+    setModalOpen(true);
+  };
+
   return (
-    <section
-      id="home"
-      className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24 pb-16 overflow-hidden"
-    >
-      {/* Ambient glow */}
-      <div className="hero-glow" aria-hidden />
+    <>
+      <section
+        id="home"
+        className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24 pb-16 overflow-hidden"
+      >
+        {/* Ambient glow */}
+        <div className="hero-glow" aria-hidden />
 
-      {/* Demon mascot */}
-      <div className="relative z-10 mb-4">
-        <DemonMascot size={180} />
-        {/* Glow ring under mascot */}
+        {/* Demon mascot */}
+        <div className="relative z-10 mb-4">
+          <DemonMascot size={180} />
+          <div
+            className="absolute left-1/2 -translate-x-1/2 bottom-4 w-28 h-6 rounded-full"
+            style={{
+              background: "radial-gradient(ellipse, rgba(255,59,48,0.35) 0%, transparent 70%)",
+              filter: "blur(6px)",
+              animation: "pulseGlow 3s ease-in-out infinite",
+            }}
+            aria-hidden
+          />
+        </div>
+
+        {/* Main heading */}
+        <h1
+          ref={headingRef}
+          className="relative z-10 text-6xl md:text-8xl font-black tracking-tight leading-none mb-4"
+          style={{ opacity: 0 }}
+        >
+          <span className="gradient-text">Agentic Vnus</span>
+        </h1>
+
+        {/* Tagline */}
+        <p
+          ref={subRef}
+          className="relative z-10 text-[#FF3B30] uppercase tracking-[0.25em] font-semibold text-sm md:text-base mb-6"
+          style={{ opacity: 0 }}
+        >
+          The AI That Actually Does Things.
+        </p>
+
+        {/* Description */}
+        <p
+          className="relative z-10 text-gray-400 text-base md:text-lg max-w-2xl leading-relaxed mb-10"
+          style={{ opacity: 0, animation: "fadeIn 1s ease 0.6s forwards" }}
+        >
+          Clears your inbox, sends emails, manages your calendar, checks you in for
+          flights. All from WhatsApp, Telegram, or any chat app you already use.
+        </p>
+
+        {/* CTA Buttons */}
         <div
-          className="absolute left-1/2 -translate-x-1/2 bottom-4 w-28 h-6 rounded-full"
-          style={{
-            background:
-              "radial-gradient(ellipse, rgba(255,59,48,0.35) 0%, transparent 70%)",
-            filter: "blur(6px)",
-            animation: "pulseGlow 3s ease-in-out infinite",
-          }}
-          aria-hidden
-        />
-      </div>
-
-      {/* Main heading */}
-      <h1
-        ref={headingRef}
-        className="relative z-10 text-6xl md:text-8xl font-black tracking-tight leading-none mb-4"
-        style={{ opacity: 0 }}
-      >
-        <span className="gradient-text">Agentic Vnus</span>
-      </h1>
-
-      {/* Tagline */}
-      <p
-        ref={subRef}
-        className="relative z-10 text-[#FF3B30] uppercase tracking-[0.25em] font-semibold text-sm md:text-base mb-6"
-        style={{ opacity: 0 }}
-      >
-        The AI That Actually Does Things.
-      </p>
-
-      {/* Description */}
-      <p
-        className="relative z-10 text-gray-400 text-base md:text-lg max-w-2xl leading-relaxed mb-10"
-        style={{ opacity: 0, transition: "opacity 0.8s ease 0.6s", animation: "fadeIn 1s ease 0.6s forwards" }}
-      >
-        Clears your inbox, sends emails, manages your calendar, checks you in for
-        flights. All from WhatsApp, Telegram, or any chat app you already use.
-      </p>
-
-      {/* CTA Buttons */}
-      <div
-        ref={ctaRef}
-        className="relative z-10 flex flex-col sm:flex-row gap-4 items-center"
-        style={{ opacity: 0 }}
-      >
-        <a
-          href="#get-started"
-          className="btn-primary px-8 py-3.5 rounded-xl text-white font-bold text-base flex items-center gap-2 group"
+          ref={ctaRef}
+          className="relative z-10 flex flex-col sm:flex-row gap-4 items-center"
+          style={{ opacity: 0 }}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-            <polygon points="5 3 19 12 5 21 5 3" />
-          </svg>
-          Set Up Agentic Vnus
-        </a>
-        <a
-          href="#how-it-works"
-          className="btn-ghost px-8 py-3.5 rounded-xl text-white font-semibold text-base flex items-center gap-2"
-        >
-          See How It Works
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </a>
-      </div>
+          {user ? (
+            /* Already logged in — go to dashboard */
+            <a
+              href="/dashboard"
+              className="btn-primary px-8 py-3.5 rounded-xl text-white font-bold text-base flex items-center gap-2"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+              </svg>
+              Dashboard Kholo
+            </a>
+          ) : (
+            /* Not logged in — show signup modal */
+            <button
+              onClick={() => openModal("signup")}
+              className="btn-primary px-8 py-3.5 rounded-xl text-white font-bold text-base flex items-center gap-2 group"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <polygon points="5 3 19 12 5 21 5 3"/>
+              </svg>
+              Set Up Agentic Vnus
+            </button>
+          )}
 
-      {/* Platform badges */}
-      <div
-        className="relative z-10 flex items-center gap-3 mt-10 flex-wrap justify-center"
-        style={{ opacity: 0, animation: "fadeIn 1s ease 1s forwards" }}
-      >
-        {["macOS & Linux", "Windows", "β BETA"].map((badge, i) => (
-          <span
-            key={badge}
-            className={`px-3 py-1 rounded-full text-xs font-semibold border ${
-              i === 0
-                ? "bg-[#FF3B30] border-[#FF3B30] text-white"
-                : i === 2
-                ? "bg-transparent border-white/20 text-gray-400"
-                : "bg-transparent border-white/15 text-gray-500"
-            }`}
+          <a
+            href="#how-it-works"
+            className="btn-ghost px-8 py-3.5 rounded-xl text-white font-semibold text-base flex items-center gap-2"
           >
-            {badge}
-          </span>
-        ))}
-      </div>
+            See How It Works
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
 
-      {/* Scroll indicator */}
-      <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-gray-600"
-        style={{ animation: "float 2.5s ease-in-out infinite" }}
-        aria-hidden
-      >
-        <span className="text-xs tracking-widest uppercase">Scroll</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M12 5v14M5 12l7 7 7-7" />
-        </svg>
-      </div>
-    </section>
+        {/* Platform badges */}
+        <div
+          className="relative z-10 flex items-center gap-3 mt-10 flex-wrap justify-center"
+          style={{ opacity: 0, animation: "fadeIn 1s ease 1s forwards" }}
+        >
+          {["macOS & Linux", "Windows", "β BETA"].map((badge, i) => (
+            <span
+              key={badge}
+              className={`px-3 py-1 rounded-full text-xs font-semibold border ${
+                i === 0
+                  ? "bg-[#FF3B30] border-[#FF3B30] text-white"
+                  : i === 2
+                  ? "bg-transparent border-white/20 text-gray-400"
+                  : "bg-transparent border-white/15 text-gray-500"
+              }`}
+            >
+              {badge}
+            </span>
+          ))}
+        </div>
+
+        {/* Scroll indicator */}
+        <div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-gray-600"
+          style={{ animation: "float 2.5s ease-in-out infinite" }}
+          aria-hidden
+        >
+          <span className="text-xs tracking-widest uppercase">Scroll</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+          </svg>
+        </div>
+      </section>
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        defaultTab={modalTab}
+      />
+    </>
   );
 }
