@@ -1,203 +1,204 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/AuthContext";
-import { signOut } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { updateProfile } from "firebase/auth";
+import { db } from "@/lib/firebase";
 import toast from "react-hot-toast";
 
-const SKILLS = [
-  { icon: "📧", name: "Email Agent", desc: "Inbox clear karo, emails bhejo", status: "coming" },
-  { icon: "📅", name: "Calendar Agent", desc: "Meetings schedule karo", status: "coming" },
-  { icon: "✈️", name: "Flight Check-in", desc: "Auto check-in", status: "coming" },
-  { icon: "🌐", name: "Web Browsing", desc: "Koi bhi website navigate karo", status: "coming" },
-  { icon: "📝", name: "Task Manager", desc: "Notion, Jira tasks banao", status: "coming" },
-  { icon: "💬", name: "WhatsApp Bot", desc: "WhatsApp se control karo", status: "coming" },
+const PROFESSIONS = [
+  { icon: "💻", label: "Developer" },
+  { icon: "🎨", label: "Designer" },
+  { icon: "📊", label: "Product Manager" },
+  { icon: "🚀", label: "Founder / CEO" },
+  { icon: "📈", label: "Marketer" },
+  { icon: "🎓", label: "Student" },
+  { icon: "✍️", label: "Content Creator" },
+  { icon: "🔬", label: "Researcher" },
+  { icon: "💼", label: "Freelancer" },
+  { icon: "🌟", label: "Other" },
 ];
 
-export default function Dashboard() {
+export default function OnboardingPage() {
   const { user, loading } = useAuth();
-  const [greeting, setGreeting] = useState("Namaste");
+  const [step, setStep] = useState(1);
+  const [name, setName] = useState("");
+  const [profession, setProfession] = useState("");
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    // Redirect if not logged in
-    if (!loading && !user) {
-      window.location.href = "/";
-    }
+    if (!loading && !user) window.location.href = "/";
+    if (user?.displayName) setName(user.displayName);
   }, [user, loading]);
 
-  useEffect(() => {
-    const hour = new Date().getHours();
-    if (hour < 12) setGreeting("Good Morning");
-    else if (hour < 17) setGreeting("Good Afternoon");
-    else setGreeting("Good Evening");
-  }, []);
-
-  const handleLogout = async () => {
-    await signOut(auth);
-    toast.success("Logout ho gaye! 👋");
-    window.location.href = "/";
+  const handleFinish = async () => {
+    if (!name.trim()) return toast.error("Please enter your name!");
+    if (!profession) return toast.error("Please select your profession!");
+    if (!user) return;
+    setSaving(true);
+    try {
+      await updateProfile(user, { displayName: name.trim() });
+      await setDoc(doc(db, "users", user.uid), {
+        name: name.trim(),
+        profession,
+        email: user.email,
+        createdAt: new Date().toISOString(),
+        plan: "beta",
+      });
+      toast.success("Welcome to Vnus AI! 😈");
+      window.location.href = "/dashboard";
+    } catch {
+      toast.error("Something went wrong. Try again!");
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (loading || !user) {
     return (
       <div className="min-h-screen bg-[#050505] flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <svg className="animate-spin w-8 h-8 text-[#FF3B30]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/>
-          </svg>
-          <p className="text-gray-500 text-sm">Loading...</p>
-        </div>
+        <svg className="animate-spin w-8 h-8 text-[#FF3B30]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+        </svg>
       </div>
     );
   }
 
-  const displayName = user.displayName || user.email?.split("@")[0] || "Bhai";
-  const initials = displayName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2);
-
   return (
-    <div className="min-h-screen bg-[#050505] text-white">
-
-      {/* Stars background */}
-      <div className="fixed inset-0 pointer-events-none z-0" aria-hidden>
-        {Array.from({ length: 60 }).map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full bg-white"
+    <div className="min-h-screen bg-[#050505] flex items-center justify-center px-4 relative overflow-hidden">
+      {/* Stars */}
+      <div className="fixed inset-0 pointer-events-none" aria-hidden>
+        {Array.from({ length: 80 }).map((_, i) => (
+          <div key={i} className="absolute rounded-full bg-white"
             style={{
-              width: Math.random() * 1.5 + 0.5 + "px",
-              height: Math.random() * 1.5 + 0.5 + "px",
+              width: Math.random() * 1.5 + 0.4 + "px",
+              height: Math.random() * 1.5 + 0.4 + "px",
               top: Math.random() * 100 + "%",
               left: Math.random() * 100 + "%",
               opacity: Math.random() * 0.5 + 0.1,
+              animation: `starTwinkle ${3 + Math.random() * 4}s ease-in-out infinite`,
+              animationDelay: Math.random() * 4 + "s",
             }}
           />
         ))}
       </div>
 
-      {/* Topbar */}
-      <header className="relative z-10 border-b border-white/5 nav-blur sticky top-0">
-        <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-          {/* Logo */}
-          <a href="/" className="flex items-center gap-2">
-            <svg viewBox="0 0 32 32" fill="none" className="w-7 h-7">
-              <circle cx="16" cy="16" r="14" fill="#1a0505" stroke="#FF3B30" strokeWidth="1.5"/>
-              <path d="M11 11 C10 8,12 6,13 8 C14 6,15 8,14 11Z" fill="#FF3B30"/>
-              <path d="M21 11 C20 8,22 6,23 8 C24 6,21 8,22 11Z" fill="#FF3B30"/>
-              <circle cx="13" cy="16" r="2.5" fill="#FF3B30"/>
-              <circle cx="19" cy="16" r="2.5" fill="#FF3B30"/>
-              <circle cx="13" cy="16" r="1.2" fill="#000"/>
-              <circle cx="19" cy="16" r="1.2" fill="#000"/>
-            </svg>
-            <span className="font-bold text-white text-sm">Vnus AI</span>
-          </a>
+      {/* Ambient glow */}
+      <div className="fixed inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 40% at 50% 0%, rgba(120,15,15,0.2) 0%, transparent 70%)" }} aria-hidden />
 
-          {/* User info */}
-          <div className="flex items-center gap-3">
-            <span className="text-gray-500 text-xs hidden sm:block">{user.email}</span>
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-[#FF3B30]/20 bg-[#FF3B30]/8">
-              <div className="w-6 h-6 rounded-full bg-[#FF3B30] flex items-center justify-center text-xs font-bold">
-                {initials}
-              </div>
-              <span className="text-sm font-medium max-w-[80px] truncate">{displayName}</span>
-            </div>
-            <button
-              onClick={handleLogout}
-              className="p-2 rounded-lg text-gray-500 hover:text-red-400 hover:bg-white/5 transition-all"
-              title="Logout"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <main className="relative z-10 max-w-6xl mx-auto px-6 py-10">
-
-        {/* Greeting */}
-        <div className="mb-10">
-          <p className="text-gray-500 text-sm mb-1">{greeting},</p>
-          <h1 className="text-3xl md:text-4xl font-black text-white">
-            {displayName} 👋
-          </h1>
-          <p className="text-gray-500 text-sm mt-2">
-            Tumhara Agentic Vnus dashboard — yahan sab skills manage hongi.
-          </p>
-        </div>
-
-        {/* Status Banner */}
-        <div className="rounded-2xl border border-[#FF3B30]/20 p-6 mb-10 relative overflow-hidden"
-          style={{ background: "rgba(255,59,48,0.04)" }}>
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#FF3B30]/40 to-transparent"/>
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl bg-[#FF3B30]/15 border border-[#FF3B30]/25 flex items-center justify-center text-xl shrink-0">
-              😈
-            </div>
-            <div>
-              <h2 className="text-white font-bold text-base mb-1">
-                Vnus Agent — Coming Soon!
-              </h2>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Tumhara account ready hai. Agent abhi build ho raha hai — jaise hi ready hoga, isko yahan se ek click mein apne PC pe set up kar sakte ho. 
-                Tab tak landing page explore karo!
-              </p>
-              <div className="flex items-center gap-2 mt-3">
-                <div className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"/>
-                <span className="text-yellow-400 text-xs font-semibold">Development mein hai</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Account Info */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          {[
-            { label: "Account Status", value: "Active ✅", icon: "🔑" },
-            { label: "Plan", value: "Beta Tester 🎯", icon: "⚡" },
-            { label: "Tasks Used", value: "0 / ∞", icon: "📊" },
-          ].map((stat) => (
-            <div key={stat.label} className="glass-card rounded-xl p-5">
-              <div className="text-2xl mb-2">{stat.icon}</div>
-              <p className="text-gray-500 text-xs mb-1">{stat.label}</p>
-              <p className="text-white font-bold text-base">{stat.value}</p>
+      <div className="relative z-10 w-full max-w-lg">
+        {/* Progress */}
+        <div className="flex items-center gap-2 justify-center mb-8">
+          {[1, 2].map((s) => (
+            <div key={s} className="flex items-center gap-2">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
+                step >= s ? "bg-[#FF3B30] text-white" : "bg-white/5 border border-white/10 text-gray-600"
+              }`}>{s}</div>
+              {s < 2 && <div className={`w-12 h-px transition-all duration-300 ${step > s ? "bg-[#FF3B30]" : "bg-white/10"}`} />}
             </div>
           ))}
         </div>
 
-        {/* Skills Grid */}
-        <div className="mb-6">
-          <div className="section-marker">Available Skills</div>
-          <p className="text-gray-500 text-sm mb-6">
-            Yeh skills jald hi activate hongi — ek ek करके release hongi.
-          </p>
-        </div>
+        <div className="rounded-2xl border border-[#FF3B30]/15 overflow-hidden" style={{ background: "rgba(10,5,5,0.96)" }}>
+          {/* Top glow line */}
+          <div className="h-px w-full" style={{ background: "linear-gradient(to right, transparent, #FF3B30, transparent)" }} />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {SKILLS.map((skill) => (
-            <div key={skill.name} className="glass-card rounded-xl p-5 relative overflow-hidden group">
-              <div className="absolute top-3 right-3">
-                <span className="text-xs px-2 py-0.5 rounded-full font-semibold"
-                  style={{ background: "rgba(255,190,0,0.1)", color: "#FFBE00", border: "1px solid rgba(255,190,0,0.2)" }}>
-                  Coming Soon
-                </span>
+          <div className="p-8">
+            {step === 1 ? (
+              /* Step 1 — Name */
+              <div style={{ animation: "slideUp 0.5s ease forwards" }}>
+                <div className="text-center mb-8">
+                  <div className="w-14 h-14 rounded-2xl bg-[#FF3B30]/10 border border-[#FF3B30]/20 flex items-center justify-center mx-auto mb-4">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.8" strokeLinecap="round">
+                      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                  </div>
+                  <h1 className="text-2xl font-black text-white mb-2">What should we call you?</h1>
+                  <p className="text-gray-500 text-sm">Your name will appear on your dashboard.</p>
+                </div>
+
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter your name..."
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white text-base placeholder-gray-600 focus:outline-none focus:border-[#FF3B30]/50 transition-all mb-6"
+                  autoFocus
+                  onKeyDown={(e) => { if (e.key === "Enter" && name.trim()) setStep(2); }}
+                />
+
+                <button
+                  onClick={() => { if (name.trim()) setStep(2); else toast.error("Please enter your name!"); }}
+                  className="btn-primary w-full py-3.5 rounded-xl text-white font-bold text-base flex items-center justify-center gap-2"
+                >
+                  Continue
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </button>
               </div>
-              <div className="feature-icon text-xl">{skill.icon}</div>
-              <h3 className="text-white font-semibold text-sm mb-1">{skill.name}</h3>
-              <p className="text-gray-500 text-xs leading-relaxed">{skill.desc}</p>
-            </div>
-          ))}
+            ) : (
+              /* Step 2 — Profession */
+              <div style={{ animation: "slideUp 0.5s ease forwards" }}>
+                <div className="text-center mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-[#FF3B30]/10 border border-[#FF3B30]/20 flex items-center justify-center mx-auto mb-4">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.8" strokeLinecap="round">
+                      <rect x="2" y="7" width="20" height="14" rx="2"/>
+                      <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>
+                    </svg>
+                  </div>
+                  <h1 className="text-2xl font-black text-white mb-2">What do you do?</h1>
+                  <p className="text-gray-500 text-sm">Help us personalize Vnus for your workflow.</p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2.5 mb-6">
+                  {PROFESSIONS.map((p) => (
+                    <button
+                      key={p.label}
+                      onClick={() => setProfession(p.label)}
+                      className={`flex items-center gap-2.5 px-4 py-3 rounded-xl border text-sm font-medium transition-all text-left ${
+                        profession === p.label
+                          ? "border-[#FF3B30] bg-[#FF3B30]/12 text-white"
+                          : "border-white/8 bg-white/3 text-gray-400 hover:border-white/15 hover:text-white"
+                      }`}
+                    >
+                      <span className="text-base">{p.icon}</span>
+                      {p.label}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setStep(1)}
+                    className="btn-ghost px-5 py-3.5 rounded-xl text-gray-400 font-semibold text-sm"
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={handleFinish}
+                    disabled={saving || !profession}
+                    className="btn-primary flex-1 py-3.5 rounded-xl text-white font-bold text-base flex items-center justify-center gap-2 disabled:opacity-50"
+                  >
+                    {saving ? (
+                      <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/>
+                      </svg>
+                    ) : "😈"}
+                    {saving ? "Setting up..." : "Enter Vnus AI"}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Bottom note */}
-        <div className="mt-12 text-center">
-          <p className="text-gray-600 text-xs">
-            Koi sawaal? &nbsp;
-            <a href="mailto:hello@vnus.ai" className="text-[#FF3B30] hover:underline">hello@vnus.ai</a>
-            &nbsp; pe contact karo 😈
-          </p>
-        </div>
-      </main>
+        <p className="text-center text-gray-600 text-xs mt-4">
+          Already have an account?{" "}
+          <a href="/" className="text-[#FF3B30] hover:underline">Go to home</a>
+        </p>
+      </div>
     </div>
   );
 }
