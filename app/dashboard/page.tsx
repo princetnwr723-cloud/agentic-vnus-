@@ -3,42 +3,76 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import DemonMascot from "@/components/DemonMascot";
+import SetUpAgentModal from "@/components/SetUpAgentModal";
+import AddWorkspaceModal, { WorkspaceData } from "@/components/AddWorkspaceModal";
 import toast from "react-hot-toast";
 
 const SKILLS = [
-  {
-    icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>,
-    name: "Email Agent",
-    desc: "Clear inbox, send & reply to emails automatically",
-  },
-  {
-    icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>,
-    name: "Calendar Agent",
-    desc: "Schedule meetings, set reminders, manage your time",
-  },
-  {
-    icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>,
-    name: "Flight Check-in",
-    desc: "Auto check-in the moment the window opens",
-  },
-  {
-    icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>,
-    name: "Web Browsing",
-    desc: "Navigate any website, fill forms, extract data",
-  },
-  {
-    icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>,
-    name: "Task Manager",
-    desc: "Create Notion pages, Jira tickets, Trello cards",
-  },
-  {
-    icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>,
-    name: "WhatsApp Bot",
-    desc: "Control your agent from any chat app you use",
-  },
+  { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>, name: "Email Agent", desc: "Clear inbox, send & reply to emails automatically" },
+  { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>, name: "Calendar Agent", desc: "Schedule meetings, set reminders, manage your time" },
+  { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>, name: "Web Browsing", desc: "Navigate any website, fill forms, extract data" },
+  { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>, name: "Task Manager", desc: "Create Notion pages, Jira tickets, Trello cards" },
+  { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>, name: "Flight Check-in", desc: "Auto check-in the moment the window opens" },
+  { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>, name: "Chat Control", desc: "Control your agent from WhatsApp, Telegram & more" },
 ];
+
+function WorkspaceCard({ workspace, onDisconnect }: { workspace: WorkspaceData; onDisconnect: (id: string) => void }) {
+  const osIcon = workspace.os.toLowerCase().includes("win")
+    ? <svg width="14" height="14" viewBox="0 0 24 24" fill="#00A4EF"><path d="M3 12V6.75l6-1.32V12H3zM3 13h6v6.57L3 18.18V13zM10 5.23L21 3v9h-11V5.23zM10 13h11v9l-11-1.81V13z"/></svg>
+    : workspace.os.toLowerCase().includes("mac")
+    ? <svg width="14" height="14" viewBox="0 0 24 24" fill="#999"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+    : <svg width="14" height="14" viewBox="0 0 24 24" fill="#FCC624"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>;
+
+  return (
+    <div className="glass-card rounded-xl p-5 group relative overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-px"
+        style={{ background: "linear-gradient(to right, transparent, rgba(255,59,48,0.3), transparent)" }} />
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <div className="w-10 h-10 rounded-xl bg-[#FF3B30]/8 border border-[#FF3B30]/15 flex items-center justify-center shrink-0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.8" strokeLinecap="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <h3 className="text-white font-bold text-sm truncate">{workspace.pcName}</h3>
+              <div className={`w-2 h-2 rounded-full shrink-0 ${workspace.status === "online" ? "bg-green-400" : "bg-gray-600"}`}
+                style={workspace.status === "online" ? { boxShadow: "0 0 6px #4ade80" } : {}} />
+            </div>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              {osIcon}
+              <span className="text-gray-500 text-xs">{workspace.os}</span>
+            </div>
+          </div>
+        </div>
+        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 ${
+          workspace.status === "online"
+            ? "bg-green-500/10 text-green-400 border border-green-500/20"
+            : "bg-white/5 text-gray-500 border border-white/10"
+        }`}>
+          {workspace.status === "online" ? "Online" : "Offline"}
+        </span>
+      </div>
+
+      <div className="mt-4 flex gap-2">
+        <button className="btn-primary flex-1 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          Open Agent
+        </button>
+        <button
+          onClick={() => onDisconnect(workspace.id)}
+          className="px-3 py-2 rounded-lg text-xs font-semibold text-gray-500 hover:text-red-400 border border-white/8 hover:border-red-500/20 transition-all">
+          Disconnect
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function Dashboard() {
   const { user, loading } = useAuth();
@@ -47,8 +81,10 @@ export default function Dashboard() {
   const [fetchDone, setFetchDone] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [setupOpen, setSetupOpen] = useState(false);
+  const [workspaceOpen, setWorkspaceOpen] = useState(false);
+  const [workspaces, setWorkspaces] = useState<WorkspaceData[]>([]);
 
-  // Greeting
   useEffect(() => {
     const h = new Date().getHours();
     if (h < 12) setGreeting("Good Morning");
@@ -56,32 +92,33 @@ export default function Dashboard() {
     else setGreeting("Good Evening");
   }, []);
 
-  // Auth guard
   useEffect(() => {
     if (!loading && !user) window.location.href = "/";
   }, [user, loading]);
 
-  // Fetch user profile from Firestore
   useEffect(() => {
     if (!user) return;
     getDoc(doc(db, "users", user.uid))
       .then((snap) => {
-        if (snap.exists()) {
-          setUserData(snap.data() as { name: string; profession: string });
-        } else {
-          // No profile yet → go complete onboarding
-          window.location.href = "/onboarding";
-          return;
-        }
+        if (snap.exists()) setUserData(snap.data() as { name: string; profession: string });
+        else window.location.href = "/onboarding";
       })
-      .catch(() => {
-        // Firestore error — still show dashboard with auth user data
-        setUserData({ name: user.displayName || "", profession: "" });
-      })
-      .finally(() => {
-        setFetchDone(true);
-        setTimeout(() => setVisible(true), 50);
-      });
+      .catch(() => setUserData({ name: user.displayName || "", profession: "" }))
+      .finally(() => { setFetchDone(true); setTimeout(() => setVisible(true), 50); });
+
+    // Load existing workspaces
+    getDocs(query(collection(db, "agent_connections"), where("userId", "==", user.uid), where("status", "==", "connected")))
+      .then((snap) => {
+        const ws: WorkspaceData[] = snap.docs.map(d => ({
+          id: d.id,
+          code: d.data().code,
+          pcName: d.data().pcName || "My PC",
+          os: d.data().os || "Unknown OS",
+          status: "offline" as const,
+          connectedAt: d.data().connectedAt,
+        }));
+        setWorkspaces(ws);
+      }).catch(() => {});
   }, [user]);
 
   const handleLogout = async () => {
@@ -90,7 +127,15 @@ export default function Dashboard() {
     window.location.href = "/";
   };
 
-  // Show spinner only while auth OR firestore is loading
+  const handleWorkspaceConnected = (workspace: WorkspaceData) => {
+    setWorkspaces(prev => [...prev, workspace]);
+  };
+
+  const handleDisconnect = (id: string) => {
+    setWorkspaces(prev => prev.filter(w => w.id !== id));
+    toast.success("Workspace disconnected.");
+  };
+
   if (loading || !user || !fetchDone) {
     return (
       <div className="min-h-screen bg-[#050505] flex items-center justify-center">
@@ -109,28 +154,15 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-[#050505] text-white">
-
       {/* Stars */}
       <div className="fixed inset-0 pointer-events-none z-0" aria-hidden>
         {Array.from({ length: 80 }).map((_, i) => (
           <div key={i} className="absolute rounded-full bg-white"
-            style={{
-              width: Math.random() * 1.5 + 0.4 + "px",
-              height: Math.random() * 1.5 + 0.4 + "px",
-              top: Math.random() * 100 + "%",
-              left: Math.random() * 100 + "%",
-              opacity: Math.random() * 0.5 + 0.1,
-              animation: `starTwinkle ${3 + Math.random() * 4}s ease-in-out infinite`,
-              animationDelay: Math.random() * 4 + "s",
-            }}
-          />
+            style={{ width: Math.random() * 1.5 + 0.4 + "px", height: Math.random() * 1.5 + 0.4 + "px", top: Math.random() * 100 + "%", left: Math.random() * 100 + "%", opacity: Math.random() * 0.5 + 0.1, animation: `starTwinkle ${3 + Math.random() * 4}s ease-in-out infinite`, animationDelay: Math.random() * 4 + "s" }} />
         ))}
       </div>
-
-      {/* Ambient red glow top */}
       <div className="fixed inset-0 pointer-events-none z-0"
-        style={{ background: "radial-gradient(ellipse 70% 35% at 50% 0%, rgba(120,15,15,0.15) 0%, transparent 70%)" }}
-        aria-hidden />
+        style={{ background: "radial-gradient(ellipse 70% 35% at 50% 0%, rgba(120,15,15,0.15) 0%, transparent 70%)" }} aria-hidden />
 
       {/* Topbar */}
       <header className="relative z-10 nav-blur border-b border-white/5 sticky top-0">
@@ -147,7 +179,6 @@ export default function Dashboard() {
             </svg>
             <span className="font-bold text-white text-sm group-hover:text-[#FF3B30] transition-colors">Vnus AI</span>
           </a>
-
           <div className="flex items-center gap-3">
             <span className="text-gray-600 text-xs hidden sm:block">{user.email}</span>
             <div className="relative">
@@ -157,7 +188,6 @@ export default function Dashboard() {
                 <span className="text-sm font-medium max-w-[80px] truncate">{displayName}</span>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2.5"><path d="M6 9l6 6 6-6"/></svg>
               </button>
-
               {dropdownOpen && (
                 <div className="absolute right-0 top-full mt-2 w-44 rounded-xl border border-white/8 overflow-hidden shadow-2xl z-50"
                   style={{ background: "rgba(8,4,4,0.98)" }}>
@@ -181,7 +211,7 @@ export default function Dashboard() {
 
       <main className="relative z-10 max-w-6xl mx-auto px-6 py-10">
 
-        {/* Hero — Demon + Greeting */}
+        {/* Hero */}
         <div className="flex flex-col md:flex-row items-center gap-8 mb-12"
           style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "opacity 0.6s ease, transform 0.6s ease" }}>
           <div className="shrink-0 relative">
@@ -199,65 +229,95 @@ export default function Dashboard() {
               </span>
             )}
             <p className="text-gray-500 text-sm leading-relaxed max-w-md">
-              Your Agentic Vnus dashboard. All your AI skills and agent controls live here.
+              Your Agentic Vnus dashboard. Set up your agent and connect your PC to get started.
             </p>
           </div>
         </div>
 
-        {/* Setup Agent Banner */}
-        <div className="rounded-2xl border border-[#FF3B30]/18 p-6 mb-10 relative overflow-hidden"
-          style={{
-            background: "rgba(255,59,48,0.03)",
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(16px)",
-            transition: "opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s",
-          }}>
-          <div className="absolute top-0 left-0 right-0 h-px"
-            style={{ background: "linear-gradient(to right, transparent, #FF3B30, transparent)" }} />
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-            <div className="w-11 h-11 rounded-xl bg-[#FF3B30]/10 border border-[#FF3B30]/20 flex items-center justify-center shrink-0">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+        {/* Action Buttons Row */}
+        <div className="flex flex-wrap gap-3 mb-10"
+          style={{ opacity: visible ? 1 : 0, transition: "opacity 0.6s ease 0.1s" }}>
+          <button onClick={() => setSetupOpen(true)}
+            className="btn-primary px-5 py-2.5 rounded-xl text-white font-bold text-sm flex items-center gap-2">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+            Set Up Agent
+          </button>
+          <button onClick={() => setWorkspaceOpen(true)}
+            className="btn-ghost px-5 py-2.5 rounded-xl text-white font-semibold text-sm flex items-center gap-2">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            Add Workspace
+          </button>
+        </div>
+
+        {/* Workspaces */}
+        <div className="mb-10"
+          style={{ opacity: visible ? 1 : 0, transition: "opacity 0.6s ease 0.15s" }}>
+          <div className="flex items-center justify-between mb-4">
+            <div className="section-marker">Workspaces</div>
+            <button onClick={() => setWorkspaceOpen(true)}
+              className="text-xs text-[#FF3B30] hover:underline flex items-center gap-1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
               </svg>
-            </div>
-            <div className="flex-1">
-              <h2 className="text-white font-bold text-base mb-1">Set Up Your Agent</h2>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Your Vnus agent runs directly on your PC — no cloud required. Set it up once, then control everything from here or any chat app.
-              </p>
-            </div>
-            <button className="btn-primary px-5 py-2.5 rounded-xl text-white font-bold text-sm shrink-0 flex items-center gap-2">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-              </svg>
-              Download Agent
+              Add Workspace
             </button>
           </div>
+
+          {workspaces.length === 0 ? (
+            <div className="rounded-xl border border-dashed border-white/10 p-8 text-center">
+              <div className="w-12 h-12 rounded-xl bg-white/4 border border-white/8 flex items-center justify-center mx-auto mb-3">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.8" strokeLinecap="round">
+                  <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+              </div>
+              <p className="text-gray-500 text-sm mb-1">No workspaces connected yet</p>
+              <p className="text-gray-600 text-xs mb-4">Set up the agent on your PC, then enter the 10-digit code here.</p>
+              <div className="flex gap-2 justify-center">
+                <button onClick={() => setSetupOpen(true)}
+                  className="btn-primary px-4 py-2 rounded-lg text-xs font-semibold text-white">
+                  Set Up Agent
+                </button>
+                <button onClick={() => setWorkspaceOpen(true)}
+                  className="btn-ghost px-4 py-2 rounded-lg text-xs font-semibold text-white">
+                  Enter Code
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {workspaces.map(ws => (
+                <WorkspaceCard key={ws.id} workspace={ws} onDisconnect={handleDisconnect} />
+              ))}
+              <button onClick={() => setWorkspaceOpen(true)}
+                className="rounded-xl border border-dashed border-white/10 p-5 flex flex-col items-center justify-center gap-2 hover:border-[#FF3B30]/30 hover:bg-[#FF3B30]/3 transition-all group">
+                <div className="w-10 h-10 rounded-xl bg-white/4 flex items-center justify-center group-hover:bg-[#FF3B30]/10 transition-all">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2.5" strokeLinecap="round"
+                    className="group-hover:stroke-[#FF3B30] transition-colors">
+                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                </div>
+                <span className="text-gray-600 text-xs group-hover:text-gray-400 transition-colors">Add another PC</span>
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10"
-          style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(16px)", transition: "opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s" }}>
+          style={{ opacity: visible ? 1 : 0, transition: "opacity 0.6s ease 0.2s" }}>
           {[
-            {
-              icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.8" strokeLinecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>,
-              label: "Account Status", value: "Active",
-            },
-            {
-              icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.8" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
-              label: "Plan", value: "Beta Tester",
-            },
-            {
-              icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.8" strokeLinecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>,
-              label: "Tasks Completed", value: "0",
-            },
+            { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.8" strokeLinecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>, label: "Account Status", value: "Active" },
+            { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.8" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>, label: "Plan", value: "Beta Tester" },
+            { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="1.8" strokeLinecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>, label: "PCs Connected", value: `${workspaces.length}` },
           ].map((s) => (
-            <div key={s.label} className="glass-card rounded-xl p-5 flex items-center gap-4">
-              <div className="w-10 h-10 rounded-xl bg-[#FF3B30]/8 border border-[#FF3B30]/15 flex items-center justify-center shrink-0">
-                {s.icon}
-              </div>
+            <div key={s.label} className="glass-card rounded-xl p-4 flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-[#FF3B30]/8 border border-[#FF3B30]/15 flex items-center justify-center shrink-0">{s.icon}</div>
               <div>
-                <p className="text-gray-500 text-xs mb-0.5">{s.label}</p>
+                <p className="text-gray-500 text-xs">{s.label}</p>
                 <p className="text-white font-bold text-sm">{s.value}</p>
               </div>
             </div>
@@ -265,23 +325,18 @@ export default function Dashboard() {
         </div>
 
         {/* Skills */}
-        <div style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(16px)", transition: "opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s" }}>
+        <div style={{ opacity: visible ? 1 : 0, transition: "opacity 0.6s ease 0.3s" }}>
           <div className="section-marker mb-1">Agent Skills</div>
-          <p className="text-gray-500 text-sm mb-6">These skills will activate one by one as we ship them.</p>
-
+          <p className="text-gray-500 text-sm mb-5">These skills activate once your agent is connected.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {SKILLS.map((skill, i) => (
               <div key={skill.name} className="glass-card rounded-xl p-5 group relative overflow-hidden"
-                style={{ opacity: visible ? 1 : 0, transition: `opacity 0.5s ease ${0.35 + i * 0.07}s` }}>
+                style={{ opacity: visible ? 1 : 0, transition: `opacity 0.5s ease ${0.35 + i * 0.06}s` }}>
                 <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-transparent via-[#FF3B30] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
                 <span className="absolute top-3 right-3 text-xs font-semibold px-2 py-0.5 rounded-full"
-                  style={{ background: "rgba(255,190,0,0.08)", color: "#FFBE00", border: "0.5px solid rgba(255,190,0,0.2)" }}>
-                  Soon
-                </span>
-                <div className="w-11 h-11 rounded-xl bg-[#FF3B30]/8 border border-[#FF3B30]/15 flex items-center justify-center mb-4 group-hover:bg-[#FF3B30]/14 transition-all duration-300">
-                  {skill.icon}
-                </div>
-                <h3 className="text-white font-bold text-sm mb-1.5">{skill.name}</h3>
+                  style={{ background: "rgba(255,190,0,0.08)", color: "#FFBE00", border: "0.5px solid rgba(255,190,0,0.2)" }}>Soon</span>
+                <div className="w-11 h-11 rounded-xl bg-[#FF3B30]/8 border border-[#FF3B30]/15 flex items-center justify-center mb-4 group-hover:bg-[#FF3B30]/14 transition-all">{skill.icon}</div>
+                <h3 className="text-white font-bold text-sm mb-1">{skill.name}</h3>
                 <p className="text-gray-500 text-xs leading-relaxed">{skill.desc}</p>
               </div>
             ))}
@@ -289,11 +344,13 @@ export default function Dashboard() {
         </div>
 
         <div className="mt-12 text-center">
-          <p className="text-gray-700 text-xs">
-            Questions? <a href="mailto:hello@vnus.ai" className="text-[#FF3B30] hover:underline">hello@vnus.ai</a>
-          </p>
+          <p className="text-gray-700 text-xs">Questions? <a href="mailto:hello@vnus.ai" className="text-[#FF3B30] hover:underline">hello@vnus.ai</a></p>
         </div>
       </main>
+
+      {/* Modals */}
+      <SetUpAgentModal isOpen={setupOpen} onClose={() => setSetupOpen(false)} />
+      <AddWorkspaceModal isOpen={workspaceOpen} onClose={() => setWorkspaceOpen(false)} onConnected={handleWorkspaceConnected} />
     </div>
   );
 }
