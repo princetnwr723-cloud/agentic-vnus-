@@ -7,12 +7,12 @@ interface SetUpAgentModalProps {
 }
 
 const DOWNLOAD_LINKS = {
-  windows: "#", // Will be replaced with actual download link
-  mac: "#",
+  windows: "https://github.com/princetnwr723-cloud/windows-agent/releases/download/v1.0.0/Vnus.Agent.Setup.1.0.0.exe",
+  mac: "https://github.com/princetnwr723-cloud/windows-agent/releases/download/v1.0.0/Vnus.Agent-1.0.0.dmg",
   linux: "#",
 };
 
-const SHARE_LINK = "https://vnus.ai/download-agent";
+const SHARE_LINK = "https://github.com/princetnwr723-cloud/windows-agent/releases/download/v1.0.0/Vnus.Agent.Setup.1.0.0.exe";
 
 export default function SetUpAgentModal({ isOpen, onClose }: SetUpAgentModalProps) {
   const [tab, setTab] = useState<"download" | "share">("download");
