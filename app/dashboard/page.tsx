@@ -58,12 +58,13 @@ function WorkspaceCard({ workspace, onDisconnect }: { workspace: WorkspaceData; 
       </div>
 
       <div className="mt-4 flex gap-2">
-        <button className="btn-primary flex-1 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5">
+        <a href={`/dashboard/workspace/${workspace.id}`}
+          className="btn-primary flex-1 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <polygon points="5 3 19 12 5 21 5 3"/>
           </svg>
           Open Agent
-        </button>
+        </a>
         <button
           onClick={() => onDisconnect(workspace.id)}
           className="px-3 py-2 rounded-lg text-xs font-semibold text-gray-500 hover:text-red-400 border border-white/8 hover:border-red-500/20 transition-all">
