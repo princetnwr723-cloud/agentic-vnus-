@@ -252,6 +252,13 @@ export default function Dashboard() {
             </svg>
             Add Workspace
           </button>
+          <a href="/dashboard/marketplace"
+            className="btn-ghost px-5 py-2.5 rounded-xl text-white font-semibold text-sm flex items-center gap-2">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            Skill Marketplace
+          </a>
         </div>
 
         {/* Workspaces */}
@@ -327,7 +334,16 @@ export default function Dashboard() {
 
         {/* Skills */}
         <div style={{ opacity: visible ? 1 : 0, transition: "opacity 0.6s ease 0.3s" }}>
-          <div className="section-marker mb-1">Agent Skills</div>
+          <div className="flex items-center justify-between mb-1">
+            <div className="section-marker">Agent Skills</div>
+            <a href="/dashboard/marketplace"
+              className="text-xs text-[#FF3B30] hover:underline flex items-center gap-1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+              Browse Marketplace
+            </a>
+          </div>
           <p className="text-gray-500 text-sm mb-5">These skills activate once your agent is connected.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {SKILLS.map((skill, i) => (
