@@ -1,46 +1,36 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// ── Always generate skill locally — no API needed ──────────
-function generateSkillLocally(
-  name: string,
-  description: string,
-  examples: string[],
-  apps: string[],
-  category: string
-) {
-  const cleanExamples = examples.filter((e: string) => e.trim());
-  const appsText = apps.length > 0 ? apps.join(", ") : "Chrome, system apps";
-
+// ── Local generation fallback ──────────────────────────────
+function generateLocally(name: string, description: string, examples: string[], apps: string[], category: string) {
   return {
     id: name.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-"),
     name,
     description,
     category: category.toLowerCase(),
-    systemPrompt: `You are ${name}, a specialist AI agent.
+    systemPrompt: `You are ${name}, a specialist AI agent running on the user's PC.
 
 Your purpose: ${description}
 
-Apps you will use: ${appsText}
+Apps you will use: ${apps.length > 0 ? apps.join(", ") : "Chrome, system apps"}
 
-What you can do:
-${cleanExamples.map((e: string) => `- ${e}`).join("\n")}
+What you can help with:
+${examples.filter(e => e.trim()).map(e => `- ${e}`).join("\n")}
 
-Step-by-step approach:
+How to work:
 1. Take a screenshot to see the current state of the screen
-2. Identify what needs to be done based on the user's command
-3. Open the relevant app if not already open (${appsText})
-4. Perform the required actions precisely
-5. Verify the action was completed successfully
-6. Report back to the user with what was done
+2. Analyze what needs to be done based on the user command
+3. Open the required app if not already open
+4. Perform the required actions step by step
+5. Take a final screenshot to verify completion
+6. Report back clearly what was done
 
-Important rules:
-- Always take a screenshot first before acting
-- Be precise with clicks and typing
-- Confirm with the user before any irreversible action (like deleting files or sending emails)
-- If something goes wrong, take another screenshot and retry
+Rules:
+- Always screenshot first before acting
+- Be precise with coordinates when clicking
+- Confirm before any irreversible action (delete, send email, etc)
 - Report clearly what you did and the result`,
-    actions: ["screenshot", "open_app", "click", "type", "done"],
-    examples: cleanExamples,
+    actions: ["screenshot", "open_app", "click", "type", "key", "done"],
+    examples: examples.filter(e => e.trim()),
     permissions: ["browser", "files", "network"],
     price: "free",
   };
@@ -49,44 +39,35 @@ Important rules:
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const {
-      name = "",
-      description = "",
-      examples = [],
-      apps = [],
-      category = "Productivity",
-    } = body;
+    const { name = "", description = "", examples = [], apps = [], category = "Productivity" } = body;
 
     if (!name.trim() || !description.trim()) {
-      return NextResponse.json(
-        { error: "Name and description required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Name and description required" }, { status: 400 });
     }
 
     const apiKey = process.env.AEROLINK_API_KEY;
 
-    // No API key — generate locally (always works!)
-    if (!apiKey || apiKey.includes("your_key") || apiKey.includes("YOUR_KEY")) {
-      const skill = generateSkillLocally(name, description, examples, apps, category);
-      return NextResponse.json({ skill });
+    // No key → generate locally
+    if (!apiKey || apiKey.includes("your_key") || apiKey.includes("YOUR_KEY") || apiKey.trim() === "") {
+      console.log("No API key — generating locally");
+      return NextResponse.json({ skill: generateLocally(name, description, examples, apps, category) });
     }
 
-    // Try Aerolink API
-    try {
-      const prompt = `Generate a Vnus AI skill configuration as a JSON object.
+    const prompt = `Generate a Vnus AI skill configuration JSON.
 
-Input:
+Skill details:
 - Name: ${name}
-- Description: ${description}
-- Examples: ${examples.filter((e: string) => e.trim()).join(", ")}
-- Apps: ${apps.length > 0 ? apps.join(", ") : "any relevant"}
+- Description: ${description}  
+- Examples: ${examples.filter((e: string) => e.trim()).join(" | ")}
+- Apps: ${apps.length > 0 ? apps.join(", ") : "any"}
 - Category: ${category}
 
-Return ONLY this JSON (no markdown, no backticks, no explanation):
-{"id":"${name.toLowerCase().replace(/[^a-z0-9]/g, "-")}","name":"${name}","description":"${description}","category":"${category.toLowerCase()}","systemPrompt":"[Write 150+ word detailed instructions for this AI agent including what it does, which apps to use, step by step approach, and rules]","actions":["screenshot","open_app","click","type","done"],"examples":${JSON.stringify(examples.filter((e: string) => e.trim()))},"permissions":["browser"],"price":"free"}`;
+Return ONLY valid JSON, no markdown fences, no explanation text:
+{"id":"${name.toLowerCase().replace(/[^a-z0-9]/g, "-")}","name":"${name}","description":"${description}","category":"${category.toLowerCase()}","systemPrompt":"Write detailed 200+ word instructions for this AI agent. Include purpose, which apps to use, step by step approach, and important rules.","actions":["screenshot","open_app","click","type","done"],"examples":${JSON.stringify(examples.filter((e: string) => e.trim()))},"permissions":["browser"],"price":"free"}`;
 
-      const res = await fetch("https://capi.aerolink.lat/v1/messages", {
+    try {
+      // Try with claude-opus-4-8 first (best quality)
+      let res = await fetch("https://capi.aerolink.lat/v1/messages", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -94,48 +75,94 @@ Return ONLY this JSON (no markdown, no backticks, no explanation):
           "anthropic-version": "2023-06-01",
         },
         body: JSON.stringify({
-          model: "claude-haiku-4-5-20251001",
+          model: "claude-opus-4-8",
           max_tokens: 1500,
           messages: [{ role: "user", content: prompt }],
         }),
       });
 
-      if (res.ok) {
-        const data = await res.json();
-        const text = data.content?.[0]?.text?.trim() || "";
+      // If opus fails try sonnet
+      if (!res.ok) {
+        console.log("Opus failed, trying sonnet...", res.status);
+        res = await fetch("https://capi.aerolink.lat/v1/messages", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": apiKey,
+            "anthropic-version": "2023-06-01",
+          },
+          body: JSON.stringify({
+            model: "claude-sonnet-4-6",
+            max_tokens: 1500,
+            messages: [{ role: "user", content: prompt }],
+          }),
+        });
+      }
 
-        // Try parsing JSON
-        let skill = null;
-        try { skill = JSON.parse(text); } catch {
-          const m = text.match(/\{[\s\S]*\}/);
-          if (m) { try { skill = JSON.parse(m[0]); } catch { skill = null; } }
-        }
+      // If sonnet also fails try haiku
+      if (!res.ok) {
+        console.log("Sonnet failed, trying haiku...", res.status);
+        res = await fetch("https://capi.aerolink.lat/v1/messages", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": apiKey,
+            "anthropic-version": "2023-06-01",
+          },
+          body: JSON.stringify({
+            model: "claude-haiku-4-5-20251001",
+            max_tokens: 1500,
+            messages: [{ role: "user", content: prompt }],
+          }),
+        });
+      }
 
-        if (skill && skill.name && skill.systemPrompt) {
-          return NextResponse.json({ skill });
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error("All models failed:", res.status, errText);
+        // Fallback to local
+        return NextResponse.json({ skill: generateLocally(name, description, examples, apps, category) });
+      }
+
+      const data = await res.json();
+      const text = (data.content?.[0]?.text || "").trim();
+
+      // Parse JSON
+      let skill = null;
+      try {
+        // Clean text first
+        const cleaned = text.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
+        skill = JSON.parse(cleaned);
+      } catch {
+        // Extract JSON block
+        const match = text.match(/\{[\s\S]*\}/);
+        if (match) {
+          try { skill = JSON.parse(match[0]); } catch { skill = null; }
         }
       }
 
-      // API failed — fallback to local generation
-      const skill = generateSkillLocally(name, description, examples, apps, category);
-      return NextResponse.json({ skill });
+      if (skill && skill.name && skill.systemPrompt) {
+        return NextResponse.json({ skill });
+      }
 
-    } catch {
-      // Any error — fallback to local generation
-      const skill = generateSkillLocally(name, description, examples, apps, category);
-      return NextResponse.json({ skill });
+      // JSON parse failed — local fallback
+      console.log("JSON parse failed, using local generation");
+      return NextResponse.json({ skill: generateLocally(name, description, examples, apps, category) });
+
+    } catch (fetchErr) {
+      console.error("Fetch error:", fetchErr);
+      return NextResponse.json({ skill: generateLocally(name, description, examples, apps, category) });
     }
 
   } catch (err) {
     console.error("Route error:", err);
-    // Even on route error — return a basic skill
     return NextResponse.json({
       skill: {
         id: "custom-skill",
         name: "Custom Skill",
-        description: "A custom skill",
+        description: "A custom AI skill",
         category: "productivity",
-        systemPrompt: "You are a helpful AI agent. Follow the user's instructions carefully.",
+        systemPrompt: "You are a helpful AI agent. Follow user instructions carefully and take screenshots to verify your actions.",
         actions: ["screenshot", "done"],
         examples: [],
         permissions: ["browser"],
