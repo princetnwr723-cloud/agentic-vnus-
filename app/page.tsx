@@ -6,6 +6,7 @@ import HowItWorks from "@/components/HowItWorks";
 import SkillsSection from "@/components/SkillsSection";
 import Testimonials from "@/components/Testimonials";
 import DocsSection from "@/components/DocsSection";
+import PricingSection from "@/components/PricingSection";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 
@@ -36,6 +37,7 @@ export default function Home() {
         <SkillsSection />
         <Testimonials />
         <DocsSection />
+        <PricingSection />
         <FinalCTA />
         <Footer />
       </div>
