@@ -7,19 +7,19 @@ import AuthModal from "./auth/AuthModal";
 import toast from "react-hot-toast";
 
 const navLinks = [
-  { label: "Home", href: "#home" },
+  { label: "Home",         href: "#home" },
   { label: "How It Works", href: "#how-it-works" },
-  { label: "Skills", href: "#skills" },
-  { label: "Documentation", href: "#docs" },
-  { label: "Testimonials", href: "#testimonials" },
+  { label: "Skills",       href: "#skills" },
+  { label: "Pricing",      href: "#pricing" },
+  { label: "Docs",         href: "#docs" },
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState("Home");
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalTab, setModalTab] = useState<"login" | "signup">("login");
+  const [scrolled,     setScrolled]     = useState(false);
+  const [active,       setActive]       = useState("Home");
+  const [menuOpen,     setMenuOpen]     = useState(false);
+  const [modalOpen,    setModalOpen]    = useState(false);
+  const [modalTab,     setModalTab]     = useState<"login" | "signup">("login");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { user } = useAuth();
 
@@ -48,7 +48,11 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "nav-blur" : "bg-transparent"}`}>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled ? "nav-blur" : "bg-transparent"
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
 
           {/* Logo */}
@@ -78,7 +82,9 @@ export default function Navbar() {
                 href={link.href}
                 onClick={() => setActive(link.label)}
                 className={`px-3.5 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ${
-                  active === link.label ? "nav-active" : "text-gray-400 hover:text-white hover:bg-white/5"
+                  active === link.label
+                    ? "nav-active"
+                    : "text-gray-400 hover:text-white hover:bg-white/5"
                 }`}
               >
                 {link.label}
@@ -89,7 +95,6 @@ export default function Navbar() {
           {/* Right side */}
           <div className="hidden md:flex items-center gap-3">
             {user ? (
-              /* Logged in — avatar dropdown */
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -107,29 +112,45 @@ export default function Navbar() {
                 </button>
 
                 {dropdownOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-48 rounded-xl border border-white/10 overflow-hidden shadow-2xl z-50"
-                    style={{ background: "rgba(10,5,5,0.97)" }}>
+                  <div
+                    className="absolute right-0 top-full mt-2 w-48 rounded-xl border border-white/10 overflow-hidden shadow-2xl z-50"
+                    style={{ background: "rgba(10,5,5,0.97)" }}
+                  >
                     <a
                       href="/dashboard"
                       onClick={() => setDropdownOpen(false)}
                       className="flex items-center gap-2.5 px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
                     >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+                      </svg>
                       Dashboard
+                    </a>
+                    <a
+                      href="#pricing"
+                      onClick={() => setDropdownOpen(false)}
+                      className="flex items-center gap-2.5 px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                      </svg>
+                      Upgrade Plan
                     </a>
                     <div className="h-px bg-white/5"/>
                     <button
                       onClick={handleLogout}
                       className="w-full flex items-center gap-2.5 px-4 py-3 text-sm text-red-400 hover:text-red-300 hover:bg-white/5 transition-colors"
                     >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
+                      </svg>
                       Logout
                     </button>
                   </div>
                 )}
               </div>
             ) : (
-              /* Not logged in */
               <>
                 <button
                   onClick={() => openModal("login")}
@@ -166,20 +187,25 @@ export default function Navbar() {
         {menuOpen && (
           <div className="md:hidden nav-blur border-t border-white/5 px-6 py-4 flex flex-col gap-2">
             {navLinks.map((link) => (
-              <a key={link.label} href={link.href}
+              <a
+                key={link.label}
+                href={link.href}
                 onClick={() => { setActive(link.label); setMenuOpen(false); }}
                 className="text-gray-300 hover:text-white py-2 text-sm"
-              >{link.label}</a>
+              >
+                {link.label}
+              </a>
             ))}
             <div className="h-px bg-white/10 my-2"/>
             {user ? (
               <>
                 <a href="/dashboard" className="text-gray-300 hover:text-white py-2 text-sm">Dashboard</a>
+                <a href="#pricing"   className="text-[#FF3B30] hover:text-red-300 py-2 text-sm font-semibold">⚡ Upgrade Plan</a>
                 <button onClick={handleLogout} className="text-red-400 text-sm py-2 text-left">Logout</button>
               </>
             ) : (
               <>
-                <button onClick={() => openModal("login")} className="text-gray-300 hover:text-white py-2 text-sm text-left">Login</button>
+                <button onClick={() => openModal("login")}  className="text-gray-300 hover:text-white py-2 text-sm text-left">Login</button>
                 <button onClick={() => openModal("signup")} className="btn-primary mt-1 px-4 py-2.5 text-sm font-semibold text-white rounded-lg text-center">
                   Get Started — Free
                 </button>
