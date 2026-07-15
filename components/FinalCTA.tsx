@@ -1,11 +1,13 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
 import AuthModal from "./auth/AuthModal";
+import PricingModal from "./PricingModal";
 import { useAuth } from "@/lib/AuthContext";
 
 export default function FinalCTA() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [modalOpen, setModalOpen] = useState(false);
+  const sectionRef              = useRef<HTMLElement>(null);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [pricingOpen, setPricingOpen] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -49,29 +51,31 @@ export default function FinalCTA() {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           {user ? (
-            <a
-              href="/dashboard"
-              className="btn-primary px-10 py-4 rounded-xl text-white font-bold text-base flex items-center gap-2"
-            >
-              Open Dashboard 😈
+            <a href="/dashboard" className="btn-primary px-10 py-4 rounded-xl text-white font-bold text-base flex items-center gap-2">
+              Open Dashboard 
             </a>
           ) : (
             <button
-              onClick={() => setModalOpen(true)}
+              onClick={() => setAuthOpen(true)}
               className="btn-primary px-10 py-4 rounded-xl text-white font-bold text-base flex items-center gap-2"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <polygon points="5 3 19 12 5 21 5 3"/>
               </svg>
-              Set Up Agentic Vnus — Free Hai!
+              Set Up Agentic Vnus — Free
             </button>
           )}
-          <a
-            href="#docs"
-            className="btn-ghost px-8 py-4 rounded-xl text-gray-300 font-semibold text-base"
+
+          {/* See Plans — opens pricing modal */}
+          <button
+            onClick={() => setPricingOpen(true)}
+            className="btn-ghost px-8 py-4 rounded-xl text-gray-300 font-semibold text-base flex items-center gap-2"
           >
-            Read the Docs
-          </a>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            See Plans
+          </button>
         </div>
 
         <p className="text-gray-600 text-sm mt-6">
@@ -79,11 +83,8 @@ export default function FinalCTA() {
         </p>
       </section>
 
-      <AuthModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        defaultTab="signup"
-      />
+      <AuthModal    isOpen={authOpen}    onClose={() => setAuthOpen(false)}    defaultTab="signup" />
+      <PricingModal isOpen={pricingOpen} onClose={() => setPricingOpen(false)} />
     </>
   );
 }
