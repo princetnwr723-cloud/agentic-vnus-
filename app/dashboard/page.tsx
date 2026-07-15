@@ -6,6 +6,7 @@ import { auth, db } from "@/lib/firebase";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import DemonMascot from "@/components/DemonMascot";
 import SetUpAgentModal from "@/components/SetUpAgentModal";
+import PricingModal from "@/components/PricingModal";
 import AddWorkspaceModal, { WorkspaceData } from "@/components/AddWorkspaceModal";
 import toast from "react-hot-toast";
 
@@ -117,8 +118,8 @@ function PlanCard({ planKey, tokensUsed }: { planKey: string; tokensUsed: number
           </span>
           <span className="text-gray-500 text-xs">plan</span>
         </div>
-        <a
-          href="#pricing"
+        <button
+          onClick={() => setPricingOpen(true)}
           className="text-xs font-semibold flex items-center gap-1 transition-colors"
           style={{ color: plan.color }}
         >
@@ -126,7 +127,7 @@ function PlanCard({ planKey, tokensUsed }: { planKey: string; tokensUsed: number
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
           </svg>
           Upgrade
-        </a>
+        </button>
       </div>
 
       {/* Token bar */}
@@ -162,6 +163,7 @@ export default function Dashboard() {
   const [visible,       setVisible]       = useState(false);
   const [setupOpen,     setSetupOpen]     = useState(false);
   const [workspaceOpen, setWorkspaceOpen] = useState(false);
+  const [pricingOpen,  setPricingOpen]  = useState(false);
   const [workspaces,    setWorkspaces]    = useState<WorkspaceData[]>([]);
 
   useEffect(() => {
@@ -275,8 +277,8 @@ export default function Dashboard() {
 
           <div className="flex items-center gap-3">
             {/* Plan badge in topbar */}
-            <a
-              href="/#pricing"
+            <button
+              onClick={() => setPricingOpen(true)}
               className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-semibold transition-all hover:opacity-80"
               style={{ background: `${planMeta.color}12`, color: planMeta.color, borderColor: `${planMeta.color}30` }}
             >
@@ -284,7 +286,7 @@ export default function Dashboard() {
                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
               </svg>
               {planMeta.label}
-            </a>
+            </button>
 
             <span className="text-gray-600 text-xs hidden sm:block">{user.email}</span>
 
@@ -307,8 +309,8 @@ export default function Dashboard() {
                     <p className="text-white text-xs font-semibold truncate">{displayName}</p>
                     {userData?.profession && <p className="text-gray-500 text-xs mt-0.5">{userData.profession}</p>}
                   </div>
-                  <a
-                    href="/#pricing"
+                  <button
+                    onClick={() => setPricingOpen(true)}
                     onClick={() => setDropdownOpen(false)}
                     className="w-full flex items-center gap-2.5 px-4 py-3 text-sm text-[#FF3B30] hover:bg-white/5 transition-colors"
                   >
@@ -396,7 +398,7 @@ export default function Dashboard() {
             </svg>
             Skill Marketplace
           </a>
-          <a href="/#pricing"
+          <button onClick={() => setPricingOpen(true)}
             className="px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 transition-all"
             style={{ background: `${planMeta.color}15`, color: planMeta.color, border: `1px solid ${planMeta.color}30` }}
           >
@@ -510,6 +512,7 @@ export default function Dashboard() {
         </div>
       </main>
 
+      <PricingModal isOpen={pricingOpen} onClose={() => setPricingOpen(false)} />
       <SetUpAgentModal   isOpen={setupOpen}     onClose={() => setSetupOpen(false)} />
       <AddWorkspaceModal isOpen={workspaceOpen} onClose={() => setWorkspaceOpen(false)} onConnected={handleWorkspaceConnected} />
     </div>
