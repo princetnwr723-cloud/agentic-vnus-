@@ -2,34 +2,38 @@
 import { useEffect, useRef, useState } from "react";
 import DemonMascot from "./DemonMascot";
 import AuthModal from "./auth/AuthModal";
+import PricingModal from "./PricingModal";
 import { useAuth } from "@/lib/AuthContext";
 
 export default function HeroSection() {
   const headingRef = useRef<HTMLHeadingElement>(null);
-  const subRef = useRef<HTMLParagraphElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalTab, setModalTab] = useState<"login" | "signup">("signup");
+  const subRef     = useRef<HTMLParagraphElement>(null);
+  const ctaRef     = useRef<HTMLDivElement>(null);
+
+  const [authOpen,    setAuthOpen]    = useState(false);
+  const [authTab,     setAuthTab]     = useState<"login" | "signup">("signup");
+  const [pricingOpen, setPricingOpen] = useState(false);
+
   const { user } = useAuth();
 
   useEffect(() => {
     const els = [headingRef.current, subRef.current, ctaRef.current];
     els.forEach((el, i) => {
       if (!el) return;
-      el.style.opacity = "0";
+      el.style.opacity   = "0";
       el.style.transform = "translateY(40px)";
       setTimeout(() => {
         if (!el) return;
         el.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-        el.style.opacity = "1";
-        el.style.transform = "translateY(0)";
+        el.style.opacity    = "1";
+        el.style.transform  = "translateY(0)";
       }, 200 + i * 180);
     });
   }, []);
 
-  const openModal = (tab: "login" | "signup") => {
-    setModalTab(tab);
-    setModalOpen(true);
+  const openAuth = (tab: "login" | "signup") => {
+    setAuthTab(tab);
+    setAuthOpen(true);
   };
 
   return (
@@ -55,7 +59,7 @@ export default function HeroSection() {
           />
         </div>
 
-        {/* Main heading */}
+        {/* Heading */}
         <h1
           ref={headingRef}
           className="relative z-10 text-6xl md:text-8xl font-black tracking-tight leading-none mb-4"
@@ -82,14 +86,13 @@ export default function HeroSection() {
           flights. All from WhatsApp, Telegram, or any chat app you already use.
         </p>
 
-        {/* CTA Buttons */}
+        {/* CTA */}
         <div
           ref={ctaRef}
           className="relative z-10 flex flex-col sm:flex-row gap-4 items-center"
           style={{ opacity: 0 }}
         >
           {user ? (
-            /* Already logged in — go to dashboard */
             <a
               href="/dashboard"
               className="btn-primary px-8 py-3.5 rounded-xl text-white font-bold text-base flex items-center gap-2"
@@ -101,27 +104,27 @@ export default function HeroSection() {
               Open Dashboard
             </a>
           ) : (
-            /* Not logged in — show signup modal */
             <button
-              onClick={() => openModal("signup")}
-              className="btn-primary px-8 py-3.5 rounded-xl text-white font-bold text-base flex items-center gap-2 group"
+              onClick={() => openAuth("signup")}
+              className="btn-primary px-8 py-3.5 rounded-xl text-white font-bold text-base flex items-center gap-2"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <polygon points="5 3 19 12 5 21 5 3"/>
               </svg>
-              Set Up Agentic Vnus
+              Get Started — Free
             </button>
           )}
 
-          <a
-            href="#how-it-works"
+          {/* Pricing button — opens modal */}
+          <button
+            onClick={() => setPricingOpen(true)}
             className="btn-ghost px-8 py-3.5 rounded-xl text-white font-semibold text-base flex items-center gap-2"
           >
-            See How It Works
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
             </svg>
-          </a>
+            See Plans
+          </button>
         </div>
 
         {/* Platform badges */}
@@ -158,12 +161,8 @@ export default function HeroSection() {
         </div>
       </section>
 
-      {/* Auth Modal */}
-      <AuthModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        defaultTab={modalTab}
-      />
+      <AuthModal    isOpen={authOpen}    onClose={() => setAuthOpen(false)}    defaultTab={authTab} />
+      <PricingModal isOpen={pricingOpen} onClose={() => setPricingOpen(false)} />
     </>
   );
 }
