@@ -2,6 +2,7 @@ export default function Footer() {
   return (
     <footer className="relative z-10 border-t border-white/5 mt-10">
       <div className="max-w-6xl mx-auto px-6 py-14 flex flex-col md:flex-row items-start justify-between gap-10">
+
         {/* Brand */}
         <div className="max-w-xs">
           <div className="flex items-center gap-2 mb-3">
@@ -25,16 +26,30 @@ export default function Footer() {
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 text-sm">
           <div>
             <p className="text-white font-semibold mb-3">Product</p>
-            {["How It Works", "Skills", "Changelog", "Roadmap"].map((l) => (
-              <a key={l} href="#" className="block text-gray-500 hover:text-white mb-2 transition-colors">{l}</a>
+            {[
+              { label: "How It Works", href: "#how-it-works" },
+              { label: "Skills",       href: "#skills" },
+              { label: "Pricing",      href: "#pricing" },
+              { label: "Changelog",    href: "#" },
+              { label: "Roadmap",      href: "#" },
+            ].map((l) => (
+              <a
+                key={l.label}
+                href={l.href}
+                className="block text-gray-500 hover:text-white mb-2 transition-colors"
+              >
+                {l.label}
+              </a>
             ))}
           </div>
+
           <div>
             <p className="text-white font-semibold mb-3">Developers</p>
             {["Documentation", "API Reference", "GitHub", "SDK"].map((l) => (
               <a key={l} href="#" className="block text-gray-500 hover:text-white mb-2 transition-colors">{l}</a>
             ))}
           </div>
+
           <div>
             <p className="text-white font-semibold mb-3">Community</p>
             {["Discord", "Twitter / X", "Blog", "Support"].map((l) => (
@@ -44,6 +59,7 @@ export default function Footer() {
         </div>
       </div>
 
+      {/* Bottom bar */}
       <div className="border-t border-white/5 max-w-6xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
         <p className="text-gray-600 text-xs">© 2026 Vnus AI. All rights reserved.</p>
         <div className="flex items-center gap-5">
