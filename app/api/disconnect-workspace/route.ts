@@ -3,7 +3,7 @@
 // Sets userDisconnected: true in Firestore so agent respects it
 
 import { NextRequest, NextResponse } from "next/server";
-import { db, adminAuth }             from "@/lib/firebase";
+import { db, adminAuth }             from "@/lib/firebaseAdmin";
 
 export async function POST(req: NextRequest) {
   try {
