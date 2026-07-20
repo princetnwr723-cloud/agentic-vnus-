@@ -8,7 +8,7 @@ import {
   orderBy, onSnapshot, serverTimestamp, updateDoc,
 } from "firebase/firestore";
 import DemonMascot  from "@/components/DemonMascot";
-import PricingModal from "@/components/PricingModal";
+import PricingModal, { PricingModalProps } from "@/components/PricingModal";
 import Link         from "next/link";
 
 // ── Types ──────────────────────────────────────────────────
