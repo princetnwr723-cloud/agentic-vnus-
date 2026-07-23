@@ -8,7 +8,8 @@ import {
   orderBy, onSnapshot, serverTimestamp, updateDoc,
 } from "firebase/firestore";
 import DemonMascot  from "@/components/DemonMascot";
-import PricingModal, { PricingModalProps } from "@/components/PricingModal";
+import PricingModal from "@/components/PricingModal";
+import PlanWall     from "@/components/PlanWall";
 import Link         from "next/link";
 
 // ── Types ──────────────────────────────────────────────────
@@ -35,19 +36,19 @@ interface WorkspaceData {
 
 // ── Icons ──────────────────────────────────────────────────
 const IC = {
-  chat:     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>,
-  overview: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>,
-  skills:   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>,
-  history:  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
-  liveview: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>,
-  settings: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>,
-  plus:     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
-  send:     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>,
-  back:     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>,
-  menu:     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>,
-  user:     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
-  agent:    <svg viewBox="0 0 32 32" fill="none" width="14" height="14"><circle cx="16" cy="16" r="14" fill="#1a0505" stroke="#FF3B30" strokeWidth="1.5"/><path d="M11 11C10 8 12 6 13 8 14 6 15 8 14 11Z" fill="#FF3B30"/><path d="M21 11C20 8 22 6 23 8 24 6 21 8 22 11Z" fill="#FF3B30"/><circle cx="13" cy="16" r="2" fill="#FF3B30"/><circle cx="19" cy="16" r="2" fill="#FF3B30"/><circle cx="13" cy="16" r="0.9" fill="#000"/><circle cx="19" cy="16" r="0.9" fill="#000"/></svg>,
-  upgrade:  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>,
+  chat:      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>,
+  overview:  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>,
+  skills:    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>,
+  history:   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+  liveview:  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>,
+  settings:  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>,
+  plus:      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
+  send:      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>,
+  back:      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>,
+  menu:      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>,
+  user:      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
+  agent:     <svg viewBox="0 0 32 32" fill="none" width="14" height="14"><circle cx="16" cy="16" r="14" fill="#1a0505" stroke="#FF3B30" strokeWidth="1.5"/><path d="M11 11C10 8 12 6 13 8 14 6 15 8 14 11Z" fill="#FF3B30"/><path d="M21 11C20 8 22 6 23 8 24 6 21 8 22 11Z" fill="#FF3B30"/><circle cx="13" cy="16" r="2" fill="#FF3B30"/><circle cx="19" cy="16" r="2" fill="#FF3B30"/><circle cx="13" cy="16" r="0.9" fill="#000"/><circle cx="19" cy="16" r="0.9" fill="#000"/></svg>,
+  upgrade:   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>,
   disconnect:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18.36 6.64a9 9 0 11-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>,
 };
 
@@ -72,8 +73,10 @@ function NewChatModal({ onClose, onCreate }: {
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
       <div className="relative w-full max-w-md z-10">
-        <div className="absolute -inset-1 rounded-2xl opacity-20 blur-xl" style={{ background: "linear-gradient(135deg,#FF3B30,#CC1A10)" }} aria-hidden />
-        <div className="relative rounded-2xl border border-[#FF3B30]/20 overflow-hidden" style={{ background: "rgba(8,4,4,0.98)" }}>
+        <div className="absolute -inset-1 rounded-2xl opacity-20 blur-xl"
+          style={{ background: "linear-gradient(135deg,#FF3B30,#CC1A10)" }} aria-hidden />
+        <div className="relative rounded-2xl border border-[#FF3B30]/20 overflow-hidden"
+          style={{ background: "rgba(8,4,4,0.98)" }}>
           <div className="h-px w-full" style={{ background: "linear-gradient(to right,transparent,#FF3B30,transparent)" }} />
           <div className="p-6">
             <div className="flex items-center justify-between mb-5">
@@ -129,29 +132,40 @@ const LogoSvg = () => (
 
 // ── Main Page ──────────────────────────────────────────────
 export default function WorkspacePage({ params }: { params: { id: string } }) {
-  const { user, loading }             = useAuth();
-  const [workspace,    setWorkspace]  = useState<WorkspaceData | null>(null);
-  const [chats,        setChats]      = useState<Chat[]>([]);
-  const [activeChat,   setActiveChat] = useState<string | null>(null);
-  const [messages,     setMessages]   = useState<Message[]>([]);
-  const [input,        setInput]      = useState("");
-  const [sending,      setSending]    = useState(false);
-  const [section,      setSection]    = useState<"chat"|"overview"|"skills"|"history"|"liveview"|"settings">("chat");
+  const { user, loading }               = useAuth();
+  const [workspace,    setWorkspace]    = useState<WorkspaceData | null>(null);
+  const [chats,        setChats]        = useState<Chat[]>([]);
+  const [activeChat,   setActiveChat]   = useState<string | null>(null);
+  const [messages,     setMessages]     = useState<Message[]>([]);
+  const [input,        setInput]        = useState("");
+  const [sending,      setSending]      = useState(false);
+  const [section,      setSection]      = useState<"chat"|"overview"|"skills"|"history"|"liveview"|"settings">("chat");
   const [newChatOpen,  setNewChatOpen]  = useState(false);
   const [sidebarOpen,  setSidebarOpen]  = useState(true);
   const [pricingOpen,  setPricingOpen]  = useState(false);
   const [userPlan,     setUserPlan]     = useState("free");
   const [disconnecting,setDisconnecting]= useState(false);
-  const [liveScreenshot, setLiveScreenshot] = useState<string | null>(null);
+  const [liveScreenshot,setLiveScreenshot] = useState<string | null>(null);
+
+  // ── PLAN WALL STATE ────────────────────────────────────
+  const [planWallDone, setPlanWallDone] = useState(false);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Check if running inside Electron agent window
   const isAgentEmbed = typeof window !== "undefined" && !!(window as any).__VNUS_AGENT__;
 
   useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
   useEffect(() => { if (!loading && !user) window.location.href = "/"; }, [user, loading]);
 
-  // Load user plan
+  // ── Check plan wall localStorage ──────────────────────
+  useEffect(() => {
+    if (!user) return;
+    const key  = `plan_wall_done_${params.id}`;
+    const done = localStorage.getItem(key);
+    if (done === "true") setPlanWallDone(true);
+  }, [user, params.id]);
+
+  // ── Load user plan ─────────────────────────────────────
   useEffect(() => {
     if (!user) return;
     getDoc(doc(db, "users", user.uid)).then((snap) => {
@@ -159,7 +173,7 @@ export default function WorkspacePage({ params }: { params: { id: string } }) {
     });
   }, [user]);
 
-  // Load workspace
+  // ── Load workspace ─────────────────────────────────────
   useEffect(() => {
     if (!user) return;
     getDoc(doc(db, "agent_connections", params.id)).then((snap) => {
@@ -174,7 +188,7 @@ export default function WorkspacePage({ params }: { params: { id: string } }) {
     });
   }, [user, params.id]);
 
-  // Load chats
+  // ── Load chats ─────────────────────────────────────────
   useEffect(() => {
     if (!user) return;
     const q = query(
@@ -195,7 +209,7 @@ export default function WorkspacePage({ params }: { params: { id: string } }) {
     return () => unsub();
   }, [user, params.id]);
 
-  // Load messages
+  // ── Load messages ──────────────────────────────────────
   useEffect(() => {
     if (!activeChat) return;
     const q = query(
@@ -214,51 +228,40 @@ export default function WorkspacePage({ params }: { params: { id: string } }) {
     return () => unsub();
   }, [activeChat, params.id]);
 
-  // Live screenshot listener
+  // ── Live screenshot ────────────────────────────────────
   useEffect(() => {
     if (!user) return;
     const unsub = onSnapshot(
       doc(db, "agent_connections", params.id, "screenshots", "latest"),
-      (snap) => {
-        if (snap.exists()) {
-          setLiveScreenshot(snap.data().data || null);
-        }
-      }
+      (snap) => { if (snap.exists()) setLiveScreenshot(snap.data().data || null); }
     );
     return () => unsub();
   }, [user, params.id]);
 
-  // ── Disconnect — proper fix ────────────────────────────
+  // ── Plan wall handler ──────────────────────────────────
+  const handlePlanChosen = (planKey: string) => {
+    const key = `plan_wall_done_${params.id}`;
+    localStorage.setItem(key, "true");
+    setPlanWallDone(true);
+    setUserPlan(planKey);
+  };
+
+  // ── Disconnect ─────────────────────────────────────────
   const handleDisconnect = async () => {
     if (!user || disconnecting) return;
-    const confirmed = window.confirm(
-      "Disconnect this workspace? The agent on your PC will stop and you'll need to reconnect."
-    );
+    const confirmed = window.confirm("Disconnect this workspace?");
     if (!confirmed) return;
-
     setDisconnecting(true);
     try {
       const token = await auth.currentUser?.getIdToken();
       const res   = await fetch("/api/disconnect-workspace", {
         method:  "POST",
-        headers: {
-          "Content-Type":  "application/json",
-          "Authorization": `Bearer ${token}`,
-        },
-        body: JSON.stringify({ workspaceId: params.id }),
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+        body:    JSON.stringify({ workspaceId: params.id }),
       });
-
-      if (res.ok) {
-        // Update local state immediately — don't wait for refresh
-        setWorkspace(prev => prev ? { ...prev, status: "offline" } : null);
-        // Redirect to dashboard
-        window.location.href = "/dashboard";
-      }
-    } catch (err) {
-      console.error("Disconnect error:", err);
-    } finally {
-      setDisconnecting(false);
-    }
+      if (res.ok) window.location.href = "/dashboard";
+    } catch (err) { console.error(err); }
+    finally { setDisconnecting(false); }
   };
 
   const handleNewChat = async (skill: string, title: string) => {
@@ -280,17 +283,14 @@ export default function WorkspacePage({ params }: { params: { id: string } }) {
     const content = input.trim();
     setInput("");
     setSending(true);
-
     await addDoc(
       collection(db, "agent_connections", params.id, "chats", activeChat, "messages"),
       { role: "user", content, timestamp: serverTimestamp(), status: "done" }
     );
-
     const thinkRef = await addDoc(
       collection(db, "agent_connections", params.id, "chats", activeChat, "messages"),
       { role: "agent", content: "Executing on your PC...", timestamp: serverTimestamp(), status: "sending" }
     );
-
     await addDoc(
       collection(db, "agent_connections", params.id, "commands"),
       { command: content, chatId: activeChat, messageId: thinkRef.id, status: "pending", createdAt: serverTimestamp(), userId: user.uid }
@@ -314,11 +314,20 @@ export default function WorkspacePage({ params }: { params: { id: string } }) {
   return (
     <div className="flex h-screen bg-[#050505] text-white overflow-hidden">
 
+      {/* ── PLAN WALL — pehli baar connect pe ── */}
+      {!planWallDone && workspace && (
+        <PlanWall
+          currentPlan={userPlan}
+          workspaceId={params.id}
+          pcName={workspace.pcName}
+          onPlanChosen={handlePlanChosen}
+        />
+      )}
+
       {/* ── SIDEBAR ── */}
       <div className={`${sidebarOpen ? "w-52" : "w-0"} transition-all duration-300 flex flex-col border-r border-white/5 shrink-0 overflow-hidden`}
         style={{ background: "rgba(8,4,4,0.97)" }}>
 
-        {/* Header */}
         <div className="h-12 flex items-center justify-between px-3 border-b border-white/5 shrink-0">
           {isAgentEmbed ? (
             <div className="flex items-center gap-2">
@@ -335,7 +344,6 @@ export default function WorkspacePage({ params }: { params: { id: string } }) {
             style={workspace?.status === "online" ? { boxShadow: "0 0 5px #4ade80" } : {}} />
         </div>
 
-        {/* PC Info */}
         {workspace && (
           <div className="px-3 py-2 border-b border-white/5">
             <p className="text-white text-xs font-semibold truncate">{workspace.pcName}</p>
@@ -343,7 +351,6 @@ export default function WorkspacePage({ params }: { params: { id: string } }) {
           </div>
         )}
 
-        {/* Plan badge */}
         <div className="px-3 py-2 border-b border-white/5">
           <button onClick={() => setPricingOpen(true)}
             className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all hover:opacity-80"
@@ -353,7 +360,6 @@ export default function WorkspacePage({ params }: { params: { id: string } }) {
           </button>
         </div>
 
-        {/* New Chat */}
         <div className="px-3 py-2.5 border-b border-white/5">
           <button onClick={() => setNewChatOpen(true)}
             className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-bold text-white"
@@ -362,7 +368,6 @@ export default function WorkspacePage({ params }: { params: { id: string } }) {
           </button>
         </div>
 
-        {/* Nav */}
         <div className="px-2 py-2 border-b border-white/5">
           {(["chat","overview","skills","history","liveview"] as const).map((item) => (
             <button key={item} onClick={() => setSection(item)}
@@ -372,7 +377,6 @@ export default function WorkspacePage({ params }: { params: { id: string } }) {
           ))}
         </div>
 
-        {/* Sessions */}
         {section === "chat" && (
           <div className="flex-1 overflow-y-auto px-2 py-2">
             <p className="text-gray-600 text-xs px-2 mb-1 uppercase tracking-wider">Sessions</p>
@@ -391,16 +395,12 @@ export default function WorkspacePage({ params }: { params: { id: string } }) {
           </div>
         )}
 
-        {/* Bottom */}
         <div className="px-2 py-2 border-t border-white/5 mt-auto space-y-1">
           <button onClick={() => setSection("settings")}
             className={`w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs transition-all ${section === "settings" ? "bg-[#FF3B30]/12 text-[#FF3B30]" : "text-gray-500 hover:text-gray-200 hover:bg-white/4"}`}>
             {IC.settings} Settings
           </button>
-          {/* Disconnect button */}
-          <button
-            onClick={handleDisconnect}
-            disabled={disconnecting}
+          <button onClick={handleDisconnect} disabled={disconnecting}
             className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs transition-all text-gray-600 hover:text-red-400 hover:bg-red-500/8 disabled:opacity-50">
             {IC.disconnect} {disconnecting ? "Disconnecting..." : "Disconnect"}
           </button>
@@ -410,7 +410,6 @@ export default function WorkspacePage({ params }: { params: { id: string } }) {
       {/* ── MAIN ── */}
       <div className="flex-1 flex flex-col min-w-0">
 
-        {/* Topbar */}
         <div className="h-12 flex items-center justify-between px-4 border-b border-white/5 shrink-0"
           style={{ background: "rgba(8,4,4,0.9)" }}>
           <div className="flex items-center gap-3">
@@ -472,7 +471,8 @@ export default function WorkspacePage({ params }: { params: { id: string } }) {
                     </div>
                   )}
                   {messages.map((msg) => (
-                    <div key={msg.id} className={`flex gap-2.5 ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}
+                    <div key={msg.id}
+                      className={`flex gap-2.5 ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}
                       style={{ maxWidth: msg.role === "system" ? "100%" : "78%", alignSelf: msg.role === "system" ? "center" : undefined }}>
                       {msg.role === "agent" && (
                         <div className="w-7 h-7 rounded-lg bg-[#FF3B30]/12 border border-[#FF3B30]/22 flex items-center justify-center shrink-0 mt-0.5">
@@ -557,11 +557,7 @@ export default function WorkspacePage({ params }: { params: { id: string } }) {
             <h2 className="text-white font-bold text-lg mb-4">Live View</h2>
             <div className="rounded-xl border border-white/10 bg-white/3 aspect-video flex items-center justify-center overflow-hidden">
               {liveScreenshot ? (
-                <img
-                  src={`data:image/png;base64,${liveScreenshot}`}
-                  alt="Live PC screenshot"
-                  className="w-full h-full object-contain"
-                />
+                <img src={`data:image/png;base64,${liveScreenshot}`} alt="Live PC screenshot" className="w-full h-full object-contain" />
               ) : (
                 <div className="text-center">
                   <p className="text-gray-600 text-sm">Live screenshot appears after agent executes a command.</p>
@@ -628,22 +624,14 @@ export default function WorkspacePage({ params }: { params: { id: string } }) {
                 </button>
               </div>
             </div>
-
-            {/* Disconnect */}
-            <div className="glass-card rounded-xl p-5 mb-4 border-red-500/15">
+            <div className="glass-card rounded-xl p-5 mb-4">
               <h3 className="text-white font-semibold text-sm mb-2">Danger Zone</h3>
-              <p className="text-gray-500 text-xs mb-3">
-                Disconnecting will stop the agent on your PC. You can reconnect anytime using the same code.
-              </p>
-              <button
-                onClick={handleDisconnect}
-                disabled={disconnecting}
+              <p className="text-gray-500 text-xs mb-3">Disconnecting will stop the agent on your PC.</p>
+              <button onClick={handleDisconnect} disabled={disconnecting}
                 className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold text-red-400 border border-red-500/20 hover:bg-red-500/10 transition-all disabled:opacity-50">
-                {IC.disconnect}
-                {disconnecting ? "Disconnecting..." : "Disconnect Workspace"}
+                {IC.disconnect} {disconnecting ? "Disconnecting..." : "Disconnect Workspace"}
               </button>
             </div>
-
             {!isAgentEmbed && (
               <Link href="/dashboard" className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
                 {IC.back} Back to Dashboard
@@ -653,12 +641,14 @@ export default function WorkspacePage({ params }: { params: { id: string } }) {
         )}
       </div>
 
-      {/* Modals */}
+      {/* ── Modals ── */}
       {newChatOpen && <NewChatModal onClose={() => setNewChatOpen(false)} onCreate={handleNewChat} />}
+
       <PricingModal
         isOpen={pricingOpen}
         onClose={() => setPricingOpen(false)}
         currentPlan={userPlan}
+        showContinue={true}
         onPlanChosen={(pk) => { setUserPlan(pk); setPricingOpen(false); }}
       />
 
