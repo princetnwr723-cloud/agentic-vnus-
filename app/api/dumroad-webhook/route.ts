@@ -1,181 +1,66 @@
-// app/api/gumroad-webhook/route.ts
-// Gumroad Ping aata hai jab koi plan purchase kare
-// url_params me user_id hoga jo checkout URL se aaya tha
-// Firebase me us user ka plan update ho jaata hai
-
+// app/api/disconnect-workspace/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { initializeApp, getApps, cert } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
+import { getAuth } from "firebase-admin/auth";
 
-// ── Gumroad product name → plan key mapping ───────────────
-const PRODUCT_PLAN_MAP: Record<string, string> = {
-  "vnus agent — free":        "free",
-  "vnus agent — starter":     "starter",
-  "vnus agent — pro":         "pro",
-  "vnus agent — pro max":     "pro_max",
-  "vnus agent — elite":       "elite",
-  "vnus agent — elite ultra": "elite_ultra",
-  // fallback short names bhi handle karo
-  "free":        "free",
-  "starter":     "starter",
-  "pro":         "pro",
-  "pro max":     "pro_max",
-  "elite":       "elite",
-  "elite ultra": "elite_ultra",
-};
-
-// ── Plan ke hisaab se task limit ─────────────────────────
-const PLAN_TASK_LIMITS: Record<string, number> = {
-  free:        50,
-  starter:     250,
-  pro:         500,
-  pro_max:     1250,
-  elite:       5000,
-  elite_ultra: 10000,
-};
-
-// ── Firebase Admin init ───────────────────────────────────
-function getAdminDb() {
-  if (!getApps().length) {
-    initializeApp({
-      credential: cert({
-        projectId:   process.env.FIREBASE_ADMIN_PROJECT_ID   || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "",
-        clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL || "",
-        privateKey:  (process.env.FIREBASE_ADMIN_PRIVATE_KEY || "").replace(/\\n/g, "\n"),
-      }),
-    });
-  }
-  return getFirestore();
+function initAdmin() {
+  if (getApps().length > 0) return;
+  initializeApp({
+    credential: cert({
+      projectId:   process.env.FIREBASE_ADMIN_PROJECT_ID   || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "",
+      clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL || "",
+      privateKey:  (process.env.FIREBASE_ADMIN_PRIVATE_KEY || "").replace(/\\n/g, "\n"),
+    }),
+  });
 }
-
-// ── Gumroad Seller ID verify karo ────────────────────────
-const GUMROAD_SELLER_ID = process.env.GUMROAD_SELLER_ID || "aniMvkjvbb9A1rOoWKxjzg==";
 
 export async function POST(req: NextRequest) {
   try {
-    // Gumroad x-www-form-urlencoded bhejta hai
-    const formData  = await req.formData();
-    const fields: Record<string, string> = {};
-    formData.forEach((value, key) => {
-      fields[key] = value.toString();
-    });
+    initAdmin();
+    const db = getFirestore();
 
-    console.log("📦 Gumroad ping received:", JSON.stringify(fields, null, 2));
+    const token = req.headers.get("authorization")?.replace("Bearer ", "");
+    if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    // ── Seller verify ─────────────────────────────────────
-    const sellerId = fields["seller_id"];
-    if (sellerId && sellerId !== GUMROAD_SELLER_ID) {
-      console.error("❌ Invalid seller_id:", sellerId);
-      return NextResponse.json({ error: "Invalid seller" }, { status: 401 });
-    }
+    const { workspaceId } = await req.json() as { workspaceId: string };
+    if (!workspaceId) return NextResponse.json({ error: "workspaceId required" }, { status: 400 });
 
-    // ── Test ping ignore karo ─────────────────────────────
-    if (fields["test"] === "true") {
-      console.log("✅ Test ping received — ignoring");
-      return NextResponse.json({ ok: true, test: true });
-    }
-
-    // ── Product name se plan key nikalo ──────────────────
-    const productName = (fields["product_name"] || "").toLowerCase().trim();
-    const planKey     = PRODUCT_PLAN_MAP[productName];
-
-    if (!planKey) {
-      console.error("❌ Unknown product:", productName);
-      return NextResponse.json({ error: "Unknown product" }, { status: 400 });
-    }
-
-    // ── url_params se user_id nikalo ─────────────────────
-    // Gumroad url_params JSON string ya nested form fields bhejta hai
-    let userId = "";
-
-    // Method 1: url_params as JSON string
+    // Token verify
+    let uid = "";
     try {
-      const urlParams = JSON.parse(fields["url_params"] || "{}");
-      userId = urlParams["user_id"] || "";
+      const decoded = await getAuth().verifyIdToken(token);
+      uid = decoded.uid;
     } catch {
-      // Method 2: direct field
-      userId = fields["url_params[user_id]"] || fields["user_id"] || "";
+      return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
 
-    if (!userId) {
-      // Email se dhundho fallback ke taur par
-      const email = fields["email"] || "";
-      console.warn("⚠️ No user_id in ping, email:", email);
+    const wsRef  = db.collection("agent_connections").doc(workspaceId);
+    const wsSnap = await wsRef.get();
 
-      // Email se Firebase user dhundho
-      if (email) {
-        try {
-          const { getAuth } = await import("firebase-admin/auth");
-          const userRecord = await getAuth().getUserByEmail(email);
-          userId = userRecord.uid;
-          console.log("✅ Found user by email:", userId);
-        } catch {
-          console.error("❌ Could not find user by email:", email);
-          // Still return 200 so Gumroad doesn't retry
-          return NextResponse.json({ ok: true, warning: "user_not_found" });
-        }
-      } else {
-        return NextResponse.json({ ok: true, warning: "no_user_id" });
-      }
+    if (!wsSnap.exists) {
+      return NextResponse.json({ error: "Workspace not found" }, { status: 404 });
     }
 
-    // ── Firebase me plan update karo ─────────────────────
-    const db          = getAdminDb();
-    const userRef     = db.collection("users").doc(userId);
-    const userSnap    = await userRef.get();
-
-    if (!userSnap.exists) {
-      console.error("❌ User not found in Firestore:", userId);
-      return NextResponse.json({ ok: true, warning: "user_not_in_firestore" });
+    // Ownership check
+    if (wsSnap.data()?.userId !== uid) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const taskLimit = PLAN_TASK_LIMITS[planKey] || 50;
-
-    await userRef.update({
-      plan:              planKey,
-      planActivatedAt:   new Date().toISOString(),
-      tasksLimit:        taskLimit,
-      tasksUsed:         0, // reset on new plan
-      gumroadSaleId:     fields["sale_id"]        || "",
-      gumroadOrderNum:   fields["order_number"]   || "",
-      gumroadEmail:      fields["email"]           || "",
-      subscriptionId:    fields["subscription_id"] || "",
+    // ── Properly disconnect ────────────────────────────────
+    // userId null karo taaki dashboard query me na aaye
+    await wsRef.update({
+      status:           "disconnected",
+      userDisconnected: true,
+      userId:           null,          // ← ye fix hai — reload pe wapas nahi aayega
+      disconnectedAt:   new Date().toISOString(),
     });
 
-    // ── Agent connections me bhi plan update karo ────────
-    // Taaki Electron app ko bhi pata chale
-    const agentSnap = await db
-      .collection("agent_connections")
-      .where("userId", "==", userId)
-      .get();
-
-    const batch = db.batch();
-    agentSnap.docs.forEach((doc) => {
-      batch.update(doc.ref, { plan: planKey });
-    });
-    await batch.commit();
-
-    console.log(`✅ Plan updated: user=${userId} plan=${planKey}`);
-
-    return NextResponse.json({
-      ok:      true,
-      userId,
-      planKey,
-      message: `Plan ${planKey} activated`,
-    });
+    console.log(`✅ Workspace disconnected: ${workspaceId}`);
+    return NextResponse.json({ ok: true });
 
   } catch (err) {
-    console.error("❌ Webhook error:", err);
-    // 200 return karo taaki Gumroad retry na kare
-    return NextResponse.json({ ok: true, error: "internal" }, { status: 200 });
+    console.error("Disconnect error:", err);
+    return NextResponse.json({ error: "Internal error" }, { status: 500 });
   }
-}
-
-// GET — test ke liye
-export async function GET() {
-  return NextResponse.json({
-    ok:      true,
-    message: "Gumroad webhook endpoint is live",
-    seller:  GUMROAD_SELLER_ID,
-  });
 }
