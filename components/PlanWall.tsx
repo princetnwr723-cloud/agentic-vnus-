@@ -1,16 +1,19 @@
 "use client";
-// PlanWall — workspace/[id]/page.tsx me use hoga
-// Jab user pehli baar connect kare ya plan "free" ho aur upgrade karna ho
-// showContinue=true ke saath PricingModal dikhata hai
+// components/PlanWall.tsx
+// Payment verify hone ke baad hi plan activate hota hai
+// Free plan seedha activate, paid plans Gumroad ke baad
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { db } from "@/lib/firebase";
+import { doc, onSnapshot } from "firebase/firestore";
+import { useAuth } from "@/lib/AuthContext";
 import PricingModal from "./PricingModal";
 
 interface PlanWallProps {
-  currentPlan:   string;
-  workspaceId:   string;
-  pcName:        string;
-  onPlanChosen:  (planKey: string) => void;
+  currentPlan:  string;
+  workspaceId:  string;
+  pcName:       string;
+  onPlanChosen: (planKey: string) => void;
 }
 
 export default function PlanWall({
@@ -19,11 +22,53 @@ export default function PlanWall({
   pcName,
   onPlanChosen,
 }: PlanWallProps) {
-  const [modalOpen, setModalOpen] = useState(true);
+  const { user }                          = useAuth();
+  const [modalOpen,    setModalOpen]      = useState(true);
+  const [waitingPay,   setWaitingPay]     = useState(false);
+  const [chosenPlan,   setChosenPlan]     = useState<string | null>(null);
 
-  return (
-    <>
-      {/* Background — blurred workspace behind */}
+  // Firebase me plan verify hone ka wait karo
+  useEffect(() => {
+    if (!waitingPay || !user || !chosenPlan) return;
+
+    // Poll Firebase — jab planVerified=true aaye tab activate karo
+    const unsub = onSnapshot(doc(db, "users", user.uid), (snap) => {
+      if (!snap.exists()) return;
+      const data         = snap.data();
+      const plan         = data?.plan;
+      const planVerified = data?.planVerified;
+
+      if (plan === chosenPlan && planVerified === true) {
+        unsub();
+        setWaitingPay(false);
+        // Mark done in localStorage
+        localStorage.setItem(`plan_wall_done_${workspaceId}`, "true");
+        onPlanChosen(plan);
+      }
+    });
+
+    return () => unsub();
+  }, [waitingPay, user, chosenPlan, workspaceId, onPlanChosen]);
+
+  const handleContinue = (planKey: string) => {
+    if (planKey === "free") {
+      // Free plan — seedha activate, no payment needed
+      setModalOpen(false);
+      localStorage.setItem(`plan_wall_done_${workspaceId}`, "true");
+      onPlanChosen("free");
+      return;
+    }
+
+    // Paid plan — Gumroad checkout khulega PricingModal se
+    // Hum sirf Firebase me verify hone ka wait karenge
+    setChosenPlan(planKey);
+    setModalOpen(false);
+    setWaitingPay(true);
+  };
+
+  // Waiting for payment screen
+  if (waitingPay) {
+    return (
       <div style={{
         position:       "fixed",
         inset:          0,
@@ -32,66 +77,132 @@ export default function PlanWall({
         flexDirection:  "column",
         alignItems:     "center",
         justifyContent: "center",
-        background:     "rgba(5,5,5,0.92)",
-        backdropFilter: "blur(8px)",
-        padding:        "20px",
+        background:     "rgba(5,5,5,0.96)",
+        backdropFilter: "blur(10px)",
+        padding:        "24px",
       }}>
-
-        {/* Top info */}
-        <div style={{ textAlign:"center", marginBottom:24, zIndex:1 }}>
+        <div style={{
+          width:        "100%",
+          maxWidth:     400,
+          textAlign:    "center",
+          padding:      "32px 24px",
+          borderRadius: 20,
+          border:       "1px solid rgba(255,59,48,0.2)",
+          background:   "rgba(8,4,4,0.98)",
+        }}>
+          {/* Spinner */}
           <div style={{
-            display:"inline-flex", alignItems:"center", gap:8,
-            padding:"6px 14px", borderRadius:20, marginBottom:12,
-            background:"rgba(255,59,48,0.08)",
-            border:"1px solid rgba(255,59,48,0.2)",
+            width:        48,
+            height:       48,
+            borderRadius: "50%",
+            border:       "3px solid rgba(255,59,48,0.15)",
+            borderTop:    "3px solid #FF3B30",
+            margin:       "0 auto 20px",
+            animation:    "spin 1s linear infinite",
+          }} />
+
+          <p style={{ color:"#fff", fontWeight:800, fontSize:18, margin:"0 0 8px" }}>
+            Completing Payment...
+          </p>
+          <p style={{ color:"#555", fontSize:13, lineHeight:1.6, margin:"0 0 20px" }}>
+            Complete your payment in the browser window.
+            This will update automatically once payment is confirmed.
+          </p>
+
+          <div style={{
+            padding:      "12px 16px",
+            borderRadius: 10,
+            background:   "rgba(96,165,250,0.06)",
+            border:       "1px solid rgba(96,165,250,0.2)",
+            marginBottom: 20,
           }}>
-            <div style={{
-              width:7, height:7, borderRadius:"50%",
-              background:"#4ade80",
-              boxShadow:"0 0 6px #4ade80",
-            }} />
-            <span style={{ color:"#4ade80", fontSize:12, fontWeight:700 }}>
-              {pcName} connected
-            </span>
+            <p style={{ color:"#60a5fa", fontSize:12, margin:0 }}>
+              ⏳ Waiting for payment confirmation...
+            </p>
           </div>
 
-          <h2 style={{
-            color:"#fff", fontSize:22, fontWeight:900,
-            margin:"0 0 6px", lineHeight:1.2,
-          }}>
-            Choose your plan to start
-          </h2>
-          <p style={{ color:"#555", fontSize:13, margin:0 }}>
-            Your agent is ready — pick a plan to unlock it
-          </p>
-        </div>
-
-        {/* Open modal button agar modal close ho jaaye */}
-        {!modalOpen && (
           <button
-            onClick={() => setModalOpen(true)}
+            onClick={() => { setWaitingPay(false); setModalOpen(true); }}
             style={{
-              padding:"12px 28px", borderRadius:14, border:"none",
-              cursor:"pointer", fontSize:14, fontWeight:700, color:"#fff",
-              background:"linear-gradient(135deg,#FF3B30,#CC1A10)",
-              boxShadow:"0 4px 20px rgba(255,59,48,0.3)",
+              width:        "100%",
+              padding:      "10px 0",
+              borderRadius: 10,
+              border:       "1px solid rgba(255,255,255,0.1)",
+              background:   "rgba(255,255,255,0.04)",
+              color:        "#666",
+              fontSize:     12,
+              cursor:       "pointer",
             }}
           >
-            View Plans →
+            Back to Plans
           </button>
-        )}
-      </div>
+        </div>
 
-      {/* Pricing Modal — showContinue=true */}
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      {/* Background overlay */}
+      {!modalOpen && (
+        <div style={{
+          position:       "fixed",
+          inset:          0,
+          zIndex:         200,
+          display:        "flex",
+          flexDirection:  "column",
+          alignItems:     "center",
+          justifyContent: "center",
+          background:     "rgba(5,5,5,0.95)",
+          backdropFilter: "blur(8px)",
+        }}>
+          <div style={{ textAlign:"center", padding:"0 20px" }}>
+            <div style={{
+              display:      "inline-flex",
+              alignItems:   "center",
+              gap:          8,
+              padding:      "6px 14px",
+              borderRadius: 20,
+              marginBottom: 14,
+              background:   "rgba(74,222,128,0.08)",
+              border:       "1px solid rgba(74,222,128,0.2)",
+            }}>
+              <div style={{ width:7, height:7, borderRadius:"50%", background:"#4ade80", boxShadow:"0 0 6px #4ade80" }} />
+              <span style={{ color:"#4ade80", fontSize:12, fontWeight:700 }}>{pcName} connected</span>
+            </div>
+            <h2 style={{ color:"#fff", fontSize:20, fontWeight:900, margin:"0 0 6px" }}>
+              Choose a plan to start
+            </h2>
+            <p style={{ color:"#555", fontSize:13, margin:"0 0 20px" }}>
+              Your agent is ready — pick a plan to unlock it
+            </p>
+            <button
+              onClick={() => setModalOpen(true)}
+              style={{
+                padding:      "12px 28px",
+                borderRadius: 12,
+                border:       "none",
+                cursor:       "pointer",
+                fontSize:     14,
+                fontWeight:   700,
+                color:        "#fff",
+                background:   "linear-gradient(135deg,#FF3B30,#CC1A10)",
+              }}
+            >
+              View Plans →
+            </button>
+          </div>
+        </div>
+      )}
+
       <PricingModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         currentPlan={currentPlan}
         showContinue={true}
-        onPlanChosen={(planKey) => {
-          setModalOpen(false);
-          onPlanChosen(planKey);
-        }}
+        onPlanChosen={handleContinue}
       />
     </>
   );
