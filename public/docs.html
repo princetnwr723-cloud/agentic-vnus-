@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Agentic Vnus — Documentation</title>
+<style>
+:root {
+  --bg:        #050505;
+  --bg2:       #0a0202;
+  --bg3:       #0f0404;
+  --surface:   rgba(255,255,255,0.04);
+  --surface2:  rgba(255,255,255,0.06);
+  --border:    rgba(255,59,48,0.15);
+  --border2:   rgba(255,255,255,0.08);
+  --red:       #FF3B30;
+  --red-dim:   rgba(255,59,48,0.12);
+  --red-glow:  rgba(255,59,48,0.25);
+  --white:     #ffffff;
+  --gray:      #9a9a9a;
+  --gray2:     #555;
+  --sidebar-w: 260px;
+  --topbar-h:  56px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:15px;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+
+/* ── Topbar ── */
+.topbar{
+  position:fixed;top:0;left:0;right:0;
+  height:var(--topbar-h);
+  background:rgba(5,5,5,0.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  padding:0 20px;gap:16px;z-index:100;
+}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-text{font-size:15px;font-weight:700;color:var(--white);letter-spacing:-0.01em}
+.logo-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:var(--red-dim);color:var(--red);border:1px solid var(--red-glow)}
+.topbar-divider{width:1px;height:24px;background:var(--border2);flex-shrink:0}
+.topbar-title{font-size:14px;color:var(--gray);font-weight:500}
+.search-box{
+  margin-left:auto;
+  display:flex;align-items:center;gap:8px;
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:8px;padding:6px 12px;cursor:pointer;
+  transition:border-color 0.2s;
+}
+.search-box:hover{border-color:var(--red)}
+.search-box input{
+  background:none;border:none;outline:none;
+  color:var(--white);font-size:13px;width:180px;
+}
+.search-box input::placeholder{color:var(--gray2)}
+.search-icon{color:var(--gray2)}
+
+/* ── Layout ── */
+.layout{
+  display:flex;
+  margin-top:var(--topbar-h);
+  min-height:calc(100vh - var(--topbar-h));
+}
+
+/* ── Sidebar ── */
+.sidebar{
+  width:var(--sidebar-w);
+  flex-shrink:0;
+  position:fixed;
+  top:var(--topbar-h);
+  bottom:0;
+  left:0;
+  overflow-y:auto;
+  border-right:1px solid var(--border);
+  background:var(--bg2);
+  padding:20px 0 40px;
+}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+.nav-group{margin-bottom:8px}
+.nav-group-title{
+  font-size:10px;font-weight:700;
+  color:var(--gray2);
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:8px 20px 4px;
+}
+.nav-link{
+  display:flex;align-items:center;gap:8px;
+  padding:6px 20px;
+  font-size:13px;color:var(--gray);
+  text-decoration:none;
+  border-left:2px solid transparent;
+  transition:all 0.15s;
+  cursor:pointer;
+}
+.nav-link:hover{color:var(--white);background:var(--surface)}
+.nav-link.active{color:var(--red);border-left-color:var(--red);background:var(--red-dim)}
+.nav-link .warn-dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0}
+
+/* ── Content ── */
+.content{
+  margin-left:var(--sidebar-w);
+  flex:1;
+  max-width:860px;
+  padding:48px 48px 80px;
+}
+
+/* ── Sections ── */
+.doc-section{
+  margin-bottom:60px;
+  scroll-margin-top:calc(var(--topbar-h) + 20px);
+}
+
+.section-eyebrow{
+  font-size:11px;font-weight:600;
+  color:var(--red);letter-spacing:0.1em;
+  text-transform:uppercase;margin-bottom:10px;
+}
+h1.doc-h1{
+  font-size:36px;font-weight:800;
+  letter-spacing:-0.02em;line-height:1.15;
+  margin-bottom:16px;
+}
+h2.doc-h2{
+  font-size:24px;font-weight:700;
+  letter-spacing:-0.01em;
+  margin-bottom:12px;
+  padding-bottom:10px;
+  border-bottom:1px solid var(--border2);
+}
+h3.doc-h3{
+  font-size:16px;font-weight:600;
+  margin:24px 0 10px;color:var(--white);
+}
+p{color:#ccc;margin-bottom:14px;line-height:1.75}
+p:last-child{margin-bottom:0}
+
+/* ── Warning block ── */
+.warn-block{
+  background:rgba(255,59,48,0.07);
+  border:1px solid rgba(255,59,48,0.3);
+  border-left:3px solid var(--red);
+  border-radius:8px;
+  padding:14px 18px;
+  margin:18px 0;
+}
+.warn-block .warn-title{
+  font-size:12px;font-weight:700;
+  color:var(--red);text-transform:uppercase;
+  letter-spacing:0.08em;margin-bottom:6px;
+  display:flex;align-items:center;gap:6px;
+}
+.warn-block p{color:var(--red);margin:0;font-size:13px;line-height:1.65}
+
+/* ── Note block ── */
+.note-block{
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-left:3px solid rgba(96,165,250,0.6);
+  border-radius:8px;padding:14px 18px;margin:18px 0;
+}
+.note-block p{color:#aaa;font-size:13px;margin:0;line-height:1.65}
+
+/* ── Code ── */
+pre{
+  background:#0d0d0d;border:1px solid var(--border2);
+  border-radius:10px;padding:18px 20px;
+  overflow-x:auto;margin:16px 0;
+  font-family:"JetBrains Mono","Fira Code",monospace;
+  font-size:13px;line-height:1.7;color:#e0e0e0;
+}
+code{
+  font-family:"JetBrains Mono","Fira Code",monospace;
+  font-size:12.5px;background:rgba(255,255,255,0.08);
+  border-radius:4px;padding:1px 6px;color:#ff9580;
+}
+pre code{background:none;padding:0;color:#e0e0e0}
+
+/* ── Tables ── */
+.doc-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.doc-table th{
+  text-align:left;padding:10px 14px;
+  font-size:11px;font-weight:600;
+  color:var(--gray2);text-transform:uppercase;
+  letter-spacing:0.07em;
+  border-bottom:1px solid var(--border2);
+}
+.doc-table td{
+  padding:10px 14px;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  color:#ccc;vertical-align:top;
+}
+.doc-table tr:last-child td{border-bottom:none}
+.doc-table tr:hover td{background:var(--surface)}
+
+/* ── Chips ── */
+.chip{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:600}
+.chip-red  {background:rgba(255,59,48,0.12);color:var(--red);border:1px solid rgba(255,59,48,0.25)}
+.chip-green{background:rgba(74,222,128,0.1);color:#4ade80;border:1px solid rgba(74,222,128,0.2)}
+.chip-blue {background:rgba(96,165,250,0.1);color:#60a5fa;border:1px solid rgba(96,165,250,0.2)}
+.chip-gray {background:rgba(255,255,255,0.08);color:#888;border:1px solid rgba(255,255,255,0.12)}
+
+/* ── Cards ── */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.card{
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:12px;padding:18px;
+  transition:border-color 0.2s;
+}
+.card:hover{border-color:var(--red)}
+.card-title{font-size:14px;font-weight:600;margin-bottom:6px;color:var(--white)}
+.card-body{font-size:13px;color:var(--gray);line-height:1.6}
+
+/* ── Step list ── */
+.steps{list-style:none;margin:16px 0}
+.steps li{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);
+}
+.steps li:last-child{border-bottom:none}
+.step-num{
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  background:var(--red-dim);border:1px solid var(--red-glow);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:var(--red);margin-top:2px;
+}
+.step-body{flex:1}
+.step-title{font-size:14px;font-weight:600;color:var(--white);margin-bottom:3px}
+.step-desc{font-size:13px;color:var(--gray);line-height:1.6}
+
+/* ── Arch flow ── */
+.arch-flow{
+  display:flex;align-items:center;gap:0;
+  flex-wrap:wrap;margin:20px 0;
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:12px;padding:20px;gap:8px;
+}
+.arch-box{
+  padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;
+  background:var(--bg3);border:1px solid var(--border2);color:var(--white);
+  text-align:center;white-space:nowrap;
+}
+.arch-box.red{border-color:var(--red);color:var(--red);background:var(--red-dim)}
+.arch-arrow{color:var(--gray2);font-size:18px;flex-shrink:0}
+
+/* ── RAM tier ── */
+.ram-tier{
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:10px;padding:14px 18px;margin:10px 0;
+}
+.ram-tier-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:8px;
+}
+.ram-label{font-size:13px;font-weight:600;color:var(--white)}
+.ram-size{font-size:12px;color:var(--gray);background:rgba(255,255,255,0.06);padding:2px 8px;border-radius:20px}
+.ram-models{font-size:12px;color:var(--gray);line-height:1.7}
+.ram-warn{font-size:12px;color:var(--red);margin-top:4px}
+
+/* ── Founder ── */
+.founder-line{
+  margin-top:32px;padding-top:16px;
+  border-top:1px solid var(--border2);
+  font-size:12px;color:var(--gray2);
+}
+.founder-line strong{color:var(--red)}
+
+/* ── Hero gradient ── */
+.hero-bg{
+  position:absolute;top:0;left:0;right:0;height:300px;
+  background:radial-gradient(ellipse 70% 60% at 40% 0%,rgba(255,59,48,0.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+/* ── Divider ── */
+.divider{height:1px;background:var(--border2);margin:40px 0}
+
+/* ── Badge inline ── */
+.inline-badge{
+  font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;
+  vertical-align:middle;display:inline-block;margin-left:6px;
+}
+
+/* ── Mobile ── */
+@media(max-width:768px){
+  .sidebar{display:none}
+  .content{margin-left:0;padding:24px 20px 60px}
+  .card-grid{grid-template-columns:1fr}
+  h1.doc-h1{font-size:26px}
+  .arch-flow{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- Topbar -->
+<header class="topbar">
+  <a class="logo" href="#">
+    <svg viewBox="0 0 32 32" fill="none" width="28" height="28">
+      <circle cx="16" cy="16" r="14" fill="#1a0505" stroke="#FF3B30" stroke-width="1.5"/>
+      <path d="M11 11C10 8 12 6 13 8 14 6 15 8 14 11Z" fill="#FF3B30"/>
+      <path d="M21 11C20 8 22 6 23 8 24 6 21 8 22 11Z" fill="#FF3B30"/>
+      <circle cx="13" cy="16" r="2.2" fill="#FF3B30"/>
+      <circle cx="19" cy="16" r="2.2" fill="#FF3B30"/>
+      <circle cx="13" cy="16" r="1" fill="#000"/>
+      <circle cx="19" cy="16" r="1" fill="#000"/>
+    </svg>
+    <span class="logo-text">Agentic Vnus</span>
+    <span class="logo-badge">DOCS</span>
+  </a>
+  <div class="topbar-divider"></div>
+  <span class="topbar-title">Documentation</span>
+  <div class="search-box">
+    <svg class="search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <input type="text" placeholder="Search docs..." id="search-input"/>
+  </div>
+</header>
+
+<div class="layout">
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="nav-group">
+    <div class="nav-group-title">Getting Started</div>
+    <a class="nav-link active" href="#introduction">Introduction</a>
+    <a class="nav-link" href="#getting-started">Quick Start</a>
+    <a class="nav-link" href="#architecture">How It Works</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">Plans</div>
+    <a class="nav-link" href="#plans">Plans & Pricing</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">AI Models</div>
+    <a class="nav-link" href="#models">All Models</a>
+    <a class="nav-link" href="#ram-rule">
+      <span class="warn-dot"></span> RAM Rule
+    </a>
+    <a class="nav-link" href="#vision-models">Vision Models</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">Features</div>
+    <a class="nav-link" href="#memory">Memory System</a>
+    <a class="nav-link" href="#skills">Self-Improving Skills</a>
+    <a class="nav-link" href="#browser">Browser Control</a>
+    <a class="nav-link" href="#github">GitHub Integration</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">Reference</div>
+    <a class="nav-link" href="#warnings">
+      <span class="warn-dot"></span> Warnings & Limits
+    </a>
+    <a class="nav-link" href="#faq">FAQ</a>
+    <a class="nav-link" href="#architecture-deep">Architecture Deep Dive</a>
+  </div>
+</nav>
+
+<!-- Main content -->
+<main class="content">
+
+<!-- ── 1. INTRODUCTION ── -->
+<section class="doc-section" id="introduction">
+  <div style="position:relative">
+    <div class="hero-bg"></div>
+    <div class="section-eyebrow">Overview</div>
+    <h1 class="doc-h1">Agentic Vnus</h1>
+    <p style="font-size:17px;color:#bbb;max-width:600px">
+      A self-improving AI agent that runs entirely on your PC — no cloud, no API keys on most plans, no data leaving your machine. It learns from your usage and gets better every day.
+    </p>
+
+    <div class="card-grid" style="margin-top:24px">
+      <div class="card">
+        <div class="card-title">🔒 100% Local</div>
+        <div class="card-body">All AI inference runs on your machine via Ollama. Your commands, files, and data never leave your PC.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🧠 Self-Improving</div>
+        <div class="card-body">Agent learns your preferences, saves successful task patterns as skills, and gets faster at repeated work.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🌐 Browser Control</div>
+        <div class="card-body">Full Playwright-powered browser automation — search, fill forms, extract data, navigate any website.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">💻 GitHub Native</div>
+        <div class="card-body">Read, write, commit, create PRs and issues — all via GitHub REST API, no git commands needed.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="founder-line">
+    Built by <strong>Prince Tanwar</strong> — Founder, Agentic Vnus
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── 2. QUICK START ── -->
+<section class="doc-section" id="getting-started">
+  <div class="section-eyebrow">Quick Start</div>
+  <h2 class="doc-h2">Getting Started</h2>
+  <p>From download to your first command — takes about 10 minutes including model download.</p>
+
+  <ul class="steps">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Download the Agent</div>
+        <div class="step-desc">Go to your dashboard → Set Up Agent → Download for your OS (Windows, Mac Intel, Mac Apple Silicon, or Linux).</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Install & Launch</div>
+        <div class="step-desc">Run the installer. On Windows, if asked "Vnus Agent cannot be closed" — the agent was already running. Click Retry. It auto-closes the old version and continues.</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Copy Your 10-Character Code</div>
+        <div class="step-desc">The splash screen shows your permanent connection code — same machine always gets the same code. Copy it.</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">Connect on Website</div>
+        <div class="step-desc">Go to your dashboard → Add Workspace → paste the code → Connect. Your PC is now linked to your account.</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <div class="step-title">Choose a Plan</div>
+        <div class="step-desc">Pick Free, Starter, Pro, or higher. Free plan activates immediately. Paid plans go through Gumroad checkout — plan activates automatically after payment.</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <div class="step-title">Select & Download Your Model</div>
+        <div class="step-desc">The app detects your RAM and suggests the best model. Click Download — Ollama installs automatically if needed. Large models (6–19GB) take a few minutes on first download.</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <div class="step-title">Start Giving Commands</div>
+        <div class="step-desc">Workspace opens. Type a command like "Open Chrome and search for AI news" or "Create a Python file on Desktop". Agent executes it on your PC.</div>
+      </div>
+    </li>
+  </ul>
+
+  <div class="warn-block">
+    <div class="warn-title">⚠️ First Download Takes Time</div>
+    <p>Ollama and the AI model download only once. After that, everything runs offline. A 6GB model on a 50 Mbps connection takes about 15 minutes.</p>
+  </div>
+
+  <div class="founder-line">Prince Tanwar — Founder, Agentic Vnus</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── 3. HOW IT WORKS ── -->
+<section class="doc-section" id="architecture">
+  <div class="section-eyebrow">Architecture</div>
+  <h2 class="doc-h2">How It Works</h2>
+  <p>Agentic Vnus runs as an Electron desktop app on your PC. It uses a local Ollama model to understand your commands and translate them into actions. Commands come from your browser via Firestore — the agent polls every 3 seconds.</p>
+
+  <h3 class="doc-h3">Request Flow</h3>
+  <div class="arch-flow">
+    <div class="arch-box red">You type a command</div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-box">Firebase Firestore</div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-box red">Agent polls (3s)</div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-box">Local Ollama LLM</div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-box red">JSON actions</div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-box">Executed on PC</div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-box red">Result back to you</div>
+  </div>
+
+  <h3 class="doc-h3">Core Components</h3>
+  <table class="doc-table">
+    <thead><tr><th>Component</th><th>File</th><th>What It Does</th></tr></thead>
+    <tbody>
+      <tr><td><code>brain.js</code></td><td>src/agent/</td><td>Core intelligence — builds system prompt with memory, calls Ollama, parses JSON actions, executes them</td></tr>
+      <tr><td><code>memory.js</code></td><td>src/agent/</td><td>Persistent memory — saves user preferences, facts, corrections, session history to disk</td></tr>
+      <tr><td><code>skills.js</code></td><td>src/agent/</td><td>Self-improving skills — detects patterns in successful tasks and generates reusable skill files</td></tr>
+      <tr><td><code>listener.js</code></td><td>src/agent/</td><td>Firestore polling — checks for new commands every 3 seconds, marks them processing, sends results back</td></tr>
+      <tr><td><code>ollamaManager.js</code></td><td>src/agent/</td><td>Manages Ollama — installs if missing, checks version, downloads models with progress</td></tr>
+      <tr><td><code>browserAgent.js</code></td><td>src/agent/</td><td>Playwright browser — click, type, navigate, extract data from any website</td></tr>
+      <tr><td><code>githubAgent.js</code></td><td>src/agent/</td><td>GitHub API — read/write files, create repos, branches, PRs, issues</td></tr>
+      <tr><td><code>main.js</code></td><td>src/</td><td>Electron entry point — window management, IPC, startup, tray icon</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note-block">
+    <p>The LLM never sees your actual files unless you explicitly ask it to read them. The agent only acts on your commands — it does not run autonomously in the background.</p>
+  </div>
+
+  <div class="founder-line">Prince Tanwar — Founder, Agentic Vnus</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── 4. PLANS ── -->
+<section class="doc-section" id="plans">
+  <div class="section-eyebrow">Pricing</div>
+  <h2 class="doc-h2">Plans & Pricing</h2>
+  <p>All plans run AI locally on your PC. Higher plans unlock better models and more workspaces. Monthly billing via Gumroad — cancel anytime.</p>
+
+  <table class="doc-table">
+    <thead>
+      <tr>
+        <th>Plan</th><th>Price</th><th>Tasks/mo</th><th>Workspaces</th><th>Best Model (32GB)</th><th>Vision</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Free</strong></td>
+        <td>$0</td><td>50</td><td>1</td>
+        <td>Qwen 3.5 4B</td>
+        <td><span class="chip chip-gray">No</span></td>
+      </tr>
+      <tr>
+        <td><strong>Starter</strong></td>
+        <td>$5/mo</td><td>250</td><td>2</td>
+        <td>DeepSeek R1 8B</td>
+        <td><span class="chip chip-blue">Optional</span></td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--red)">Pro ⭐</strong></td>
+        <td>$29/mo</td><td>500</td><td>5</td>
+        <td>Qwen 3 30B MoE</td>
+        <td><span class="chip chip-blue">Optional</span></td>
+      </tr>
+      <tr>
+        <td><strong>Pro Max</strong></td>
+        <td>$60/mo</td><td>1,250</td><td>10</td>
+        <td>Qwen 3 Coder 30B</td>
+        <td><span class="chip chip-blue">Optional</span></td>
+      </tr>
+      <tr>
+        <td><strong>Elite</strong></td>
+        <td>$499/mo</td><td>5,000</td><td>Unlimited</td>
+        <td>Llama 3.3 70B Q4</td>
+        <td><span class="chip chip-green">Auto ON</span></td>
+      </tr>
+      <tr>
+        <td><strong>Elite Ultra</strong></td>
+        <td>$999/mo</td><td>10,000</td><td>Unlimited</td>
+        <td>Llama 3.1 405B Q2</td>
+        <td><span class="chip chip-green">Auto ON</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warn-block">
+    <div class="warn-title">⚠️ Model availability depends on your RAM</div>
+    <p>The "Best Model" column shows what runs on 32GB RAM. On 8GB, even Pro plan users get Qwen 3.5 4B — because the 50% RAM rule always applies. See the RAM Rule section for details.</p>
+  </div>
+
+  <div class="founder-line">Prince Tanwar — Founder, Agentic Vnus</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── 5. MODELS ── -->
+<section class="doc-section" id="models">
+  <div class="section-eyebrow">AI Models</div>
+  <h2 class="doc-h2">All Models</h2>
+  <p>Agentic Vnus includes 18 main models and 4 vision models. The app automatically selects the best one for your RAM — you can also pick manually in the model picker.</p>
+
+  <h3 class="doc-h3">Tiny Tier — 2–4 GB RAM needed</h3>
+  <table class="doc-table">
+    <thead><tr><th>Model</th><th>Ollama ID</th><th>Size</th><th>Quality</th><th>Use Case</th></tr></thead>
+    <tbody>
+      <tr><td>Qwen 3.5 0.8B 🪶</td><td><code>qwen3.5:0.8b</code></td><td>0.5 GB</td><td>Basic</td><td>Simple commands, file ops</td></tr>
+      <tr><td>Qwen 3.5 2B ⚡</td><td><code>qwen3.5:2b</code></td><td>1.5 GB</td><td>Good</td><td>Daily tasks, JSON, instructions</td></tr>
+      <tr><td>Qwen 3.5 4B ⚡</td><td><code>qwen3.5:4b</code></td><td>2.5 GB</td><td>Good+</td><td>Native thinking mode, 256K context</td></tr>
+      <tr><td>Phi-4 Mini 3.8B ⚡</td><td><code>phi4-mini</code></td><td>2.5 GB</td><td>Good+</td><td>Reasoning, math, code</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="doc-h3">Small Tier — 8 GB RAM needed</h3>
+  <table class="doc-table">
+    <thead><tr><th>Model</th><th>Ollama ID</th><th>Size</th><th>Quality</th><th>Use Case</th></tr></thead>
+    <tbody>
+      <tr><td>Qwen 3.5 9B ⭐</td><td><code>qwen3.5:9b</code></td><td>6.0 GB</td><td>Great</td><td>Best mid-tier, coding + tasks</td></tr>
+      <tr><td>DeepSeek R1 8B 🧠</td><td><code>deepseek-r1:8b</code></td><td>4.7 GB</td><td>Great</td><td>Chain-of-thought reasoning, debugging</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="doc-h3">Medium Tier — 12–16 GB RAM needed</h3>
+  <table class="doc-table">
+    <thead><tr><th>Model</th><th>Ollama ID</th><th>Size</th><th>Quality</th><th>Use Case</th></tr></thead>
+    <tbody>
+      <tr><td>Qwen 2.5 Coder 14B 💻</td><td><code>qwen2.5-coder:14b</code></td><td>9.0 GB</td><td>Excellent</td><td>Dedicated coding model</td></tr>
+      <tr><td>Qwen 3.5 14B 🔥</td><td><code>qwen3.5:14b</code></td><td>9.0 GB</td><td>Excellent</td><td>All-rounder, 262K context</td></tr>
+      <tr><td>DeepSeek R1 14B 🧠</td><td><code>deepseek-r1:14b</code></td><td>9.0 GB</td><td>Excellent</td><td>Elite reasoning, multi-step tasks</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="doc-h3">Large Tier — 22–32 GB RAM needed</h3>
+  <table class="doc-table">
+    <thead><tr><th>Model</th><th>Ollama ID</th><th>Size</th><th>Quality</th><th>Special</th></tr></thead>
+    <tbody>
+      <tr><td>Qwen 3.5 27B 🔥</td><td><code>qwen3.5:27b</code></td><td>16 GB</td><td>★★★★★</td><td>77.2% SWE-bench</td></tr>
+      <tr><td>Qwen 3 30B MoE 🌟</td><td><code>qwen3:30b-a3b</code></td><td>19 GB</td><td>★★★★★</td><td>30B quality at 3.3B speed — MoE magic</td></tr>
+      <tr><td>Qwen 3 Coder 30B 💻</td><td><code>qwen3-coder:30b</code></td><td>19 GB</td><td>★★★★★</td><td>Best local coder 2026, beats Claude Sonnet on many tasks</td></tr>
+      <tr><td>DeepSeek R1 32B 🧠</td><td><code>deepseek-r1:32b</code></td><td>19 GB</td><td>★★★★★</td><td>World-class reasoning</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="doc-h3">XL & Ultra Tier — 48–128 GB RAM needed</h3>
+  <table class="doc-table">
+    <thead><tr><th>Model</th><th>Ollama ID</th><th>Size</th><th>RAM Needed</th></tr></thead>
+    <tbody>
+      <tr><td>Llama 3.3 70B Q3 ⭐</td><td><code>llama3.3:70b-instruct-q3_K_M</code></td><td>29 GB</td><td>32 GB</td></tr>
+      <tr><td>Llama 3.3 70B Q4 🔥</td><td><code>llama3.3:70b-instruct-q4_K_M</code></td><td>40 GB</td><td>48 GB</td></tr>
+      <tr><td>DeepSeek R1 70B 🧠</td><td><code>deepseek-r1:70b</code></td><td>42 GB</td><td>48 GB</td></tr>
+      <tr><td>Llama 3.3 70B Q8 👑</td><td><code>llama3.3:70b-instruct-q8_0</code></td><td>75 GB</td><td>80 GB</td></tr>
+      <tr><td>Llama 3.1 405B Q2 👑</td><td><code>llama3.1:405b-instruct-q2_K</code></td><td>108 GB</td><td>112 GB</td></tr>
+    </tbody>
+  </table>
+
+  <div class="founder-line">Prince Tanwar — Founder, Agentic Vnus</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── 6. RAM RULE ── -->
+<section class="doc-section" id="ram-rule">
+  <div class="section-eyebrow">Critical Rule</div>
+  <h2 class="doc-h2">The 50% RAM Rule</h2>
+
+  <div class="warn-block">
+    <div class="warn-title">⚠️ This Rule Always Applies — No Exceptions</div>
+    <p>The AI model must use no more than 50% of your total RAM. This keeps your PC running smoothly while the agent works. You cannot override this limit.</p>
+  </div>
+
+  <p>If a model is larger than 50% of your total RAM, the agent will not offer it — even if you are on the Elite plan. Your plan determines which models are available to you, but your RAM determines which ones actually run.</p>
+
+  <h3 class="doc-h3">What You Get Per RAM Tier</h3>
+
+  <div class="ram-tier">
+    <div class="ram-tier-header">
+      <span class="ram-label">4 GB RAM</span>
+      <span class="ram-size">Max model: 2 GB</span>
+    </div>
+    <div class="ram-models">Best option: <strong>Qwen 3.5 0.8B</strong> (0.5 GB) — only tiny models fit</div>
+    <div class="ram-warn">⚠️ Very limited capability. Simple commands only. Upgrade your RAM for better results.</div>
+  </div>
+
+  <div class="ram-tier">
+    <div class="ram-tier-header">
+      <span class="ram-label">8 GB RAM</span>
+      <span class="ram-size">Max model: 4 GB</span>
+    </div>
+    <div class="ram-models">Best option: <strong>Qwen 3.5 4B</strong> (2.5 GB) or <strong>Phi-4 Mini</strong> (2.5 GB)</div>
+    <div class="ram-warn">⚠️ DeepSeek R1 8B (4.7 GB) and Qwen 3.5 9B (6 GB) will NOT run — they exceed 50% of 8 GB.</div>
+  </div>
+
+  <div class="ram-tier">
+    <div class="ram-tier-header">
+      <span class="ram-label">16 GB RAM</span>
+      <span class="ram-size">Max model: 8 GB</span>
+    </div>
+    <div class="ram-models">Best option: <strong>Qwen 3.5 9B</strong> (6 GB) or <strong>DeepSeek R1 8B</strong> (4.7 GB)</div>
+    <div class="ram-warn">⚠️ 14B models (9 GB) will NOT run on 16 GB RAM — they exceed 50% limit.</div>
+  </div>
+
+  <div class="ram-tier">
+    <div class="ram-tier-header">
+      <span class="ram-label">32 GB RAM</span>
+      <span class="ram-size">Max model: 16 GB</span>
+    </div>
+    <div class="ram-models">Best options: <strong>Qwen 3.5 14B</strong>, <strong>Qwen 2.5 Coder 14B</strong>, <strong>DeepSeek R1 14B</strong> — all at 9 GB</div>
+  </div>
+
+  <div class="ram-tier">
+    <div class="ram-tier-header">
+      <span class="ram-label">48 GB RAM</span>
+      <span class="ram-size">Max model: 24 GB</span>
+    </div>
+    <div class="ram-models">Best options: <strong>Qwen 3 30B MoE</strong> (19 GB), <strong>Qwen 3 Coder 30B</strong> (19 GB), <strong>DeepSeek R1 32B</strong> (19 GB)</div>
+  </div>
+
+  <div class="ram-tier">
+    <div class="ram-tier-header">
+      <span class="ram-label">64 GB+ RAM</span>
+      <span class="ram-size">Max model: 32+ GB</span>
+    </div>
+    <div class="ram-models">Best options: <strong>Llama 3.3 70B Q3</strong> (29 GB) — GPT-4 Turbo level quality</div>
+  </div>
+
+  <div class="ram-tier">
+    <div class="ram-tier-header">
+      <span class="ram-label">128 GB RAM</span>
+      <span class="ram-size">Max model: 64+ GB</span>
+    </div>
+    <div class="ram-models">Best options: <strong>Llama 3.3 70B Q8</strong> (75 GB), <strong>Llama 3.1 405B Q2</strong> (108 GB)</div>
+  </div>
+
+  <div class="warn-block" style="margin-top:20px">
+    <div class="warn-title">⚠️ Vision Model RAM</div>
+    <p>If you enable Vision mode, the vision model uses an additional 2.5–7.2 GB of RAM on top of your main model. The agent checks if both fit before enabling vision. If they don't fit together, it falls back to MiniCPM-V (lightest vision model) or disables vision.</p>
+  </div>
+
+  <div class="founder-line">Prince Tanwar — Founder, Agentic Vnus</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── 7. VISION MODELS ── -->
+<section class="doc-section" id="vision-models">
+  <div class="section-eyebrow">Vision</div>
+  <h2 class="doc-h2">Vision Models</h2>
+  <p>Vision models let the agent see your screen before acting. This dramatically improves accuracy for clicking, form-filling, and UI navigation — because the agent can verify what's actually on screen.</p>
+
+  <table class="doc-table">
+    <thead><tr><th>Model</th><th>Ollama ID</th><th>Size</th><th>Min RAM</th><th>Plan</th><th>Strength</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>MiniCPM-V 👁️</td>
+        <td><code>minicpm-v:latest</code></td>
+        <td>2.5 GB</td><td>4 GB</td>
+        <td><span class="chip chip-gray">Free+</span></td>
+        <td>Best OCR, UI understanding</td>
+      </tr>
+      <tr>
+        <td>Gemma 4 E4B 👁️</td>
+        <td><code>gemma4:4b</code></td>
+        <td>3.5 GB</td><td>6 GB</td>
+        <td><span class="chip chip-blue">Starter+</span></td>
+        <td>Fast screen understanding, 128K context</td>
+      </tr>
+      <tr>
+        <td>LLaVA Llama 3.1 👁️</td>
+        <td><code>llava:llama3.1</code></td>
+        <td>5.5 GB</td><td>8 GB</td>
+        <td><span class="chip chip-green">Pro+</span></td>
+        <td>Complex UI, screenshot analysis</td>
+      </tr>
+      <tr>
+        <td>LLaVA Llama 3.1 Q6 👁️</td>
+        <td><code>llava:llama3.1-q6_K</code></td>
+        <td>7.2 GB</td><td>10 GB</td>
+        <td><span class="chip chip-red">Elite</span></td>
+        <td>Highest quality vision, best for Pro+ plans</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warn-block">
+    <div class="warn-title">⚠️ Vision Uses Extra RAM</div>
+    <p>Vision model RAM is added on top of your main model. On 8 GB RAM with Qwen 3.5 4B (2.5 GB), MiniCPM-V (2.5 GB) leaves only 3 GB for your OS — this may cause slowdowns. Close other apps before enabling vision on low-RAM machines.</p>
+  </div>
+
+  <div class="founder-line">Prince Tanwar — Founder, Agentic Vnus</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── 8. MEMORY ── -->
+<section class="doc-section" id="memory">
+  <div class="section-eyebrow">Learning System</div>
+  <h2 class="doc-h2">Memory System</h2>
+  <p>The agent saves what it learns about you across sessions. Unlike cloud AI agents, this memory lives in <code>~/.vnus-agent/memory.json</code> on your PC — completely private.</p>
+
+  <h3 class="doc-h3">What Gets Remembered</h3>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-title">User Preferences</div>
+      <div class="card-body">Preferred browser, editor, default save location, working directory, language. Learned from your commands automatically.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Important Facts</div>
+      <div class="card-body">Up to 50 facts about your setup — GitHub username, known file paths, app locations, project details.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Corrections</div>
+      <div class="card-body">When you correct the agent, it remembers what went wrong and avoids repeating the same mistake in future sessions.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Session History</div>
+      <div class="card-body">Last 100 sessions saved. Agent can search past sessions to recall what was done earlier ("what did I work on last week?").</div>
+    </div>
+  </div>
+
+  <h3 class="doc-h3">Memory Location</h3>
+  <pre><code>~/.vnus-agent/
+├── memory.json        # User profile + facts + preferences
+├── skills/            # Auto-generated skill files
+│   ├── open_chrome.json
+│   ├── send_email.json
+│   └── ...
+└── sessions/          # Session history (last 100)
+    ├── session_1.json
+    └── ...</code></pre>
+
+  <div class="note-block">
+    <p>Memory is injected into the system prompt at the start of every command — the agent always has full context of who you are and what you prefer, without you repeating yourself.</p>
+  </div>
+
+  <div class="founder-line">Prince Tanwar — Founder, Agentic Vnus</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── 9. SKILLS ── -->
+<section class="doc-section" id="skills">
+  <div class="section-eyebrow">Self-Improvement</div>
+  <h2 class="doc-h2">Self-Improving Skills</h2>
+  <p>Every time you successfully complete a task, the agent analyzes it. If it detects a repeatable pattern, it automatically generates a skill file. Next time you ask for the same type of task, the skill runs directly — no LLM call needed for the planning step, which makes it faster.</p>
+
+  <h3 class="doc-h3">How Skills Work</h3>
+  <ul class="steps">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">You complete a task successfully</div>
+        <div class="step-desc">Example: "Open Chrome and search for AI news" — agent opens Chrome, navigates to Google, types the query.</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Pattern is detected</div>
+        <div class="step-desc">Agent checks if this matches a known pattern (browser task, email, file creation, GitHub operation). After the first success, a skill candidate is tracked.</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Skill file is generated</div>
+        <div class="step-desc">A JSON skill file is saved in <code>~/.vnus-agent/skills/</code> with the action pattern, triggers, and success count.</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">Skill is available for future tasks</div>
+        <div class="step-desc">Next time you ask something similar, the skill appears in the system prompt. The agent uses the proven pattern instead of figuring it out from scratch.</div>
+      </div>
+    </li>
+  </ul>
+
+  <div class="note-block">
+    <p>Skills improve over time. A skill used 10 times is more reliable than one used once. The agent tracks success counts and sorts by reliability.</p>
+  </div>
+
+  <div class="founder-line">Prince Tanwar — Founder, Agentic Vnus</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── 10. BROWSER ── -->
+<section class="doc-section" id="browser">
+  <div class="section-eyebrow">Automation</div>
+  <h2 class="doc-h2">Browser Control</h2>
+  <p>Browser automation uses Playwright (Chromium) — the same technology used by professional test engineers. The browser runs visibly so you can watch what the agent does.</p>
+
+  <h3 class="doc-h3">Supported Operations</h3>
+  <table class="doc-table">
+    <thead><tr><th>Action</th><th>What It Does</th><th>Example Command</th></tr></thead>
+    <tbody>
+      <tr><td><code>browser_goto</code></td><td>Navigate to a URL</td><td>"Open Gmail"</td></tr>
+      <tr><td><code>browser_click</code></td><td>Click any element by CSS selector</td><td>"Click the submit button"</td></tr>
+      <tr><td><code>browser_type</code></td><td>Type text (with human-like delay)</td><td>"Search for AI news"</td></tr>
+      <tr><td><code>browser_fill</code></td><td>Fill an input instantly</td><td>"Fill in the email field"</td></tr>
+      <tr><td><code>browser_extract</code></td><td>Get text, HTML, or value from an element</td><td>"Get the first search result"</td></tr>
+      <tr><td><code>browser_extract_table</code></td><td>Extract full table data as array</td><td>"Get all rows from the pricing table"</td></tr>
+      <tr><td><code>browser_screenshot</code></td><td>Take screenshot of page or element</td><td>Automatic when needed</td></tr>
+      <tr><td><code>browser_scroll</code></td><td>Scroll page up or down</td><td>"Scroll down to see more"</td></tr>
+      <tr><td><code>browser_eval</code></td><td>Run JavaScript in the page</td><td>Advanced use cases</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warn-block">
+    <div class="warn-title">⚠️ Browser Limitations</div>
+    <p>The agent cannot bypass CAPTCHA or two-factor authentication. Pages that block automation tools (some banks, government sites) may not work. Logging into Gmail requires you to complete login manually once — the session is saved after that.</p>
+  </div>
+
+  <div class="founder-line">Prince Tanwar — Founder, Agentic Vnus</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── 11. GITHUB ── -->
+<section class="doc-section" id="github">
+  <div class="section-eyebrow">Integration</div>
+  <h2 class="doc-h2">GitHub Integration</h2>
+  <p>GitHub operations use the REST API directly — no git commands, no local git installation needed. Your token is stored locally in <code>~/.vnus-agent/github-state.json</code>.</p>
+
+  <h3 class="doc-h3">Setup</h3>
+  <p>Give the agent your GitHub token once:</p>
+  <pre><code>github_auth ghp_yourPersonalAccessToken</code></pre>
+  <p>Get a token from: GitHub → Settings → Developer Settings → Personal Access Tokens → Generate New Token → Select <code>repo</code> and <code>read:org</code> scopes.</p>
+
+  <h3 class="doc-h3">Supported Operations</h3>
+  <table class="doc-table">
+    <thead><tr><th>Operation</th><th>Example Command</th></tr></thead>
+    <tbody>
+      <tr><td>List repos</td><td>"Show all my GitHub repos"</td></tr>
+      <tr><td>Read file</td><td>"Read src/index.js from my-project repo"</td></tr>
+      <tr><td>Write file</td><td>"Update the README in my-repo"</td></tr>
+      <tr><td>Create repo</td><td>"Create a new private GitHub repo called my-app"</td></tr>
+      <tr><td>Create branch</td><td>"Create feature/login branch in my-repo"</td></tr>
+      <tr><td>Create PR</td><td>"Create a PR from feature/login to main"</td></tr>
+      <tr><td>List issues</td><td>"Show all open issues in my-repo"</td></tr>
+      <tr><td>Create issue</td><td>"Create an issue: Bug in auth flow"</td></tr>
+      <tr><td>Commit multiple files</td><td>"Commit these 3 files to main"</td></tr>
+      <tr><td>Search code</td><td>"Search for 'useAuth' in my-project"</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warn-block">
+    <div class="warn-title">⚠️ Token Security</div>
+    <p>Your GitHub token is stored in plain text locally. Never share your <code>~/.vnus-agent/</code> folder. If your token is compromised, revoke it immediately from GitHub Settings → Developer Settings → Personal Access Tokens.</p>
+  </div>
+
+  <div class="founder-line">Prince Tanwar — Founder, Agentic Vnus</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── 12. WARNINGS ── -->
+<section class="doc-section" id="warnings">
+  <div class="section-eyebrow">Important</div>
+  <h2 class="doc-h2" style="color:var(--red)">Warnings & Known Limitations</h2>
+
+  <div class="warn-block">
+    <div class="warn-title">⚠️ Small Models Make Mistakes</div>
+    <p>On 8 GB RAM, the agent uses Qwen 3.5 4B or Phi-4 Mini. These models are capable but not perfect. They may misunderstand complex multi-step commands, generate incorrect file paths, or choose wrong CSS selectors for browser tasks. If a command fails, rephrase it more specifically and try again.</p>
+  </div>
+
+  <div class="warn-block">
+    <div class="warn-title">⚠️ No Undo for Destructive Actions</div>
+    <p>The agent can delete files, run terminal commands, and push to GitHub. There is no confirmation step before these actions. Always verify your command before sending. Dangerous commands like <code>rm -rf /</code> or <code>format c:</code> are blocked, but be careful with delete commands.</p>
+  </div>
+
+  <div class="warn-block">
+    <div class="warn-title">⚠️ Internet Required for Setup</div>
+    <p>Ollama and AI models download from the internet on first setup. After that, the agent works completely offline. If your internet is slow, model downloads may take a long time — a 19 GB model takes ~1 hour on 50 Mbps.</p>
+  </div>
+
+  <div class="warn-block">
+    <div class="warn-title">⚠️ PC Performance During Inference</div>
+    <p>When the AI model processes your command, it uses significant CPU/RAM. Your PC may feel slower for 5–30 seconds per command depending on model size. This is normal. The 50% RAM rule reduces this impact.</p>
+  </div>
+
+  <div class="warn-block">
+    <div class="warn-title">⚠️ Gmail & Email Limitations</div>
+    <p>Email sending works through browser automation — the agent opens Gmail or Outlook and fills in the compose window. This requires the browser to be logged in. Direct SMTP email API is not yet supported (coming in a future update).</p>
+  </div>
+
+  <div class="warn-block">
+    <div class="warn-title">⚠️ CAPTCHA Cannot Be Bypassed</div>
+    <p>Any website that shows CAPTCHA during automation will block the agent. This includes some bank websites, government portals, and heavily protected login pages.</p>
+  </div>
+
+  <div class="warn-block">
+    <div class="warn-title">⚠️ Ollama Version Requirement</div>
+    <p>The agent requires Ollama v0.1.40 or later. If an older version is installed, the agent will automatically update it. This requires an internet connection and takes a few minutes.</p>
+  </div>
+
+  <div class="founder-line">Prince Tanwar — Founder, Agentic Vnus</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── 13. FAQ ── -->
+<section class="doc-section" id="faq">
+  <div class="section-eyebrow">FAQ</div>
+  <h2 class="doc-h2">Frequently Asked Questions</h2>
+
+  <h3 class="doc-h3">Does the agent work offline?</h3>
+  <p>Yes — after the first setup (Ollama + model download), everything runs offline. Your commands never reach any external server. The only internet usage after setup is fetching commands from Firestore (a few hundred bytes per poll) and GitHub API calls if you use GitHub features.</p>
+
+  <h3 class="doc-h3">Where does my data go?</h3>
+  <p>Commands you type are stored in Firestore temporarily (to relay them to your PC). AI processing happens entirely on your machine. Files you create, GitHub tokens, and memory are stored locally in <code>~/.vnus-agent/</code> and your userData folder — never on our servers.</p>
+
+  <h3 class="doc-h3">How do I reconnect after disconnect?</h3>
+  <p>Open the agent app — it will show your code again. Go to Dashboard → Add Workspace → enter the code. Your permanent code never changes as long as you're on the same machine.</p>
+
+  <h3 class="doc-h3">How do I delete a downloaded model?</h3>
+  <pre><code>ollama rm qwen3.5:4b</code></pre>
+  <p>Run this in Terminal / Command Prompt. Then reopen the agent — the model picker will appear again so you can download a different model.</p>
+
+  <h3 class="doc-h3">Can I use the agent on multiple PCs?</h3>
+  <p>Yes — each PC gets its own unique 10-character code. Add as many workspaces as your plan allows. Each workspace runs independently with its own model and memory.</p>
+
+  <h3 class="doc-h3">What happens if model download fails?</h3>
+  <p>The agent shows an error screen with the specific reason and a Retry button. Your plan stays active — just retry the download. If it keeps failing, check your internet connection and disk space (you need at least 2 GB more than the model size).</p>
+
+  <h3 class="doc-h3">Does the agent run in the background?</h3>
+  <p>Yes — it minimizes to the system tray. As long as the tray icon is visible, the agent is running and listening for commands. Close it by right-clicking the tray icon → Quit.</p>
+
+  <div class="founder-line">Prince Tanwar — Founder, Agentic Vnus</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── 14. ARCHITECTURE DEEP DIVE ── -->
+<section class="doc-section" id="architecture-deep">
+  <div class="section-eyebrow">Technical Reference</div>
+  <h2 class="doc-h2">Architecture Deep Dive</h2>
+  <p>For developers who want to understand exactly how the agent works internally.</p>
+
+  <h3 class="doc-h3">brain.js — The Core</h3>
+  <p>Every command goes through <code>brain.js</code>. It builds a system prompt that includes your memory context and available skills, sends it to Ollama, receives a JSON array of actions, and executes them one by one. If a browser action fails, execution continues with the next action rather than stopping.</p>
+
+  <pre><code>Command → buildSystemPrompt() → Ollama API call
+       → parseActions(text)   → executeActions(actions)
+       → extractLearnings()   → shouldCreateSkill()
+       → saveSession()</code></pre>
+
+  <h3 class="doc-h3">memory.js — Persistence Layer</h3>
+  <p>Reads and writes <code>~/.vnus-agent/memory.json</code>. The <code>buildMemoryPrompt()</code> function generates a formatted string that gets injected into every system prompt — so the AI always knows your name, preferences, corrections, and known paths without you repeating them.</p>
+
+  <h3 class="doc-h3">skills.js — Pattern Recognition</h3>
+  <p>After each successful task, <code>shouldCreateSkill()</code> checks if the command matches any of 5 built-in patterns (browser search, email, file creation, GitHub, app open). If a match is found after the minimum number of successful uses, <code>generateSkill()</code> creates a JSON file in <code>~/.vnus-agent/skills/</code>. Skills include trigger phrases, action templates, and success counts.</p>
+
+  <h3 class="doc-h3">ollamaManager.js — Model Lifecycle</h3>
+  <p>Handles the complete Ollama lifecycle: version check → install/update if needed → start server → check if model exists → pull if missing. Uses streaming pull API so download progress is shown in real time. Falls back to reinstall if the version is below <code>0.1.40</code>.</p>
+
+  <h3 class="doc-h3">listener.js — Command Polling</h3>
+  <p>Polls Firestore every 3 seconds using the REST API (no Firebase SDK in Electron — uses plain fetch). Uses a <code>Set</code> to track in-progress commands and avoid double-execution. Commands are executed asynchronously so the poll loop never blocks.</p>
+
+  <h3 class="doc-h3">Action Execution Priority</h3>
+  <pre><code>1. Browser actions (browser_*) — most reliable for web tasks
+2. PC control (open, click, type) — for native apps
+3. File operations (write_file, read_file) — always works
+4. GitHub API (github_*) — requires token
+5. Shell commands (run_command) — most powerful, use carefully</code></pre>
+
+  <div class="warn-block">
+    <div class="warn-title">⚠️ run_command Has No Sandbox</div>
+    <p>The <code>run_command</code> action runs any shell command with the permissions of the current user. Certain dangerous commands are blocklisted, but this action is powerful. Only use it when you trust the command being executed.</p>
+  </div>
+
+  <div class="founder-line">Prince Tanwar — Founder, Agentic Vnus</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Footer -->
+<div style="text-align:center;padding:20px 0 40px">
+  <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px">
+    <svg viewBox="0 0 32 32" fill="none" width="24" height="24">
+      <circle cx="16" cy="16" r="14" fill="#1a0505" stroke="#FF3B30" stroke-width="1.5"/>
+      <path d="M11 11C10 8 12 6 13 8 14 6 15 8 14 11Z" fill="#FF3B30"/>
+      <path d="M21 11C20 8 22 6 23 8 24 6 21 8 22 11Z" fill="#FF3B30"/>
+      <circle cx="13" cy="16" r="2" fill="#FF3B30"/>
+      <circle cx="19" cy="16" r="2" fill="#FF3B30"/>
+      <circle cx="13" cy="16" r="0.9" fill="#000"/>
+      <circle cx="19" cy="16" r="0.9" fill="#000"/>
+    </svg>
+    <span style="font-size:14px;font-weight:700;color:var(--white)">Agentic Vnus</span>
+  </div>
+  <p style="font-size:12px;color:var(--gray2)">Built by <strong style="color:var(--red)">Prince Tanwar</strong> — Founder, Agentic Vnus</p>
+  <p style="font-size:11px;color:#333;margin-top:4px">© 2026 Agentic Vnus. All rights reserved.</p>
+</div>
+
+</main>
+</div>
+
+<script>
+// Active nav on scroll
+const sections = document.querySelectorAll('.doc-section');
+const navLinks  = document.querySelectorAll('.nav-link');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+// Search filter
+const searchInput = document.getElementById('search-input');
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.toLowerCase();
+  if (!q) { sections.forEach(s => s.style.display = ''); return; }
+  sections.forEach(s => {
+    const text = s.textContent.toLowerCase();
+    s.style.display = text.includes(q) ? '' : 'none';
+  });
+});
+
+// Smooth nav click
+navLinks.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
