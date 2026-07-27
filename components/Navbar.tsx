@@ -12,7 +12,7 @@ const NAV_LINKS = [
   { label: "How It Works", href: "#how-it-works", modal: false },
   { label: "Skills",       href: "#skills",       modal: false },
   { label: "Pricing",      href: "#",             modal: true  },
-  { label: "Docs",         href: "#docs",         modal: false },
+  { label: "Docs",         href: "/docs.html",         modal: false },
 ];
 
 export default function Navbar() {
