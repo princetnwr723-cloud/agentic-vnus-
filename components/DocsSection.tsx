@@ -76,12 +76,11 @@ export default function DocsSection() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {DOCS.map((doc, i) => (
-          <a
+          <div
             key={doc.title}
-            href={doc.href}
-            ref={(el) => { cardRefs.current[i] = el as HTMLDivElement; }}
-            className="reveal glass-card rounded-xl p-6 group cursor-pointer block"
-            style={{ textDecoration: "none" }}
+            ref={(el) => { cardRefs.current[i] = el; }}
+            className="reveal glass-card rounded-xl p-6 group cursor-pointer"
+            onClick={() => { window.location.href = doc.href; }}
           >
             <div className="flex items-center gap-3 mb-4">
               <span
@@ -92,19 +91,17 @@ export default function DocsSection() {
               </span>
               <span className="text-gray-600 text-xs">{doc.date}</span>
             </div>
-
             <h3 className="text-white font-bold text-base mb-2 group-hover:text-[#FF3B30] transition-colors">
               {doc.title}
             </h3>
             <p className="text-gray-400 text-sm leading-relaxed">{doc.description}</p>
-
             <div className="flex items-center gap-1 mt-4 text-[#FF3B30] text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
               Read more
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </div>
-          </a>
+          </div>
         ))}
       </div>
     </section>
