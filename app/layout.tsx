@@ -38,7 +38,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Introducing Agentic Vnus 👹",
     description: "The AI demon that lives on your PC. No cloud. Launches August 15.",
-    images: ["https://agenticvnus.com/og-image.png"],
+    images: ["https://agentic-vnus.vercel.app/og-image.png"],
     creator: "@AgenticVnus",
   },
 };
