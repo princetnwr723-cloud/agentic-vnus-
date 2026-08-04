@@ -17,8 +17,12 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata = {
+  // 🔴 YEH LINE ZAROORI HAI:
+  metadataBase: new URL("https://agentic-vnus.vercel.app"),
+
   title: "Agentic Vnus — The AI Demon That Lives on Your PC",
   description: "Local AI agent. No cloud. No subscription. Self-improving. Launches August 15, 2026.",
+
   openGraph: {
     title: "Introducing Agentic Vnus 👹",
     description: "The AI demon that lives on your PC. No cloud. No data leaving. Launches August 15.",
@@ -26,7 +30,7 @@ export const metadata = {
     siteName: "Agentic Vnus",
     images: [
       {
-        url: "https://agentic-vnus.vercel.app/og-image.png",
+        url: "/og-image.png", // metadataBase ke sath relative path kaam karega
         width: 1200,
         height: 630,
         alt: "Agentic Vnus — Ready to Unleash the Demon?",
@@ -34,11 +38,12 @@ export const metadata = {
     ],
     type: "website",
   },
+
   twitter: {
     card: "summary_large_image",
     title: "Introducing Agentic Vnus 👹",
     description: "The AI demon that lives on your PC. No cloud. Launches August 15.",
-    images: ["https://agentic-vnus.vercel.app/og-image.png"],
+    images: ["/og-image.png"],
     creator: "@AgenticVnus",
   },
 };
