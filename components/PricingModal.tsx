@@ -23,7 +23,7 @@ const PLANS = [
     tagline:  "Start with local AI",
     badge:    null as string | null,
     features: [
-      "50 tasks / month",
+      "2.5 Million tokens/daily",
       "1 PC workspace connected",
       "Best model auto-picked for your RAM — e.g. Qwen 3.5 2B on 4GB, Qwen 3.5 9B on 16GB",
       "50% RAM rule: model always uses ≤ half your RAM so PC stays smooth",
@@ -39,7 +39,7 @@ const PLANS = [
     tagline:  "Bring your own API key",
     badge:    null as string | null,
     features: [
-      "250 tasks / month",
+      "5 Million tokens/daily",
       "2 PC workspaces",
       "Better models — Phi-4 Mini, DeepSeek R1 8B on 8GB+",
       "50% RAM rule applies — model auto-selected for your machine",
@@ -55,7 +55,7 @@ const PLANS = [
     tagline:  "No API key needed",
     badge:    "Best Value",
     features: [
-      "500 tasks / month",
+      "unlimited",
       "5 PC workspaces",
       "Qwen 3 30B MoE on 32GB RAM — 30B quality at 3B speed",
       "50% RAM rule: 16GB → Qwen 14B, 32GB → MoE kicks in automatically",
@@ -71,7 +71,7 @@ const PLANS = [
     tagline:  "Power users",
     badge:    null as string | null,
     features: [
-      "1,250 tasks / month",
+      "unlimited",
       "10 PC workspaces",
       "Qwen 3 Coder 30B + DeepSeek R1 32B on 32GB+ RAM",
       "50% RAM rule: 64GB+ unlocks Llama 3.3 70B automatically",
@@ -87,7 +87,7 @@ const PLANS = [
     tagline:  "Teams & agencies",
     badge:    "Enterprise",
     features: [
-      "5,000 tasks / month",
+      "Unlimited",
       "Unlimited PC workspaces",
       "Llama 3.3 70B Q4 on 64GB — GPT-4 Turbo quality locally",
       "50% RAM rule: 128GB unlocks the full Q8 model",
@@ -103,7 +103,7 @@ const PLANS = [
     tagline:  "No limits",
     badge:    "Max Power",
     features: [
-      "10,000 tasks / month — effectively unlimited",
+      "unlimited",
       "Unlimited workspaces + unlimited team seats",
       "Llama 3.1 405B Q2 on 128GB+ RAM — world-class local model",
       "50% RAM rule: 405B needs ~112GB free, 128GB+ machines only",
