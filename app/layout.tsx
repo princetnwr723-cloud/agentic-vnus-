@@ -17,7 +17,6 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata = {
-  // 🔴 YEH LINE ZAROORI HAI:
   metadataBase: new URL("https://agentic-vnus.vercel.app"),
 
   title: "Agentic Vnus — The AI Demon That Lives on Your PC",
@@ -28,22 +27,13 @@ export const metadata = {
     description: "The AI demon that lives on your PC. No cloud. No data leaving. Launches August 15.",
     url: "https://agentic-vnus.vercel.app",
     siteName: "Agentic Vnus",
-    images: [
-      {
-        url: "/og-image.png", // metadataBase ke sath relative path kaam karega
-        width: 1200,
-        height: 630,
-        alt: "Agentic Vnus — Ready to Unleash the Demon?",
-      },
-    ],
     type: "website",
   },
 
   twitter: {
-    card: "summary_large_image",
+    card: "summary_large_image", // Badi image dikhane ke liye mandatory hai
     title: "Introducing Agentic Vnus 👹",
     description: "The AI demon that lives on your PC. No cloud. Launches August 15.",
-    images: ["/og-image.png"],
     creator: "@AgenticVnus",
   },
 };
