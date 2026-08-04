@@ -26,7 +26,7 @@ export const metadata = {
     siteName: "Agentic Vnus",
     images: [
       {
-        url: "https://agenticvnus.com/og-image.png",
+        url: "https://agentic-vnus.vercel.app/og-image.png",
         width: 1200,
         height: 630,
         alt: "Agentic Vnus — Ready to Unleash the Demon?",
