@@ -22,7 +22,7 @@ export const metadata = {
   openGraph: {
     title: "Introducing Agentic Vnus 👹",
     description: "The AI demon that lives on your PC. No cloud. No data leaving. Launches August 15.",
-    url: "https://agenticvnus.com",
+    url: "https://agentic-vnus.vercel.app",
     siteName: "Agentic Vnus",
     images: [
       {
