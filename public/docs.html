@@ -5,122 +5,72 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Agentic Vnus — Documentation</title>
 <style>
-:root {
-  --bg:       #050505;
-  --bg2:      #0a0202;
-  --bg3:      #0f0303;
-  --surface:  rgba(255,255,255,0.04);
-  --surface2: rgba(255,255,255,0.07);
-  --border:   rgba(255,59,48,0.14);
-  --border2:  rgba(255,255,255,0.07);
-  --red:      #FF3B30;
-  --red-dim:  rgba(255,59,48,0.1);
-  --red-glow: rgba(255,59,48,0.22);
-  --white:    #ffffff;
-  --gray:     #9a9a9a;
-  --gray2:    #505050;
-  --sw:       260px;
-  --th:       56px;
+:root{
+  --bg:#050505;--bg2:#0a0202;--bg3:#0f0303;
+  --surface:rgba(255,255,255,0.04);--surface2:rgba(255,255,255,0.07);
+  --border:rgba(255,59,48,0.14);--border2:rgba(255,255,255,0.07);
+  --red:#FF3B30;--red-dim:rgba(255,59,48,0.1);--red-glow:rgba(255,59,48,0.22);
+  --white:#ffffff;--gray:#9a9a9a;--gray2:#505050;
+  --sw:262px;--th:56px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  background:var(--bg);color:var(--white);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  font-size:15px;line-height:1.7;overflow-x:hidden;
-}
-button,input,a{-webkit-app-region:no-drag}
+body{background:var(--bg);color:var(--white);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:15px;line-height:1.7;overflow-x:hidden}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 
-/* ── Topbar ── */
-.topbar{
-  position:fixed;top:0;left:0;right:0;height:var(--th);
-  background:rgba(5,5,5,0.94);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;padding:0 20px;gap:14px;z-index:100;
-}
+.topbar{position:fixed;top:0;left:0;right:0;height:var(--th);background:rgba(5,5,5,0.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:14px;z-index:100}
 .logo{display:flex;align-items:center;gap:9px;text-decoration:none}
-.logo-text{font-size:14px;font-weight:800;color:var(--white);letter-spacing:-0.01em}
-.logo-badge{
-  font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;
-  background:var(--red-dim);color:var(--red);border:1px solid var(--red-glow);
-  letter-spacing:0.1em;text-transform:uppercase;
-}
+.logo-text{font-size:14px;font-weight:800;color:var(--white)}
+.logo-badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--red-dim);color:var(--red);border:1px solid var(--red-glow);letter-spacing:0.1em;text-transform:uppercase}
 .topbar-sep{width:1px;height:22px;background:var(--border2)}
 .topbar-title{font-size:13px;color:var(--gray2)}
-.search-wrap{
-  margin-left:auto;display:flex;align-items:center;gap:8px;
-  background:var(--surface);border:1px solid var(--border2);
-  border-radius:8px;padding:6px 12px;
-}
+.search-wrap{margin-left:auto;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:6px 12px}
 .search-wrap:focus-within{border-color:var(--red)}
 .search-wrap input{background:none;border:none;outline:none;color:var(--white);font-size:13px;width:170px}
 .search-wrap input::placeholder{color:var(--gray2)}
 
-/* ── Layout ── */
 .layout{display:flex;margin-top:var(--th);min-height:calc(100vh - var(--th))}
 
-/* ── Sidebar ── */
-.sidebar{
-  width:var(--sw);flex-shrink:0;position:fixed;
-  top:var(--th);bottom:0;left:0;overflow-y:auto;
-  border-right:1px solid var(--border);background:var(--bg2);
-  padding:18px 0 40px;
-}
+.sidebar{width:var(--sw);flex-shrink:0;position:fixed;top:var(--th);bottom:0;left:0;overflow-y:auto;border-right:1px solid var(--border);background:var(--bg2);padding:18px 0 60px}
 .sidebar::-webkit-scrollbar{width:3px}
 .sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 .nav-group{margin-bottom:6px}
-.nav-label{
-  font-size:10px;font-weight:700;color:var(--gray2);
-  letter-spacing:0.1em;text-transform:uppercase;padding:8px 18px 3px;
-}
-.nav-link{
-  display:flex;align-items:center;gap:9px;padding:6px 18px;
-  font-size:13px;color:var(--gray);text-decoration:none;
-  border-left:2px solid transparent;transition:all 0.15s;cursor:pointer;
-}
+.nav-label{font-size:10px;font-weight:700;color:var(--gray2);letter-spacing:0.1em;text-transform:uppercase;padding:8px 18px 3px}
+.nav-link{display:flex;align-items:center;gap:9px;padding:6px 18px;font-size:13px;color:var(--gray);text-decoration:none;border-left:2px solid transparent;transition:all 0.15s;cursor:pointer}
 .nav-link:hover{color:var(--white);background:var(--surface)}
 .nav-link.active{color:var(--red);border-left-color:var(--red);background:var(--red-dim)}
 .nav-link .dot{width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0}
 .nav-icon{width:14px;height:14px;opacity:0.6;flex-shrink:0}
 .nav-link.active .nav-icon{opacity:1}
+.nav-new{font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);margin-left:auto}
 
-/* ── Content ── */
 .content{margin-left:var(--sw);flex:1;max-width:880px;padding:48px 52px 90px}
-
-/* ── Sections ── */
 .doc-section{margin-bottom:64px;scroll-margin-top:calc(var(--th) + 20px)}
 .eyebrow{font-size:11px;font-weight:600;color:var(--red);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px}
-h1.dh1{font-size:38px;font-weight:800;letter-spacing:-0.02em;line-height:1.13;margin-bottom:16px}
-h2.dh2{font-size:23px;font-weight:700;letter-spacing:-0.01em;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border2)}
-h3.dh3{font-size:15px;font-weight:600;margin:24px 0 10px;color:var(--white)}
+h1.dh1{font-size:36px;font-weight:800;letter-spacing:-0.02em;line-height:1.13;margin-bottom:16px}
+h2.dh2{font-size:22px;font-weight:700;letter-spacing:-0.01em;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border2)}
+h3.dh3{font-size:15px;font-weight:600;margin:22px 0 10px;color:var(--white)}
 p{color:#c0c0c0;margin-bottom:14px;line-height:1.78}
 p:last-child{margin-bottom:0}
-
-/* gradient text */
 .gt{background:linear-gradient(135deg,#FF6B5B,#FF3B30,#CC1A10);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
-/* ── Warn ── */
 .warn{background:rgba(255,59,48,0.07);border:1px solid rgba(255,59,48,0.28);border-left:3px solid var(--red);border-radius:9px;padding:14px 18px;margin:18px 0}
 .warn-title{font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;display:flex;align-items:center;gap:7px}
 .warn p{color:var(--red);margin:0;font-size:13px;line-height:1.65;opacity:0.9}
-
-/* ── Note ── */
 .note{background:var(--surface);border:1px solid var(--border2);border-left:3px solid rgba(96,165,250,0.5);border-radius:9px;padding:14px 18px;margin:18px 0}
 .note p{color:#aaa;font-size:13px;margin:0;line-height:1.65}
 
-/* ── Code ── */
 pre{background:#0c0c0c;border:1px solid var(--border2);border-radius:11px;padding:18px 20px;overflow-x:auto;margin:16px 0;font-family:"JetBrains Mono","Fira Code",monospace;font-size:13px;line-height:1.72;color:#e0e0e0}
 code{font-family:"JetBrains Mono","Fira Code",monospace;font-size:12.5px;background:rgba(255,255,255,0.08);border-radius:4px;padding:1px 6px;color:#ff9580}
 pre code{background:none;padding:0;color:#e0e0e0}
 
-/* ── Table ── */
 .dt{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
 .dt th{text-align:left;padding:9px 13px;font-size:11px;font-weight:600;color:var(--gray2);text-transform:uppercase;letter-spacing:0.07em;border-bottom:1px solid var(--border2)}
 .dt td{padding:9px 13px;border-bottom:1px solid rgba(255,255,255,0.04);color:#c0c0c0;vertical-align:top}
 .dt tr:last-child td{border-bottom:none}
 .dt tr:hover td{background:var(--surface)}
 
-/* ── Chips ── */
 .chip{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:600}
 .chip-r{background:rgba(255,59,48,0.12);color:var(--red);border:1px solid rgba(255,59,48,0.25)}
 .chip-g{background:rgba(74,222,128,0.1);color:#4ade80;border:1px solid rgba(74,222,128,0.2)}
@@ -128,7 +78,6 @@ pre code{background:none;padding:0;color:#e0e0e0}
 .chip-y{background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.2)}
 .chip-x{background:rgba(255,255,255,0.07);color:#777;border:1px solid rgba(255,255,255,0.12)}
 
-/* ── Cards ── */
 .card-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:16px 0}
 .card{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:18px;transition:border-color 0.2s}
 .card:hover{border-color:var(--red)}
@@ -136,7 +85,6 @@ pre code{background:none;padding:0;color:#e0e0e0}
 .card-title{font-size:14px;font-weight:600;margin-bottom:5px;color:var(--white)}
 .card-body{font-size:13px;color:var(--gray);line-height:1.6}
 
-/* ── Steps ── */
 .steps{list-style:none;margin:16px 0}
 .steps li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
 .steps li:last-child{border-bottom:none}
@@ -144,13 +92,11 @@ pre code{background:none;padding:0;color:#e0e0e0}
 .step-title{font-size:14px;font-weight:600;color:var(--white);margin-bottom:3px}
 .step-desc{font-size:13px;color:var(--gray);line-height:1.6}
 
-/* ── Arch flow ── */
 .flow{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:20px 0;background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:20px}
 .flow-box{padding:7px 13px;border-radius:8px;font-size:12px;font-weight:600;background:var(--bg3);border:1px solid var(--border2);color:var(--white);text-align:center;white-space:nowrap}
 .flow-box.r{border-color:var(--red);color:var(--red);background:var(--red-dim)}
 .flow-arr{color:var(--gray2);font-size:17px;flex-shrink:0}
 
-/* ── RAM tiers ── */
 .rtier{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:14px 17px;margin:9px 0}
 .rtier-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
 .rtier-label{font-size:13px;font-weight:600;color:var(--white)}
@@ -158,71 +104,84 @@ pre code{background:none;padding:0;color:#e0e0e0}
 .rtier-models{font-size:12px;color:var(--gray);line-height:1.7}
 .rtier-warn{font-size:12px;color:var(--red);margin-top:4px}
 
-/* ── Pricing card ── */
-.plan-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px;margin:16px 0}
-.plan-card{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:20px;position:relative;overflow:hidden;transition:border-color 0.2s}
-.plan-card:hover{border-color:rgba(255,59,48,0.35)}
-.plan-card.featured{border-color:var(--red);background:rgba(255,59,48,0.05)}
-.plan-top-line{position:absolute;top:0;left:0;right:0;height:2px}
-.plan-badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:0.08em;display:inline-block;margin-bottom:10px}
-.plan-name{font-size:17px;font-weight:800;color:var(--white);margin-bottom:4px}
-.plan-tagline{font-size:11px;color:var(--gray);margin-bottom:12px}
-.plan-price{font-size:30px;font-weight:900;color:var(--white);line-height:1}
-.plan-mo{font-size:12px;color:var(--gray2);margin-left:2px}
-.plan-divider{height:1px;background:var(--border2);margin:14px 0}
-.plan-feat{list-style:none;display:flex;flex-direction:column;gap:8px}
-.plan-feat li{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:#b0b0b0;line-height:1.5}
-.plan-feat li svg{flex-shrink:0;margin-top:2px}
+/* Cron section styles */
+.cron-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.cron-card{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:16px;transition:all 0.2s;position:relative;overflow:hidden}
+.cron-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent);transform:scaleX(0);transition:transform 0.3s}
+.cron-card:hover::before{transform:scaleX(1)}
+.cron-card:hover{border-color:rgba(255,59,48,0.25)}
+.cron-card-icon{width:32px;height:32px;border-radius:8px;background:var(--red-dim);border:1px solid var(--red-glow);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.cron-card-title{font-size:13px;font-weight:700;color:var(--white);margin-bottom:4px}
+.cron-card-desc{font-size:12px;color:var(--gray);line-height:1.55}
 
-/* ── Why pay ── */
-.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
-.why-card{background:var(--surface);border:1px solid var(--border2);border-radius:11px;padding:16px;display:flex;gap:12px;align-items:flex-start}
-.why-icon{width:32px;height:32px;border-radius:8px;background:var(--red-dim);border:1px solid var(--red-glow);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.why-title{font-size:13px;font-weight:600;color:var(--white);margin-bottom:4px}
-.why-desc{font-size:12px;color:var(--gray);line-height:1.55}
+.cron-demo{background:#0a0a0a;border:1px solid var(--border2);border-radius:12px;overflow:hidden;margin:16px 0}
+.cron-demo-header{background:rgba(255,255,255,0.03);padding:10px 16px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border2)}
+.cron-demo-dot{width:10px;height:10px;border-radius:50%}
+.cron-demo-title{font-size:11px;color:var(--gray);margin-left:6px}
+.cron-demo-body{padding:16px}
+.cron-row{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;margin-bottom:6px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);transition:all 0.2s}
+.cron-row:last-child{margin-bottom:0}
+.cron-row:hover{border-color:rgba(255,59,48,0.2);background:rgba(255,59,48,0.03)}
+.cron-dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;animation:cp 2s ease-in-out infinite}
+@keyframes cp{0%,100%{box-shadow:0 0 0 0 rgba(255,59,48,.6)}50%{box-shadow:0 0 0 5px rgba(255,59,48,0)}}
+.cron-time{font-size:11px;color:var(--red);font-weight:700;white-space:nowrap;min-width:120px;font-family:"JetBrains Mono",monospace}
+.cron-cmd{font-size:12px;color:#aaa;font-family:"JetBrains Mono",monospace}
+.cron-tag{font-size:10px;padding:2px 7px;border-radius:10px;background:rgba(255,59,48,0.1);color:var(--red);margin-left:auto;flex-shrink:0}
 
-/* ── Launch badge ── */
-.launch-banner{
-  padding:20px 24px;border-radius:14px;margin:20px 0;
-  background:linear-gradient(135deg,rgba(255,59,48,0.1),rgba(204,26,16,0.06));
-  border:1px solid rgba(255,59,48,0.3);
-  display:flex;align-items:center;gap:16px;
-}
-.launch-dot{width:10px;height:10px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;flex-shrink:0}
-.launch-text{font-size:14px;font-weight:700;color:var(--white)}
-.launch-sub{font-size:12px;color:var(--gray);margin-top:3px}
+.vs-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:16px 0}
+.vs-card{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:16px}
+.vs-card.winner{border-color:var(--red);background:rgba(255,59,48,0.04)}
+.vs-name{font-size:13px;font-weight:700;margin-bottom:8px}
+.vs-score{font-size:28px;font-weight:800;line-height:1}
+.vs-score.av{color:#FF3B30}
+.vs-score.oc{color:#f97316}
+.vs-score.hm{color:#4ade80}
+.vs-note{font-size:11px;color:var(--gray);margin-top:6px}
 
-/* ── Founder ── */
+/* Plan grid */
+.plan-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.plan-card{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:16px;position:relative;overflow:hidden}
+.plan-card.featured{border-color:var(--red);background:rgba(255,59,48,0.04)}
+.plan-top{position:absolute;top:0;left:0;right:0;height:2px}
+.plan-name{font-size:15px;font-weight:800;color:var(--white);margin-bottom:3px}
+.plan-price{font-size:24px;font-weight:900;color:var(--white)}
+.plan-mo{font-size:11px;color:var(--gray);margin-left:2px}
+.plan-div{height:1px;background:var(--border2);margin:10px 0}
+.plan-feats{list-style:none;display:flex;flex-direction:column;gap:6px}
+.plan-feats li{display:flex;gap:7px;align-items:flex-start;font-size:12px;color:#aaa;line-height:1.5}
+
+/* Updates section */
+.update-card{margin:20px 0;background:var(--surface);border-radius:14px;padding:24px;position:relative;overflow:hidden}
+.update-card.u1{border:1px solid rgba(251,191,36,0.2);border-left:3px solid #fbbf24}
+.update-card.u2{border:1px solid rgba(255,59,48,0.2);border-left:3px solid var(--red)}
+.update-card.u3{border:1px solid rgba(74,222,128,0.2);border-left:3px solid #4ade80}
+.update-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.update-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em}
+.update-title{font-size:16px;font-weight:700;color:var(--white);margin-bottom:8px}
+.update-desc{font-size:13px;color:var(--gray);line-height:1.65;margin-bottom:14px}
+.update-feats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.update-feat{background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:8px;padding:10px 12px}
+.update-feat-title{font-size:12px;font-weight:600;color:var(--white);margin-bottom:3px}
+.update-feat-desc{font-size:11px;color:var(--gray);line-height:1.5}
+
 .founder{margin-top:28px;padding-top:14px;border-top:1px solid var(--border2);font-size:12px;color:var(--gray2)}
 .founder strong{color:var(--red)}
-
-/* ── Divider ── */
 .div{height:1px;background:var(--border2);margin:44px 0}
 
-/* ── Mobile ── */
-@media(max-width:768px){
-  .sidebar{display:none}
-  .content{margin-left:0;padding:24px 20px 60px}
-  .card-grid,.plan-grid,.why-grid{grid-template-columns:1fr}
-  h1.dh1{font-size:28px}
-  .flow{flex-direction:column;align-items:flex-start}
-}
+.launch-banner{padding:18px 22px;border-radius:12px;margin:20px 0;background:linear-gradient(135deg,rgba(255,59,48,0.08),rgba(204,26,16,0.04));border:1px solid rgba(255,59,48,0.25);display:flex;align-items:center;gap:14px}
+.launch-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px #4ade80;flex-shrink:0;animation:ld 2s ease-in-out infinite}
+@keyframes ld{0%,100%{opacity:1}50%{opacity:0.4}}
+.launch-text{font-size:14px;font-weight:700;color:var(--white)}
+.launch-sub{font-size:12px;color:var(--gray);margin-top:2px}
+
+@media(max-width:768px){.sidebar{display:none}.content{margin-left:0;padding:24px 20px 60px}.card-grid,.cron-grid,.vs-grid,.plan-row,.update-feats{grid-template-columns:1fr}h1.dh1{font-size:26px}.flow{flex-direction:column;align-items:flex-start}}
 </style>
 </head>
 <body>
 
-<!-- Topbar -->
 <header class="topbar">
   <a class="logo" href="#">
-    <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-      <circle cx="16" cy="16" r="14" fill="#1a0505" stroke="#FF3B30" stroke-width="1.5"/>
-      <path d="M11 11C10 8 12 6 13 8 14 6 15 8 14 11Z" fill="#FF3B30"/>
-      <path d="M21 11C20 8 22 6 23 8 24 6 21 8 22 11Z" fill="#FF3B30"/>
-      <circle cx="13" cy="16" r="2.2" fill="#FF3B30"/>
-      <circle cx="19" cy="16" r="2.2" fill="#FF3B30"/>
-      <circle cx="13" cy="16" r="1" fill="#000"/>
-      <circle cx="19" cy="16" r="1" fill="#000"/>
-    </svg>
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#1a0505" stroke="#FF3B30" stroke-width="1.5"/><path d="M11 11C10 8 12 6 13 8 14 6 15 8 14 11Z" fill="#FF3B30"/><path d="M21 11C20 8 22 6 23 8 24 6 21 8 22 11Z" fill="#FF3B30"/><circle cx="13" cy="16" r="2.2" fill="#FF3B30"/><circle cx="19" cy="16" r="2.2" fill="#FF3B30"/><circle cx="13" cy="16" r="1" fill="#000"/><circle cx="19" cy="16" r="1" fill="#000"/></svg>
     <span class="logo-text">Agentic Vnus</span>
     <span class="logo-badge">Docs</span>
   </a>
@@ -235,983 +194,488 @@ pre code{background:none;padding:0;color:#e0e0e0}
 </header>
 
 <div class="layout">
-
-<!-- Sidebar -->
 <nav class="sidebar">
-
-  <div class="nav-group">
-    <div class="nav-label">What's Coming</div>
-    <a class="nav-link" href="#updates" style="color:#fbbf24">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      Updates — Aug 20
-    </a>
-  </div>
-
   <div class="nav-group">
     <div class="nav-label">Getting Started</div>
-    <a class="nav-link active" href="#intro">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Introduction
-    </a>
-    <a class="nav-link" href="#quickstart">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-      Quick Start
-    </a>
-    <a class="nav-link" href="#how-it-works">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
-      How It Works
-    </a>
+    <a class="nav-link active" href="#intro"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Introduction</a>
+    <a class="nav-link" href="#quickstart"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>Quick Start</a>
+    <a class="nav-link" href="#how-it-works"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>How It Works</a>
   </div>
-
   <div class="nav-group">
     <div class="nav-label">Plans</div>
-    <a class="nav-link" href="#plans">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-      Plans & Pricing
-    </a>
+    <a class="nav-link" href="#plans"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Plans & Pricing</a>
   </div>
-
   <div class="nav-group">
     <div class="nav-label">AI Models</div>
-    <a class="nav-link" href="#models">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      All Models
-    </a>
-    <a class="nav-link" href="#ram-rule">
-      <span class="dot"></span>
-      RAM Rule
-    </a>
-    <a class="nav-link" href="#vision">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-      Vision Models
-    </a>
+    <a class="nav-link" href="#models"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>All Models</a>
+    <a class="nav-link" href="#ram-rule"><span class="dot"></span>RAM Rule</a>
+    <a class="nav-link" href="#vision"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Vision Models</a>
   </div>
-
   <div class="nav-group">
     <div class="nav-label">Features</div>
-    <a class="nav-link" href="#memory">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
-      Memory System
-    </a>
-    <a class="nav-link" href="#skills">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      Self-Improving Skills
-    </a>
-    <a class="nav-link" href="#browser">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-      Browser Control
-    </a>
-    <a class="nav-link" href="#github">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-      Code Repository
-    </a>
-    <a class="nav-link" href="#security">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      Security
-    </a>
+    <a class="nav-link" href="#memory"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>Memory System</a>
+    <a class="nav-link" href="#skills"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Self-Improving Skills</a>
+    <a class="nav-link" href="#scheduler"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Scheduler <span class="nav-new">NEW</span></a>
+    <a class="nav-link" href="#browser"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Browser Control</a>
+    <a class="nav-link" href="#github"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77"/></svg>Code Repository</a>
+    <a class="nav-link" href="#security"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Security</a>
   </div>
-
   <div class="nav-group">
     <div class="nav-label">Reference</div>
-    <a class="nav-link" href="#warnings">
-      <span class="dot"></span>
-      Warnings
-    </a>
-    <a class="nav-link" href="#faq">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      FAQ
-    </a>
-    <a class="nav-link" href="#arch">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-      Architecture
-    </a>
+    <a class="nav-link" href="#warnings"><span class="dot"></span>Warnings</a>
+    <a class="nav-link" href="#faq"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>FAQ</a>
+    <a class="nav-link" href="#arch"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Architecture</a>
   </div>
-
+  <div class="nav-group">
+    <div class="nav-label" style="color:#fbbf24">Coming Soon</div>
+    <a class="nav-link" href="#updates" style="color:#fbbf24"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Updates — Aug 20</a>
+  </div>
 </nav>
 
-<!-- Content -->
 <main class="content">
 
-<!-- ── UPDATES ── -->
-<section class="doc-section" id="updates">
-  <div class="eyebrow">Roadmap</div>
-  <h2 class="dh2">Upcoming Updates <span style="font-size:14px;font-weight:600;color:#fbbf24;margin-left:8px">— Arriving August 20, 2026</span></h2>
-  <p>Three major updates shipping on August 20. Every subscribed user gets these automatically — no reinstall, no action required.</p>
-
-  <!-- Update 1 — Mobile -->
-  <div style="margin:24px 0;background:var(--surface);border:1px solid rgba(251,191,36,0.2);border-left:3px solid #fbbf24;border-radius:12px;padding:22px 24px;position:relative;overflow:hidden">
-    <div style="position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle at top right,rgba(251,191,36,0.06),transparent 70%);pointer-events:none"></div>
-    <div style="display:flex;align-items:flex-start;gap:16px">
-      <div style="width:42px;height:42px;border-radius:11px;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round">
-          <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
-        </svg>
-      </div>
-      <div style="flex:1">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-          <span style="font-size:11px;font-weight:700;color:#fbbf24;text-transform:uppercase;letter-spacing:0.08em;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);padding:2px 8px;border-radius:20px">Update 01</span>
-          <span style="font-size:11px;color:#555">August 20, 2026</span>
-        </div>
-        <h3 style="font-size:17px;font-weight:700;color:#fff;margin-bottom:8px">Native Mobile App — Android & iOS</h3>
-        <p style="color:#aaa;font-size:13px;line-height:1.7;margin-bottom:12px">
-          Control your PC from anywhere — from your phone. The native mobile app brings the full Agentic Vnus experience to Android and iOS, with a redesigned touch interface built for small screens.
-        </p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:8px;padding:10px 12px">
-            <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">Remote PC Control</div>
-            <div style="font-size:11px;color:#666;line-height:1.5">Send commands to your PC from your phone, anywhere in the world. Agent executes instantly.</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:8px;padding:10px 12px">
-            <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">Live View on Mobile</div>
-            <div style="font-size:11px;color:#666;line-height:1.5">See your PC screen in real time through the app. Watch the agent work as you send it tasks.</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:8px;padding:10px 12px">
-            <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">Push Notifications</div>
-            <div style="font-size:11px;color:#666;line-height:1.5">Get notified the moment a task completes, a permission is needed, or an error occurs.</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:8px;padding:10px 12px">
-            <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">Voice Commands</div>
-            <div style="font-size:11px;color:#666;line-height:1.5">Speak to your agent — mobile mic input transcribed and sent as a command automatically.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Update 2 — Claude Integration -->
-  <div style="margin:20px 0;background:var(--surface);border:1px solid rgba(255,59,48,0.2);border-left:3px solid var(--red);border-radius:12px;padding:22px 24px;position:relative;overflow:hidden">
-    <div style="position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle at top right,rgba(255,59,48,0.06),transparent 70%);pointer-events:none"></div>
-    <div style="display:flex;align-items:flex-start;gap:16px">
-      <div style="width:42px;height:42px;border-radius:11px;background:var(--red-dim);border:1px solid var(--red-glow);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2" stroke-linecap="round">
-          <circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
-        </svg>
-      </div>
-      <div style="flex:1">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-          <span style="font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:0.08em;background:var(--red-dim);border:1px solid var(--red-glow);padding:2px 8px;border-radius:20px">Update 02</span>
-          <span style="font-size:11px;color:#555">August 20, 2026</span>
-        </div>
-        <h3 style="font-size:17px;font-weight:700;color:#fff;margin-bottom:8px">Claude Integration — Max Performance for Coding & Reasoning</h3>
-        <p style="color:#aaa;font-size:13px;line-height:1.7;margin-bottom:12px">
-          For tasks where local models hit their limits — complex multi-file code, deep reasoning chains, architecture decisions — Pro Max and above plans gain optional access to frontier AI models. Your agent automatically routes coding and reasoning tasks to the most capable model available for your plan, then executes the result locally on your PC.
-        </p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:8px;padding:10px 12px">
-            <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">Smart Task Routing</div>
-            <div style="font-size:11px;color:#666;line-height:1.5">Simple tasks stay local — fast and free. Complex code or multi-step reasoning routes to frontier models automatically.</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:8px;padding:10px 12px">
-            <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">Execution Stays Local</div>
-            <div style="font-size:11px;color:#666;line-height:1.5">Planning happens in the cloud, execution happens on your PC. Files, commands, and results never leave your machine.</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:8px;padding:10px 12px">
-            <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">Coding Benchmark Jump</div>
-            <div style="font-size:11px;color:#666;line-height:1.5">Complex multi-file projects, debugging, and architecture tasks reach near-perfect accuracy with frontier model planning.</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:8px;padding:10px 12px">
-            <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">Pro Max & Above</div>
-            <div style="font-size:11px;color:#666;line-height:1.5">Available as an optional add-on from Pro Max tier. Toggle on/off per session — use only when you need the extra power.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Update 3 — Skill Marketplace -->
-  <div style="margin:20px 0;background:var(--surface);border:1px solid rgba(74,222,128,0.2);border-left:3px solid #4ade80;border-radius:12px;padding:22px 24px;position:relative;overflow:hidden">
-    <div style="position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle at top right,rgba(74,222,128,0.05),transparent 70%);pointer-events:none"></div>
-    <div style="display:flex;align-items:flex-start;gap:16px">
-      <div style="width:42px;height:42px;border-radius:11px;background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-        </svg>
-      </div>
-      <div style="flex:1">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-          <span style="font-size:11px;font-weight:700;color:#4ade80;text-transform:uppercase;letter-spacing:0.08em;background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.2);padding:2px 8px;border-radius:20px">Update 03</span>
-          <span style="font-size:11px;color:#555">August 20, 2026</span>
-        </div>
-        <h3 style="font-size:17px;font-weight:700;color:#fff;margin-bottom:8px">Open Skill Marketplace — Build, Share & Earn</h3>
-        <p style="color:#aaa;font-size:13px;line-height:1.7;margin-bottom:12px">
-          The agent learns from your usage — but now it can also learn from the community. The Skill Marketplace launches as an open platform where users publish their best automation workflows, and other users install them in one tap. Creators earn from every install of their paid skills.
-        </p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:8px;padding:10px 12px">
-            <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">One-Tap Install</div>
-            <div style="font-size:11px;color:#666;line-height:1.5">Browse verified skill packs — Gmail automation, Notion workflows, GitHub pipelines. Install any in one tap.</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:8px;padding:10px 12px">
-            <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">Publish & Earn</div>
-            <div style="font-size:11px;color:#666;line-height:1.5">Publish your skills publicly or as paid downloads. Earn a share of every install from other users.</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:8px;padding:10px 12px">
-            <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">Community Verified</div>
-            <div style="font-size:11px;color:#666;line-height:1.5">All published skills are reviewed for safety before listing. Ratings and usage counts visible before installing.</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:8px;padding:10px 12px">
-            <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:3px">Auto-Sync Updates</div>
-            <div style="font-size:11px;color:#666;line-height:1.5">Installed skills update automatically when the creator ships improvements — always running the latest version.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="note" style="margin-top:8px">
-    <p>All three updates arrive simultaneously on August 20, 2026. Active subscribers on any paid plan receive them automatically. No reinstall, no manual update — your agent updates itself.</p>
-  </div>
-  <div class="founder">Prince Tanwar — Founder, Agentic Vnus</div>
-</section>
-<div class="div"></div>
-
-<!-- ── INTRO ── -->
+<!-- INTRO -->
 <section class="doc-section" id="intro">
-  <div style="position:relative">
-    <div style="position:absolute;top:0;left:0;right:0;height:280px;background:radial-gradient(ellipse 70% 60% at 40% 0%,rgba(255,59,48,0.08) 0%,transparent 70%);pointer-events:none"></div>
-    <div class="eyebrow">Overview</div>
-    <h1 class="dh1">Agentic Vnus<br><span class="gt">Documentation</span></h1>
-    <p style="font-size:17px;color:#b0b0b0;max-width:580px">
-      A self-improving AI agent that runs entirely on your PC. Local intelligence, persistent memory, zero cloud dependency — and it gets better every time you use it.
-    </p>
+  <div class="eyebrow">Overview</div>
+  <h1 class="dh1">Agentic Vnus<br><span class="gt">Documentation</span></h1>
+  <p style="font-size:17px;color:#b0b0b0;max-width:580px">A self-improving AI agent that runs entirely on your PC. Local intelligence, persistent memory, zero cloud dependency — and it gets better every time you use it.</p>
 
-    <div class="launch-banner" style="margin-top:24px">
-      <div class="launch-dot"></div>
-      <div>
-        <div class="launch-text">Agent is Live & Ready</div>
-        <div class="launch-sub">All core systems operational — memory, skills, browser control, code repository integration, security</div>
-      </div>
-    </div>
+  <div class="launch-banner">
+    <div class="launch-dot"></div>
+    <div><div class="launch-text">Agent is Live — Launching August 15, 2026</div><div class="launch-sub">All core systems operational — memory, skills, browser, scheduler, security</div></div>
+  </div>
 
-    <div class="card-grid" style="margin-top:20px">
-      <div class="card">
-        <div class="card-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <div class="card-title">100% Private</div>
-        <div class="card-body">Every command, every file, every action stays on your machine. Nothing leaves your PC.</div>
-      </div>
-      <div class="card">
-        <div class="card-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
-        </div>
-        <div class="card-title">Gets Smarter Daily</div>
-        <div class="card-body">Remembers your preferences. Saves successful task patterns. Gets faster at your repeated work.</div>
-      </div>
-      <div class="card">
-        <div class="card-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-        </div>
-        <div class="card-title">Full PC Control</div>
-        <div class="card-body">Opens apps, controls the browser, manages files, runs code, pushes to your repositories.</div>
-      </div>
-      <div class="card">
-        <div class="card-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        </div>
-        <div class="card-title">Works Offline</div>
-        <div class="card-body">After first setup, no internet needed. AI runs locally on your hardware — forever.</div>
-      </div>
-    </div>
+  <div class="card-grid" style="margin-top:20px">
+    <div class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="card-title">100% Private</div><div class="card-body">All AI runs on your machine. Commands, files, data — nothing leaves your PC.</div></div>
+    <div class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><div class="card-title">Gets Smarter Daily</div><div class="card-body">Remembers preferences. Saves task patterns as skills. Gets faster with every use.</div></div>
+    <div class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="card-title">Background Automation</div><div class="card-body">Schedule tasks to run while you sleep. 6 trigger types. Visual UI. Zero cloud.</div></div>
+    <div class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div class="card-title">Works Offline</div><div class="card-body">After first setup, no internet needed. AI runs on your hardware forever.</div></div>
   </div>
   <div class="founder">Built by <strong>Prince Tanwar</strong> — Founder, Agentic Vnus</div>
 </section>
 <div class="div"></div>
 
-<!-- ── QUICK START ── -->
+<!-- QUICK START -->
 <section class="doc-section" id="quickstart">
   <div class="eyebrow">Quick Start</div>
   <h2 class="dh2">Get Running in 10 Minutes</h2>
-  <p>From download to your first command — here's everything in order.</p>
   <ul class="steps">
-    <li>
-      <div class="step-n">1</div>
-      <div>
-        <div class="step-title">Download & Install</div>
-        <div class="step-desc">Download the installer for your OS from your dashboard. Run it — the installer handles everything automatically, including closing any previous version.</div>
-      </div>
-    </li>
-    <li>
-      <div class="step-n">2</div>
-      <div>
-        <div class="step-title">Copy Your Connection Code</div>
-        <div class="step-desc">A splash screen opens showing your permanent 10-character code. This code is tied to your machine — same PC always gets the same code.</div>
-      </div>
-    </li>
-    <li>
-      <div class="step-n">3</div>
-      <div>
-        <div class="step-title">Connect on Dashboard</div>
-        <div class="step-desc">Go to your dashboard → Add Workspace → paste the code → Connect. Your PC is now linked to your account.</div>
-      </div>
-    </li>
-    <li>
-      <div class="step-n">4</div>
-      <div>
-        <div class="step-title">Choose Your Plan</div>
-        <div class="step-desc">Free activates immediately. Paid plans activate automatically after payment — no manual steps.</div>
-      </div>
-    </li>
-    <li>
-      <div class="step-n">5</div>
-      <div>
-        <div class="step-title">Download Your AI Model</div>
-        <div class="step-desc">The app detects your RAM and recommends the best model. Click Download — the AI engine installs automatically. Large models (6–19GB) take a few minutes on first download only.</div>
-      </div>
-    </li>
-    <li>
-      <div class="step-n">6</div>
-      <div>
-        <div class="step-title">Start Commanding</div>
-        <div class="step-desc">Workspace opens. Type your first command — "Open Chrome and search for AI news" or "Create a Python script on Desktop". Agent executes it on your PC.</div>
-      </div>
-    </li>
+    <li><div class="step-n">1</div><div><div class="step-title">Download & Install</div><div class="step-desc">Download for your OS from dashboard. Installer handles everything automatically including closing previous versions.</div></div></li>
+    <li><div class="step-n">2</div><div><div class="step-title">Copy Your Connection Code</div><div class="step-desc">Splash screen shows your permanent 10-character code tied to your machine. Same PC always gets the same code.</div></div></li>
+    <li><div class="step-n">3</div><div><div class="step-title">Connect on Dashboard</div><div class="step-desc">Dashboard → Add Workspace → paste code → Connect. Your PC is now linked to your account via real-time WebSocket.</div></div></li>
+    <li><div class="step-n">4</div><div><div class="step-title">Choose Your Plan</div><div class="step-desc">Free activates immediately. Paid plans activate automatically after payment — no manual steps needed.</div></div></li>
+    <li><div class="step-n">5</div><div><div class="step-title">Download Your AI Model</div><div class="step-desc">App detects your RAM and recommends the best model. Download once — runs offline forever after that.</div></div></li>
+    <li><div class="step-n">6</div><div><div class="step-title">Start Commanding</div><div class="step-desc">Type a command — "Open Chrome and search for AI news" or "Create a Python script on Desktop". Agent executes on your PC.</div></div></li>
   </ul>
-  <div class="warn">
-    <div class="warn-title">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      One-Time Download Only
-    </div>
-    <p>The AI engine and model download once. After that, everything runs offline — no internet needed for any command.</p>
-  </div>
+  <div class="warn"><div class="warn-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>One-Time Download Only</div><p>AI engine and model download once. After that, everything runs fully offline — no internet needed for any command.</p></div>
   <div class="founder">Prince Tanwar — Founder, Agentic Vnus</div>
 </section>
 <div class="div"></div>
 
-<!-- ── HOW IT WORKS ── -->
+<!-- HOW IT WORKS -->
 <section class="doc-section" id="how-it-works">
   <div class="eyebrow">Architecture</div>
   <h2 class="dh2">How It Works</h2>
-  <p>Agentic Vnus runs as a desktop application on your PC. When you type a command on the website, it's relayed to your PC through a secure real-time channel. A local AI model reads the command, plans a sequence of actions, and executes them on your machine.</p>
-
+  <p>Agentic Vnus runs as a desktop app on your PC. Commands from your browser reach the agent via Firebase Realtime Database WebSocket — instant delivery, zero polling. Local AI processes the command, plans actions, executes them.</p>
   <h3 class="dh3">Request Flow</h3>
   <div class="flow">
-    <div class="flow-box r">You type a command</div>
-    <div class="flow-arr">→</div>
-    <div class="flow-box">Secure cloud relay</div>
-    <div class="flow-arr">→</div>
-    <div class="flow-box r">Desktop agent (polls every 3s)</div>
-    <div class="flow-arr">→</div>
-    <div class="flow-box">Local AI model</div>
-    <div class="flow-arr">→</div>
-    <div class="flow-box r">Actions on your PC</div>
-    <div class="flow-arr">→</div>
+    <div class="flow-box r">You type command</div><div class="flow-arr">→</div>
+    <div class="flow-box">Realtime WebSocket</div><div class="flow-arr">→</div>
+    <div class="flow-box r">Agent receives instantly</div><div class="flow-arr">→</div>
+    <div class="flow-box">Local AI plans actions</div><div class="flow-arr">→</div>
+    <div class="flow-box r">Executes on PC</div><div class="flow-arr">→</div>
     <div class="flow-box">Result back to you</div>
   </div>
-
   <h3 class="dh3">Core Principles</h3>
   <table class="dt">
     <thead><tr><th>Principle</th><th>What It Means</th></tr></thead>
     <tbody>
-      <tr><td><strong>Local-first</strong></td><td>All AI inference runs on your hardware. Your data never reaches any external AI server.</td></tr>
-      <tr><td><strong>Self-improving</strong></td><td>Every successful task trains a skill. Every session builds memory. The agent gets better with every use.</td></tr>
-      <tr><td><strong>Permission-gated</strong></td><td>Dangerous operations (file deletion, shell commands) pause and ask your approval before executing.</td></tr>
-      <tr><td><strong>Resilient</strong></td><td>If the AI produces an invalid response, it retries up to 3 times automatically before reporting failure.</td></tr>
-      <tr><td><strong>Task-aware</strong></td><td>The agent detects whether a task is code, browser, file, or reasoning work — and adjusts its approach accordingly.</td></tr>
+      <tr><td><strong>Local-first</strong></td><td>All AI inference on your hardware. Data never reaches external AI servers.</td></tr>
+      <tr><td><strong>Self-improving</strong></td><td>Every successful task trains a skill. Every session builds memory. Agent improves with every use.</td></tr>
+      <tr><td><strong>Permission-gated</strong></td><td>Dangerous operations pause and ask your approval before executing.</td></tr>
+      <tr><td><strong>Resilient</strong></td><td>If AI produces invalid response, retries up to 3 times automatically.</td></tr>
+      <tr><td><strong>Task-aware</strong></td><td>Detects coding vs browser vs file vs reasoning tasks and adjusts approach accordingly.</td></tr>
+      <tr><td><strong>Zero-polling</strong></td><td>Realtime WebSocket — commands arrive instantly. No 3-second delay.</td></tr>
     </tbody>
   </table>
   <div class="founder">Prince Tanwar — Founder, Agentic Vnus</div>
 </section>
 <div class="div"></div>
 
-<!-- ── PLANS ── -->
+<!-- PLANS -->
 <section class="doc-section" id="plans">
   <div class="eyebrow">Pricing</div>
   <h2 class="dh2">Plans & Pricing</h2>
-  <p>Your plan determines which AI models you can access and how many tasks you can run per month. All plans run the AI locally on your PC — nothing changes about privacy regardless of tier.</p>
-
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px;margin:16px 0">
-
-    <!-- Free -->
-    <div class="plan-card">
-      <div class="plan-top-line" style="background:linear-gradient(to right,transparent,#6b7280,transparent)"></div>
-      <div class="plan-name">Free</div>
-      <div class="plan-tagline">Start exploring</div>
-      <div class="plan-price">$0</div>
-      <div class="plan-divider"></div>
-      <ul class="plan-feat">
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>50 tasks / month</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>1 PC workspace</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Up to 4B model</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Community support</li>
-      </ul>
-    </div>
-
-    <!-- Starter -->
-    <div class="plan-card">
-      <div class="plan-top-line" style="background:linear-gradient(to right,transparent,#60a5fa,transparent)"></div>
-      <div class="plan-name" style="color:#60a5fa">Starter</div>
-      <div class="plan-tagline">Bring your own key</div>
-      <div><span class="plan-price">$5</span><span class="plan-mo">/mo</span></div>
-      <div class="plan-divider"></div>
-      <ul class="plan-feat">
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>250 tasks / month</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>2 PC workspaces</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Up to 8B model</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Vision mode optional</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>All 6 built-in skills</li>
-      </ul>
-    </div>
-
-    <!-- Pro -->
-    <div class="plan-card featured">
-      <div class="plan-top-line" style="background:linear-gradient(to right,transparent,#FF3B30,transparent)"></div>
-      <span class="plan-badge chip-r">Best Value</span>
-      <div class="plan-name">Pro</div>
-      <div class="plan-tagline">No API key needed</div>
-      <div><span class="plan-price">$29</span><span class="plan-mo">/mo</span></div>
-      <div class="plan-divider"></div>
-      <ul class="plan-feat">
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>500 tasks / month</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>5 PC workspaces</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Up to 30B MoE model</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Vision mode available</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Skill Marketplace access</li>
-      </ul>
-    </div>
-
-    <!-- Pro Max -->
-    <div class="plan-card">
-      <div class="plan-top-line" style="background:linear-gradient(to right,transparent,#f97316,transparent)"></div>
-      <div class="plan-name" style="color:#f97316">Pro Max</div>
-      <div class="plan-tagline">Power users</div>
-      <div><span class="plan-price">$60</span><span class="plan-mo">/mo</span></div>
-      <div class="plan-divider"></div>
-      <ul class="plan-feat">
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>1,250 tasks / month</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>10 PC workspaces</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Up to 32B model + Coder</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Task scheduler</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Analytics dashboard</li>
-      </ul>
-    </div>
-
-    <!-- Elite -->
-    <div class="plan-card">
-      <div class="plan-top-line" style="background:linear-gradient(to right,transparent,#a855f7,transparent)"></div>
-      <span class="plan-badge chip-b" style="background:rgba(168,85,247,0.12);color:#a855f7;border-color:rgba(168,85,247,0.3)">Enterprise</span>
-      <div class="plan-name" style="color:#a855f7">Elite</div>
-      <div class="plan-tagline">Teams & agencies</div>
-      <div><span class="plan-price">$499</span><span class="plan-mo">/mo</span></div>
-      <div class="plan-divider"></div>
-      <ul class="plan-feat">
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>5,000 tasks / month</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Unlimited workspaces</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Up to 70B model</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>10 team seats + 99.9% SLA</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Vision always on</li>
-      </ul>
-    </div>
-
-    <!-- Elite Ultra -->
-    <div class="plan-card">
-      <div class="plan-top-line" style="background:linear-gradient(to right,transparent,#ec4899,transparent)"></div>
-      <span class="plan-badge" style="background:rgba(236,72,153,0.12);color:#ec4899;border:1px solid rgba(236,72,153,0.3)">Max Power</span>
-      <div class="plan-name" style="color:#ec4899">Elite Ultra</div>
-      <div class="plan-tagline">No limits</div>
-      <div><span class="plan-price">$999</span><span class="plan-mo">/mo</span></div>
-      <div class="plan-divider"></div>
-      <ul class="plan-feat">
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>10,000 tasks / month</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Unlimited workspaces + seats</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Up to 405B model</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>White-label branding</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Dedicated account manager</li>
-      </ul>
-    </div>
-
+  <p>Your plan determines which AI models you access and how many tasks per month. All plans run AI locally — privacy is identical across all tiers.</p>
+  <div class="plan-row">
+    <div class="plan-card"><div class="plan-top" style="background:linear-gradient(to right,transparent,#6b7280,transparent)"></div><div class="plan-name">Free</div><div>$<span class="plan-price">0</span></div><div class="plan-div"></div><ul class="plan-feats"><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>50 tasks/month</li><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>1 workspace</li><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Up to 4B model</li></ul></div>
+    <div class="plan-card"><div class="plan-top" style="background:linear-gradient(to right,transparent,#60a5fa,transparent)"></div><div class="plan-name" style="color:#60a5fa">Starter</div><div><span class="plan-price">$5</span><span class="plan-mo">/mo</span></div><div class="plan-div"></div><ul class="plan-feats"><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>250 tasks/month</li><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>2 workspaces</li><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Up to 8B model</li></ul></div>
+    <div class="plan-card featured"><div class="plan-top" style="background:linear-gradient(to right,transparent,#FF3B30,transparent)"></div><div style="font-size:9px;font-weight:700;color:var(--red);background:var(--red-dim);border:1px solid var(--red-glow);padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:8px">BEST VALUE</div><div class="plan-name">Pro</div><div><span class="plan-price">$29</span><span class="plan-mo">/mo</span></div><div class="plan-div"></div><ul class="plan-feats"><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>500 tasks/month</li><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>5 workspaces</li><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Up to 30B MoE model</li><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Scheduler access</li></ul></div>
+    <div class="plan-card"><div class="plan-top" style="background:linear-gradient(to right,transparent,#f97316,transparent)"></div><div class="plan-name" style="color:#f97316">Pro Max</div><div><span class="plan-price">$60</span><span class="plan-mo">/mo</span></div><div class="plan-div"></div><ul class="plan-feats"><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>1,250 tasks/month</li><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>10 workspaces</li><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Up to 32B + Coder</li></ul></div>
+    <div class="plan-card"><div class="plan-top" style="background:linear-gradient(to right,transparent,#a855f7,transparent)"></div><div class="plan-name" style="color:#a855f7">Elite</div><div><span class="plan-price">$499</span><span class="plan-mo">/mo</span></div><div class="plan-div"></div><ul class="plan-feats"><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>5,000 tasks/month</li><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Unlimited workspaces</li><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Up to 70B model</li></ul></div>
+    <div class="plan-card"><div class="plan-top" style="background:linear-gradient(to right,transparent,#ec4899,transparent)"></div><div class="plan-name" style="color:#ec4899">Elite Ultra</div><div><span class="plan-price">$999</span><span class="plan-mo">/mo</span></div><div class="plan-div"></div><ul class="plan-feats"><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>10,000 tasks/month</li><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Unlimited + white-label</li><li><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Up to 405B model</li></ul></div>
   </div>
-
-  <h3 class="dh3">Why We Charge a Monthly Subscription</h3>
-  <p>Your plan is a service subscription — not a one-time software purchase. Here is exactly what your payment funds:</p>
-
-  <div class="why-grid">
-    <div class="why-card">
-      <div class="why-icon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-      </div>
-      <div>
-        <div class="why-title">Continuous AI Model Updates</div>
-        <div class="why-desc">As better open-source models release, we test, optimize, and make them available to your agent — automatically, with no action from you.</div>
-      </div>
-    </div>
-    <div class="why-card">
-      <div class="why-icon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      </div>
-      <div>
-        <div class="why-title">Security Infrastructure</div>
-        <div class="why-desc">Real-time command relay, authentication, permission systems, and encrypted communication are maintained and improved every month.</div>
-      </div>
-    </div>
-    <div class="why-card">
-      <div class="why-icon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-      </div>
-      <div>
-        <div class="why-title">New Skill Categories</div>
-        <div class="why-desc">Email automation, calendar scheduling, app integrations, and new built-in skill packs are shipped regularly to subscribed users.</div>
-      </div>
-    </div>
-    <div class="why-card">
-      <div class="why-icon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
-      </div>
-      <div>
-        <div class="why-title">Memory & Intelligence Upgrades</div>
-        <div class="why-desc">The memory and self-improving skills systems receive algorithmic updates — your agent's ability to learn and retain improves over time.</div>
-      </div>
-    </div>
-    <div class="why-card">
-      <div class="why-icon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      </div>
-      <div>
-        <div class="why-title">Multi-Platform Support</div>
-        <div class="why-desc">Windows, macOS Intel, macOS Apple Silicon, and Linux — all platforms maintained, tested, and updated with every release.</div>
-      </div>
-    </div>
-    <div class="why-card">
-      <div class="why-icon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-      </div>
-      <div>
-        <div class="why-title">Priority Support & Feature Requests</div>
-        <div class="why-desc">Paid subscribers get direct access to the team. Your requests shape what we build next — this is a product built with its users, not just for them.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="note" style="margin-top:20px">
-    <p>All plans include: monthly billing, cancel anytime, no setup fees, no hidden costs. The AI model itself is free — it runs on your own hardware.</p>
-  </div>
+  <div class="note"><p>Your plan is a service subscription — it funds continuous AI model updates, new skill categories, security infrastructure, and multi-platform support. Cancel anytime. No setup fees.</p></div>
   <div class="founder">Prince Tanwar — Founder, Agentic Vnus</div>
 </section>
 <div class="div"></div>
 
-<!-- ── MODELS ── -->
+<!-- MODELS -->
 <section class="doc-section" id="models">
   <div class="eyebrow">AI Models</div>
   <h2 class="dh2">All Available Models</h2>
-  <p>18 main models + 4 vision models. The agent automatically selects the best one for your available RAM. You can also pick manually in the setup screen.</p>
-
-  <h3 class="dh3">Tiny — 2–4 GB RAM required</h3>
-  <table class="dt">
-    <thead><tr><th>Model</th><th>Size</th><th>Best For</th><th>Quality</th></tr></thead>
-    <tbody>
-      <tr><td>0.8B Nano</td><td>0.5 GB</td><td>Simple commands, file ops</td><td><span class="chip chip-x">Basic</span></td></tr>
-      <tr><td>2B Standard</td><td>1.5 GB</td><td>Daily tasks, instructions</td><td><span class="chip chip-x">Good</span></td></tr>
-      <tr><td>4B Thinking ⚡</td><td>2.5 GB</td><td>Step-by-step reasoning, 256K context</td><td><span class="chip chip-b">Good+</span></td></tr>
-      <tr><td>4B Mini</td><td>2.5 GB</td><td>Math, reasoning, code basics</td><td><span class="chip chip-b">Good+</span></td></tr>
-    </tbody>
-  </table>
-
-  <h3 class="dh3">Small — 8 GB RAM required</h3>
-  <table class="dt">
-    <thead><tr><th>Model</th><th>Size</th><th>Best For</th><th>Quality</th></tr></thead>
-    <tbody>
-      <tr><td>9B All-Rounder ⭐</td><td>6.0 GB</td><td>Coding, browser tasks, GitHub</td><td><span class="chip chip-g">Great</span></td></tr>
-      <tr><td>8B Reasoning 🧠</td><td>4.7 GB</td><td>Chain-of-thought, debugging, analysis</td><td><span class="chip chip-g">Great</span></td></tr>
-    </tbody>
-  </table>
-
-  <h3 class="dh3">Medium — 12–16 GB RAM required</h3>
-  <table class="dt">
-    <thead><tr><th>Model</th><th>Size</th><th>Best For</th><th>Quality</th></tr></thead>
-    <tbody>
-      <tr><td>14B Coder 💻</td><td>9.0 GB</td><td>Dedicated coding, all languages</td><td><span class="chip chip-g">Excellent</span></td></tr>
-      <tr><td>14B General 🔥</td><td>9.0 GB</td><td>All-rounder, 262K context window</td><td><span class="chip chip-g">Excellent</span></td></tr>
-      <tr><td>14B Reasoning 🧠</td><td>9.0 GB</td><td>Complex multi-step tasks</td><td><span class="chip chip-g">Excellent</span></td></tr>
-    </tbody>
-  </table>
-
-  <h3 class="dh3">Large — 22–32 GB RAM required</h3>
-  <table class="dt">
-    <thead><tr><th>Model</th><th>Size</th><th>Special</th></tr></thead>
-    <tbody>
-      <tr><td>27B Advanced 🔥</td><td>16 GB</td><td>77.2% on coding benchmarks</td></tr>
-      <tr><td>30B MoE 🌟</td><td>19 GB</td><td>30B quality at 3B speed — mixture-of-experts architecture</td></tr>
-      <tr><td>30B Coder 💻🌟</td><td>19 GB</td><td>Best local coding model 2026</td></tr>
-      <tr><td>32B Reasoning 🧠</td><td>19 GB</td><td>World-class chain-of-thought</td></tr>
-    </tbody>
-  </table>
-
-  <h3 class="dh3">XL & Ultra — 48–128 GB RAM required</h3>
-  <table class="dt">
-    <thead><tr><th>Model</th><th>Size</th><th>RAM Needed</th></tr></thead>
-    <tbody>
-      <tr><td>70B Efficient ⭐</td><td>29 GB</td><td>32 GB+</td></tr>
-      <tr><td>70B Balanced 🔥</td><td>40 GB</td><td>48 GB+</td></tr>
-      <tr><td>70B Reasoning 🧠</td><td>42 GB</td><td>48 GB+</td></tr>
-      <tr><td>70B Full Quality 👑</td><td>75 GB</td><td>80 GB+</td></tr>
-      <tr><td>405B Ultra 👑</td><td>108 GB</td><td>112 GB+</td></tr>
-    </tbody>
-  </table>
-
+  <p>18 main models + 4 vision models. Agent auto-selects the best one for your RAM. Pick manually in the setup screen.</p>
+  <h3 class="dh3">Tiny — 2–4 GB RAM</h3>
+  <table class="dt"><thead><tr><th>Model</th><th>Size</th><th>Best For</th><th>Quality</th></tr></thead><tbody>
+    <tr><td>0.8B Nano</td><td>0.5 GB</td><td>Simple commands, file ops</td><td><span class="chip chip-x">Basic</span></td></tr>
+    <tr><td>2B Standard</td><td>1.5 GB</td><td>Daily tasks, instructions</td><td><span class="chip chip-x">Good</span></td></tr>
+    <tr><td>4B Thinking ⚡</td><td>2.5 GB</td><td>Step-by-step reasoning, 256K context</td><td><span class="chip chip-b">Good+</span></td></tr>
+    <tr><td>4B Mini</td><td>2.5 GB</td><td>Math, reasoning, code basics</td><td><span class="chip chip-b">Good+</span></td></tr>
+  </tbody></table>
+  <h3 class="dh3">Small — 8 GB RAM</h3>
+  <table class="dt"><thead><tr><th>Model</th><th>Size</th><th>Best For</th><th>Quality</th></tr></thead><tbody>
+    <tr><td>9B All-Rounder ⭐</td><td>6.0 GB</td><td>Coding, browser tasks, GitHub</td><td><span class="chip chip-g">Great</span></td></tr>
+    <tr><td>8B Reasoning 🧠</td><td>4.7 GB</td><td>Chain-of-thought, debugging</td><td><span class="chip chip-g">Great</span></td></tr>
+  </tbody></table>
+  <h3 class="dh3">Medium — 12–16 GB RAM</h3>
+  <table class="dt"><thead><tr><th>Model</th><th>Size</th><th>Best For</th></tr></thead><tbody>
+    <tr><td>14B Coder 💻</td><td>9.0 GB</td><td>Dedicated coding, all languages</td></tr>
+    <tr><td>14B General 🔥</td><td>9.0 GB</td><td>All-rounder, 262K context window</td></tr>
+    <tr><td>14B Reasoning 🧠</td><td>9.0 GB</td><td>Complex multi-step tasks</td></tr>
+  </tbody></table>
+  <h3 class="dh3">Large — 22–48 GB RAM</h3>
+  <table class="dt"><thead><tr><th>Model</th><th>Size</th><th>Special</th></tr></thead><tbody>
+    <tr><td>27B Advanced 🔥</td><td>16 GB</td><td>77.2% on coding benchmarks</td></tr>
+    <tr><td>30B MoE 🌟</td><td>19 GB</td><td>30B quality at 3B speed — mixture-of-experts</td></tr>
+    <tr><td>30B Coder 💻🌟</td><td>19 GB</td><td>Best local coding model 2026</td></tr>
+    <tr><td>32B Reasoning 🧠</td><td>19 GB</td><td>World-class chain-of-thought</td></tr>
+  </tbody></table>
+  <h3 class="dh3">XL & Ultra — 64–128 GB RAM</h3>
+  <table class="dt"><thead><tr><th>Model</th><th>Size</th><th>RAM Needed</th></tr></thead><tbody>
+    <tr><td>70B Efficient ⭐</td><td>29 GB</td><td>32 GB+</td></tr>
+    <tr><td>70B Balanced 🔥</td><td>40 GB</td><td>48 GB+</td></tr>
+    <tr><td>70B Full Quality 👑</td><td>75 GB</td><td>80 GB+</td></tr>
+    <tr><td>405B Ultra 👑</td><td>108 GB</td><td>112 GB+</td></tr>
+  </tbody></table>
   <div class="founder">Prince Tanwar — Founder, Agentic Vnus</div>
 </section>
 <div class="div"></div>
 
-<!-- ── RAM RULE ── -->
+<!-- RAM RULE -->
 <section class="doc-section" id="ram-rule">
   <div class="eyebrow">Critical Rule</div>
   <h2 class="dh2">The 50% RAM Rule</h2>
-
-  <div class="warn">
-    <div class="warn-title">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      This Rule Always Applies — No Exceptions
-    </div>
-    <p>The AI model must use no more than 50% of your total RAM. This keeps your PC running smoothly while the agent works. The app enforces this automatically — you cannot override it.</p>
-  </div>
-
-  <p>Your plan unlocks which models exist — but your RAM determines which ones actually run. A Pro plan user on 8GB RAM gets the same model as a Free plan user on 8GB RAM.</p>
-
-  <div class="rtier">
-    <div class="rtier-h"><span class="rtier-label">4 GB RAM</span><span class="rtier-size">Max model: 2 GB</span></div>
-    <div class="rtier-models">Best fit: <strong>0.8B Nano</strong> — simple commands only</div>
-    <div class="rtier-warn">⚠️ Very limited. Upgrade your RAM for meaningful results.</div>
-  </div>
-  <div class="rtier">
-    <div class="rtier-h"><span class="rtier-label">8 GB RAM</span><span class="rtier-size">Max model: 4 GB</span></div>
-    <div class="rtier-models">Best fit: <strong>4B Thinking</strong> (2.5 GB) or <strong>4B Mini</strong> (2.5 GB)</div>
-    <div class="rtier-warn">⚠️ 8B and 9B models will NOT run — they exceed 4GB limit.</div>
-  </div>
-  <div class="rtier">
-    <div class="rtier-h"><span class="rtier-label">16 GB RAM</span><span class="rtier-size">Max model: 8 GB</span></div>
-    <div class="rtier-models">Best fit: <strong>9B All-Rounder</strong> (6 GB) or <strong>8B Reasoning</strong> (4.7 GB)</div>
-    <div class="rtier-warn">⚠️ 14B models (9 GB) will NOT run on 16 GB.</div>
-  </div>
-  <div class="rtier">
-    <div class="rtier-h"><span class="rtier-label">32 GB RAM</span><span class="rtier-size">Max model: 16 GB</span></div>
-    <div class="rtier-models">Best fit: <strong>14B Coder</strong>, <strong>14B General</strong>, <strong>14B Reasoning</strong> — all at 9 GB</div>
-  </div>
-  <div class="rtier">
-    <div class="rtier-h"><span class="rtier-label">48 GB RAM</span><span class="rtier-size">Max model: 24 GB</span></div>
-    <div class="rtier-models">Best fit: <strong>30B MoE</strong> (19 GB), <strong>30B Coder</strong> (19 GB), <strong>32B Reasoning</strong> (19 GB)</div>
-  </div>
-  <div class="rtier">
-    <div class="rtier-h"><span class="rtier-label">64 GB RAM</span><span class="rtier-size">Max model: 32 GB</span></div>
-    <div class="rtier-models">Best fit: <strong>70B Efficient</strong> (29 GB)</div>
-  </div>
-  <div class="rtier">
-    <div class="rtier-h"><span class="rtier-label">128 GB RAM</span><span class="rtier-size">Max model: 64+ GB</span></div>
-    <div class="rtier-models">Best fit: <strong>70B Full Quality</strong> (75 GB), <strong>405B Ultra</strong> (108 GB)</div>
-  </div>
-
-  <div class="warn" style="margin-top:20px">
-    <div class="warn-title">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      Vision Adds Extra RAM Usage
-    </div>
-    <p>Enabling vision mode loads a second model (2.5–7.2 GB) alongside your main model. The agent checks if both fit before enabling it. On low-RAM machines, close other apps before enabling vision.</p>
-  </div>
+  <div class="warn"><div class="warn-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Always Applies — No Exceptions</div><p>AI model must use no more than 50% of your total RAM. The app enforces this automatically. Your plan unlocks models — your RAM determines which actually run.</p></div>
+  <div class="rtier"><div class="rtier-h"><span class="rtier-label">8 GB RAM</span><span class="rtier-size">Max model: 4 GB</span></div><div class="rtier-models">Best: <strong>4B Thinking</strong> (2.5 GB) or <strong>4B Mini</strong> (2.5 GB)</div><div class="rtier-warn">⚠️ 8B and 9B models will NOT run</div></div>
+  <div class="rtier"><div class="rtier-h"><span class="rtier-label">16 GB RAM</span><span class="rtier-size">Max model: 8 GB</span></div><div class="rtier-models">Best: <strong>9B All-Rounder</strong> (6 GB) or <strong>8B Reasoning</strong> (4.7 GB)</div><div class="rtier-warn">⚠️ 14B models (9 GB) will NOT run on 16 GB</div></div>
+  <div class="rtier"><div class="rtier-h"><span class="rtier-label">32 GB RAM</span><span class="rtier-size">Max model: 16 GB</span></div><div class="rtier-models">Best: <strong>14B Coder</strong>, <strong>14B General</strong>, <strong>14B Reasoning</strong> — all at 9 GB</div></div>
+  <div class="rtier"><div class="rtier-h"><span class="rtier-label">48 GB RAM</span><span class="rtier-size">Max model: 24 GB</span></div><div class="rtier-models">Best: <strong>30B MoE</strong> (19 GB), <strong>30B Coder</strong> (19 GB), <strong>32B Reasoning</strong> (19 GB)</div></div>
+  <div class="rtier"><div class="rtier-h"><span class="rtier-label">64 GB+ RAM</span><span class="rtier-size">Max model: 32+ GB</span></div><div class="rtier-models">Best: <strong>70B Efficient</strong> (29 GB) — GPT-4 Turbo level quality</div></div>
   <div class="founder">Prince Tanwar — Founder, Agentic Vnus</div>
 </section>
 <div class="div"></div>
 
-<!-- ── VISION ── -->
+<!-- VISION -->
 <section class="doc-section" id="vision">
   <div class="eyebrow">Vision</div>
   <h2 class="dh2">Vision Models</h2>
-  <p>Vision models let the agent see your screen before acting. This dramatically improves accuracy on UI tasks — clicking the right button, filling the right field, reading on-screen data.</p>
-  <table class="dt">
-    <thead><tr><th>Model</th><th>Size</th><th>Min RAM</th><th>Plan</th><th>Strength</th></tr></thead>
-    <tbody>
-      <tr><td>Lightweight Vision 👁️</td><td>2.5 GB</td><td>4 GB</td><td><span class="chip chip-x">Free+</span></td><td>Best OCR, UI element reading</td></tr>
-      <tr><td>Fast Vision 👁️</td><td>3.5 GB</td><td>6 GB</td><td><span class="chip chip-b">Starter+</span></td><td>Quick screen understanding, 128K context</td></tr>
-      <tr><td>Full Vision 👁️</td><td>5.5 GB</td><td>8 GB</td><td><span class="chip chip-g">Pro+</span></td><td>Complex UI analysis, screenshot reading</td></tr>
-      <tr><td>High-Quality Vision 👁️</td><td>7.2 GB</td><td>10 GB</td><td><span class="chip chip-r">Elite</span></td><td>Highest accuracy, best for dense interfaces</td></tr>
-    </tbody>
-  </table>
+  <p>Vision models let the agent see your screen before acting — dramatically improves accuracy on UI tasks, clicking the right button, reading on-screen data.</p>
+  <table class="dt"><thead><tr><th>Model</th><th>Size</th><th>Min RAM</th><th>Plan</th><th>Strength</th></tr></thead><tbody>
+    <tr><td>Lightweight Vision 👁️</td><td>2.5 GB</td><td>4 GB</td><td><span class="chip chip-x">Free+</span></td><td>Best OCR, UI reading</td></tr>
+    <tr><td>Fast Vision 👁️</td><td>3.5 GB</td><td>6 GB</td><td><span class="chip chip-b">Starter+</span></td><td>Screen understanding, 128K context</td></tr>
+    <tr><td>Full Vision 👁️</td><td>5.5 GB</td><td>8 GB</td><td><span class="chip chip-g">Pro+</span></td><td>Complex UI, screenshot analysis</td></tr>
+    <tr><td>High-Quality Vision 👁️</td><td>7.2 GB</td><td>10 GB</td><td><span class="chip chip-r">Elite</span></td><td>Highest accuracy</td></tr>
+  </tbody></table>
+  <div class="warn"><div class="warn-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Vision Uses Extra RAM</div><p>Vision model loads alongside your main model. Agent checks if both fit before enabling. On low-RAM machines, close other apps before enabling vision.</p></div>
   <div class="founder">Prince Tanwar — Founder, Agentic Vnus</div>
 </section>
 <div class="div"></div>
 
-<!-- ── MEMORY ── -->
+<!-- MEMORY -->
 <section class="doc-section" id="memory">
   <div class="eyebrow">Learning System</div>
   <h2 class="dh2">Memory System</h2>
-  <p>The agent saves what it learns about you across sessions. This memory lives entirely on your PC — never on any server. Every session, it's loaded into the AI's context automatically.</p>
+  <p>Agent saves what it learns about you across sessions. This memory lives entirely on your PC — never on any server. Every session, it loads into AI context automatically.</p>
   <div class="card-grid">
-    <div class="card">
-      <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-      <div class="card-title">User Preferences</div>
-      <div class="card-body">Preferred browser, editor, default save location. Learned automatically — never ask again after the first time.</div>
-    </div>
-    <div class="card">
-      <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
-      <div class="card-title">Saved Facts</div>
-      <div class="card-body">Up to 50 facts — repository names, project paths, account details. Recalled automatically when relevant.</div>
-    </div>
-    <div class="card">
-      <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg></div>
-      <div class="card-title">Corrections</div>
-      <div class="card-body">When you correct the agent, it remembers what went wrong and avoids repeating the same mistake in future sessions.</div>
-    </div>
-    <div class="card">
-      <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-      <div class="card-title">Session History</div>
-      <div class="card-body">Last 100 sessions saved locally. The agent can search past sessions — "what did I do last week?" works.</div>
-    </div>
+    <div class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="card-title">User Preferences</div><div class="card-body">Browser, editor, save location. Learned automatically — never repeat yourself.</div></div>
+    <div class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div><div class="card-title">Saved Facts</div><div class="card-body">Up to 50 facts — repo names, project paths, account details. Recalled when relevant.</div></div>
+    <div class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg></div><div class="card-title">Corrections</div><div class="card-body">When you correct the agent, it remembers and avoids repeating the same mistake.</div></div>
+    <div class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg></div><div class="card-title">Session History</div><div class="card-body">Last 100 sessions saved locally. Search past sessions — "what did I work on last week?"</div></div>
   </div>
   <div class="founder">Prince Tanwar — Founder, Agentic Vnus</div>
 </section>
 <div class="div"></div>
 
-<!-- ── SKILLS ── -->
+<!-- SKILLS -->
 <section class="doc-section" id="skills">
   <div class="eyebrow">Self-Improvement</div>
   <h2 class="dh2">Self-Improving Skills</h2>
-  <p>Every time you complete a task successfully, the agent analyzes the pattern. If it detects something repeatable, it saves a skill file. Next time you ask for the same type of task, the skill runs directly — no AI planning step needed, which makes it instant.</p>
+  <p>Every successful task gets analyzed. If a repeatable pattern is detected, a skill file is saved. Next time you ask for the same task — the skill runs directly. No AI planning step, no wait. Instant.</p>
   <ul class="steps">
-    <li>
-      <div class="step-n">1</div>
-      <div>
-        <div class="step-title">Task completed successfully</div>
-        <div class="step-desc">Example: "Open Chrome and search for Python tutorials" — browser opens, navigates, searches.</div>
-      </div>
-    </li>
-    <li>
-      <div class="step-n">2</div>
-      <div>
-        <div class="step-title">Pattern detected</div>
-        <div class="step-desc">Agent checks whether this matches a known pattern — browser task, email, file creation, code repository operation.</div>
-      </div>
-    </li>
-    <li>
-      <div class="step-n">3</div>
-      <div>
-        <div class="step-title">Skill file saved</div>
-        <div class="step-desc">A skill is stored locally with trigger phrases, action steps, and a success counter.</div>
-      </div>
-    </li>
-    <li>
-      <div class="step-n">4</div>
-      <div>
-        <div class="step-title">Future tasks run faster</div>
-        <div class="step-desc">Matching commands use the proven skill pattern instead of asking the AI to re-plan from scratch. Skills also self-heal — if a website changes its layout, the skill detects the failure and re-learns automatically.</div>
-      </div>
-    </li>
+    <li><div class="step-n">1</div><div><div class="step-title">Task completed successfully</div><div class="step-desc">Agent executes "Open Chrome and search AI news" — browser opens, navigates, searches.</div></div></li>
+    <li><div class="step-n">2</div><div><div class="step-title">Pattern detected</div><div class="step-desc">Agent checks if this matches a learnable pattern — browser task, email, file creation, GitHub op.</div></div></li>
+    <li><div class="step-n">3</div><div><div class="step-title">Skill file saved locally</div><div class="step-desc">JSON skill stored with trigger phrases, action steps, success counter.</div></div></li>
+    <li><div class="step-n">4</div><div><div class="step-title">Future tasks run instantly</div><div class="step-desc">Matching commands use proven skill pattern — no AI re-planning. Skills self-heal if website layout changes.</div></div></li>
   </ul>
   <div class="founder">Prince Tanwar — Founder, Agentic Vnus</div>
 </section>
 <div class="div"></div>
 
-<!-- ── BROWSER ── -->
+<!-- SCHEDULER — MOST DETAILED SECTION -->
+<section class="doc-section" id="scheduler">
+  <div class="eyebrow">Background Automation</div>
+  <h2 class="dh2">Scheduler — Why It's Better Than Anything Else</h2>
+
+  <p>No other local AI agent has a visual scheduler. OpenClaw has no scheduling at all — it only works interactively. Hermes has a basic CLI cron file with no UI, no history, no retry logic. We built a complete background automation engine from scratch — visual, powerful, and unique in the market.</p>
+
+  <!-- Comparison -->
+  <div class="vs-grid" style="margin:20px 0">
+    <div class="vs-card winner">
+      <div class="vs-name" style="color:var(--red)">Agentic Vnus</div>
+      <div class="vs-score av">10/10</div>
+      <div class="vs-note">6 trigger types, visual UI, history, retry, skill combos, condition-based</div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-name" style="color:#f97316">OpenClaw</div>
+      <div class="vs-score oc">0/10</div>
+      <div class="vs-note">No scheduling feature at all. Interactive only.</div>
+    </div>
+    <div class="vs-card">
+      <div class="vs-name" style="color:#4ade80">Hermes</div>
+      <div class="vs-score hm">2/10</div>
+      <div class="vs-note">Basic CLI cron only. No UI, no history, no retry.</div>
+    </div>
+  </div>
+
+  <h3 class="dh3">How It Works — Architecture</h3>
+  <p>The scheduler runs as a background daemon inside the Electron agent. On startup, it loads all saved schedules from <code>~/.vnus-agent/schedules.json</code> and registers them with the node-cron engine. Commands from your website (create, update, delete, run-now) are received instantly via Realtime Database WebSocket — the agent acts on them immediately without any polling.</p>
+
+  <div class="flow">
+    <div class="flow-box r">You create schedule</div>
+    <div class="flow-arr">→</div>
+    <div class="flow-box">RTDB WebSocket</div>
+    <div class="flow-arr">→</div>
+    <div class="flow-box r">Agent receives instantly</div>
+    <div class="flow-arr">→</div>
+    <div class="flow-box">node-cron registers</div>
+    <div class="flow-arr">→</div>
+    <div class="flow-box r">Runs in background</div>
+    <div class="flow-arr">→</div>
+    <div class="flow-box">History saved + synced</div>
+  </div>
+
+  <h3 class="dh3">6 Trigger Types — Each Unique</h3>
+  <div class="cron-grid">
+    <div class="cron-card">
+      <div class="cron-card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div class="cron-card-title">Daily — Time-based</div>
+      <div class="cron-card-desc">Runs every day at a specific time. Pick HH:MM and timezone. Example: every day at 9:00 AM IST check emails and summarize.</div>
+    </div>
+    <div class="cron-card">
+      <div class="cron-card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2" stroke-linecap="round"><path d="M23 12a11.05 11.05 0 00-22 0zm-5 7a3 3 0 01-6 0v-7"/></svg></div>
+      <div class="cron-card-title">Interval — Repeating</div>
+      <div class="cron-card-desc">Runs every N minutes. Set 30 min, 60 min, or any interval. Example: every 60 minutes backup active project to Desktop.</div>
+    </div>
+    <div class="cron-card">
+      <div class="cron-card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+      <div class="cron-card-title">Cron Expression — Advanced</div>
+      <div class="cron-card-desc">Full cron syntax for power users. 5-field expressions like <code>0 9 * * 1-5</code> — 9am weekdays only. Any pattern possible.</div>
+    </div>
+    <div class="cron-card">
+      <div class="cron-card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+      <div class="cron-card-title">Condition — Smart Trigger</div>
+      <div class="cron-card-desc">Only runs when a condition is met. Example: "if file 'report.csv' exists on Desktop then process it". Checked every 5 minutes.</div>
+    </div>
+    <div class="cron-card">
+      <div class="cron-card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <div class="cron-card-title">File Watcher — Event-driven</div>
+      <div class="cron-card-desc">Watches a folder for changes. Triggers the moment a file is added, modified, or renamed. Example: watch Downloads → auto-sort new files.</div>
+    </div>
+    <div class="cron-card">
+      <div class="cron-card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2" stroke-linecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
+      <div class="cron-card-title">Startup — On Agent Start</div>
+      <div class="cron-card-desc">Runs 5 seconds after agent launches. Example: open VS Code and Chrome every time you start your PC. Morning routine automation.</div>
+    </div>
+  </div>
+
+  <h3 class="dh3">Live Demo — What It Looks Like Running</h3>
+  <div class="cron-demo">
+    <div class="cron-demo-header">
+      <div class="cron-demo-dot" style="background:#ff5f57"></div>
+      <div class="cron-demo-dot" style="background:#febc2e"></div>
+      <div class="cron-demo-dot" style="background:#28c840"></div>
+      <div class="cron-demo-title">Agentic Vnus — Scheduler (5 active)</div>
+    </div>
+    <div class="cron-demo-body">
+      <div class="cron-row"><div class="cron-dot"></div><div class="cron-time">Every day 09:00</div><div class="cron-cmd">Check emails and summarize inbox</div><div class="cron-tag">daily</div></div>
+      <div class="cron-row"><div class="cron-dot" style="animation-delay:0.4s"></div><div class="cron-time">Every 60 min</div><div class="cron-cmd">Backup ~/Projects to Desktop/backup</div><div class="cron-tag">interval</div></div>
+      <div class="cron-row"><div class="cron-dot" style="animation-delay:0.8s"></div><div class="cron-time">0 23 * * *</div><div class="cron-cmd">Generate daily productivity report</div><div class="cron-tag">cron</div></div>
+      <div class="cron-row"><div class="cron-dot" style="animation-delay:1.2s"></div><div class="cron-time">File: ~/Downloads</div><div class="cron-cmd">Auto-sort new files by type</div><div class="cron-tag">file</div></div>
+      <div class="cron-row"><div class="cron-dot" style="animation-delay:1.6s"></div><div class="cron-time">On startup</div><div class="cron-cmd">Open VS Code + Chrome</div><div class="cron-tag">startup</div></div>
+    </div>
+  </div>
+
+  <h3 class="dh3">Features No Other Agent Has</h3>
+  <table class="dt">
+    <thead><tr><th>Feature</th><th>How It Works</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Skill + Cron Combo</strong></td><td>Link a saved skill to a schedule. Skill runs without AI call — instant, zero compute cost.</td></tr>
+      <tr><td><strong>Retry with Backoff</strong></td><td>If a task fails, retries up to 3 times with exponential backoff (2s, 4s, 8s).</td></tr>
+      <tr><td><strong>Full History Log</strong></td><td>Every run saved — timestamp, success/fail, duration, output. Last 200 runs kept.</td></tr>
+      <tr><td><strong>Run Now</strong></td><td>Trigger any schedule immediately from the workspace UI without waiting for next occurrence.</td></tr>
+      <tr><td><strong>Enable/Disable Toggle</strong></td><td>Pause any schedule without deleting it. Resume anytime from dashboard.</td></tr>
+      <tr><td><strong>Timezone Support</strong></td><td>Set timezone per schedule. IST, EST, PST, UTC — runs at the right local time.</td></tr>
+      <tr><td><strong>RTDB Sync</strong></td><td>All schedules visible in workspace dashboard in real time — create from website, runs on PC.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note"><p>Scheduler runs even when workspace browser tab is closed. As long as the agent app is in your system tray, scheduled tasks execute on time — every time.</p></div>
+  <div class="founder">Prince Tanwar — Founder, Agentic Vnus</div>
+</section>
+<div class="div"></div>
+
+<!-- BROWSER -->
 <section class="doc-section" id="browser">
   <div class="eyebrow">Automation</div>
   <h2 class="dh2">Browser Control</h2>
-  <p>The agent controls a real browser running on your PC. It uses stealth techniques to avoid bot detection, and maintains a persistent login session — so you only log in to Gmail, GitHub, or any other site once.</p>
-  <table class="dt">
-    <thead><tr><th>Capability</th><th>Example Command</th></tr></thead>
-    <tbody>
-      <tr><td>Navigate to any URL</td><td>"Open Gmail"</td></tr>
-      <tr><td>Click any element</td><td>"Click the compose button"</td></tr>
-      <tr><td>Type & fill forms</td><td>"Search for React tutorials"</td></tr>
-      <tr><td>Extract text & data</td><td>"Get the top 5 search results"</td></tr>
-      <tr><td>Extract tables</td><td>"Copy the pricing table from this page"</td></tr>
-      <tr><td>Take screenshots</td><td>Automatic when vision is on</td></tr>
-      <tr><td>Scroll pages</td><td>"Scroll down to see more results"</td></tr>
-      <tr><td>Run JavaScript</td><td>Advanced automation tasks</td></tr>
-    </tbody>
-  </table>
-  <div class="warn">
-    <div class="warn-title">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      Browser Limitations
-    </div>
-    <p>CAPTCHA challenges and two-factor authentication cannot be automated — the agent will pause and ask you to complete these manually. Some bank and government websites block all automation tools.</p>
-  </div>
+  <p>Full Playwright browser runs on your PC in stealth mode — bot detection avoided. Login once, session saved permanently. Watch the browser work in real time from your dashboard.</p>
+  <table class="dt"><thead><tr><th>Capability</th><th>Example Command</th></tr></thead><tbody>
+    <tr><td>Navigate to any URL</td><td>"Open Gmail"</td></tr>
+    <tr><td>Click any element</td><td>"Click the compose button"</td></tr>
+    <tr><td>Type & fill forms</td><td>"Search for React tutorials"</td></tr>
+    <tr><td>Extract text & data</td><td>"Get the top 5 search results"</td></tr>
+    <tr><td>Extract tables</td><td>"Copy the pricing table from this page"</td></tr>
+    <tr><td>Scroll pages</td><td>"Scroll down to see more results"</td></tr>
+    <tr><td>Run JavaScript</td><td>Advanced automation</td></tr>
+    <tr><td>Take screenshots</td><td>Auto when vision is on</td></tr>
+  </tbody></table>
+  <div class="warn"><div class="warn-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Browser Limitations</div><p>CAPTCHA and 2FA cannot be automated — agent pauses and asks you to complete these manually. Some bank and government sites block all automation tools.</p></div>
   <div class="founder">Prince Tanwar — Founder, Agentic Vnus</div>
 </section>
 <div class="div"></div>
 
-<!-- ── GITHUB ── -->
+<!-- GITHUB -->
 <section class="doc-section" id="github">
   <div class="eyebrow">Integration</div>
   <h2 class="dh2">Code Repository Integration</h2>
-  <p>The agent connects directly to your code repositories via API. No command-line tools needed — it reads, writes, commits, and creates pull requests entirely through the API. Your access token is stored encrypted on your machine only.</p>
+  <p>Agent connects to GitHub via REST API. No git commands, no local git needed. Token stored encrypted on your machine only.</p>
   <h3 class="dh3">Setup</h3>
-  <p>Give the agent your personal access token once: <code>github_auth ghp_yourToken</code>. Generate one from your account settings → Developer Settings → Personal Access Tokens → select <code>repo</code> scope.</p>
-  <h3 class="dh3">Supported Operations</h3>
-  <table class="dt">
-    <thead><tr><th>Operation</th><th>Example</th></tr></thead>
-    <tbody>
-      <tr><td>List repositories</td><td>"Show all my repos"</td></tr>
-      <tr><td>Read any file</td><td>"Read the README from my-project"</td></tr>
-      <tr><td>Write / update files</td><td>"Update the config file in my-repo"</td></tr>
-      <tr><td>Commit changes</td><td>"Commit these 3 files to main"</td></tr>
-      <tr><td>Create repository</td><td>"Create a new private repo called my-app"</td></tr>
-      <tr><td>Create branch</td><td>"Create feature/login branch"</td></tr>
-      <tr><td>Open pull request</td><td>"Create a PR from feature/login to main"</td></tr>
-      <tr><td>List & create issues</td><td>"Show all open issues" / "Create an issue: auth bug"</td></tr>
-      <tr><td>Search code</td><td>"Find all files containing useAuth"</td></tr>
-    </tbody>
-  </table>
-  <div class="warn">
-    <div class="warn-title">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      Token Security
-    </div>
-    <p>Your access token is stored encrypted on your machine. Never share your agent's local data folder. If your token is compromised, revoke it immediately from your account settings.</p>
-  </div>
+  <p>Give your token once: <code>github_auth ghp_yourToken</code>. Generate from GitHub → Settings → Developer Settings → Personal Access Tokens → select <code>repo</code> scope.</p>
+  <table class="dt"><thead><tr><th>Operation</th><th>Example</th></tr></thead><tbody>
+    <tr><td>List repositories</td><td>"Show all my repos"</td></tr>
+    <tr><td>Read any file</td><td>"Read the README from my-project"</td></tr>
+    <tr><td>Write / update files</td><td>"Update the config in my-repo"</td></tr>
+    <tr><td>Commit changes</td><td>"Commit these files to main"</td></tr>
+    <tr><td>Create repository</td><td>"Create a new private repo"</td></tr>
+    <tr><td>Create branch</td><td>"Create feature/login branch"</td></tr>
+    <tr><td>Open pull request</td><td>"Create PR from feature/login to main"</td></tr>
+    <tr><td>List & create issues</td><td>"Show open issues" / "Create issue: auth bug"</td></tr>
+    <tr><td>Search code</td><td>"Find all files containing useAuth"</td></tr>
+  </tbody></table>
   <div class="founder">Prince Tanwar — Founder, Agentic Vnus</div>
 </section>
 <div class="div"></div>
 
-<!-- ── SECURITY ── -->
+<!-- SECURITY -->
 <section class="doc-section" id="security">
   <div class="eyebrow">Security</div>
   <h2 class="dh2">Security Model</h2>
-  <p>Agentic Vnus is built with a defense-in-depth approach. Multiple independent layers protect you from both malicious commands and AI mistakes.</p>
-  <table class="dt">
-    <thead><tr><th>Layer</th><th>What It Does</th></tr></thead>
-    <tbody>
-      <tr><td><strong>Permanent Blocklist</strong></td><td>Certain commands are permanently blocked and can never be executed, regardless of who sends them — disk format, recursive deletion of system paths, fork bombs.</td></tr>
-      <tr><td><strong>Permission System</strong></td><td>High-risk and medium-risk commands pause and show an Approve/Deny banner in your workspace. The agent waits up to 60 seconds for your decision before timing out.</td></tr>
-      <tr><td><strong>Rate Limiting</strong></td><td>Maximum 20 commands per user per minute. Excess commands are rejected automatically, protecting your PC from being overwhelmed.</td></tr>
-      <tr><td><strong>Ownership Verification</strong></td><td>Every command is verified against the workspace owner's identity before execution. Commands from mismatched accounts are silently rejected.</td></tr>
-      <tr><td><strong>Secure Access Rules</strong></td><td>All data — commands, chats, permissions, screenshots — is access-controlled. Only the authenticated workspace owner can read or write any of it.</td></tr>
-      <tr><td><strong>JSON Retry Loop</strong></td><td>If the AI produces a malformed response (a common issue with smaller models), the agent retries up to 3 times with clearer instructions before failing safely.</td></tr>
-    </tbody>
-  </table>
+  <table class="dt"><thead><tr><th>Layer</th><th>What It Does</th></tr></thead><tbody>
+    <tr><td><strong>Permanent Blocklist</strong></td><td>Disk format, recursive system deletion, fork bombs — blocked forever, no exceptions.</td></tr>
+    <tr><td><strong>Permission System</strong></td><td>High-risk commands pause and show Approve/Deny banner in workspace. Agent waits 60 seconds.</td></tr>
+    <tr><td><strong>Rate Limiting</strong></td><td>Max 20 commands per user per minute. Excess commands rejected automatically.</td></tr>
+    <tr><td><strong>Ownership Verification</strong></td><td>Every command verified against workspace owner. Mismatched accounts silently rejected.</td></tr>
+    <tr><td><strong>Secure Database Rules</strong></td><td>Commands, chats, permissions, screenshots — only authenticated workspace owner can access.</td></tr>
+    <tr><td><strong>JSON Retry Loop</strong></td><td>Malformed AI response → retries 3 times with clearer instructions before failing safely.</td></tr>
+  </tbody></table>
   <div class="founder">Prince Tanwar — Founder, Agentic Vnus</div>
 </section>
 <div class="div"></div>
 
-<!-- ── WARNINGS ── -->
+<!-- WARNINGS -->
 <section class="doc-section" id="warnings">
   <div class="eyebrow">Important</div>
   <h2 class="dh2" style="color:var(--red)">Warnings & Limitations</h2>
-
-  <div class="warn">
-    <div class="warn-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Small Models Make Mistakes</div>
-    <p>On 8 GB RAM, the agent uses a 4B parameter model. It handles simple tasks well but may misunderstand complex multi-step commands, produce incorrect file paths, or choose wrong interface elements. If a command fails, rephrase it more specifically and retry.</p>
-  </div>
-  <div class="warn">
-    <div class="warn-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>No Undo for Destructive Actions</div>
-    <p>The agent can delete files and push code changes. There is no confirmation step for low-risk operations. Always verify the intent of your command before sending it. Blocked commands prevent the most dangerous operations automatically.</p>
-  </div>
-  <div class="warn">
-    <div class="warn-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Internet Required for Initial Setup</div>
-    <p>The AI engine and model must be downloaded on first use. After that, the agent works fully offline. On slow connections, a 19 GB model can take over an hour to download.</p>
-  </div>
-  <div class="warn">
-    <div class="warn-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>PC Performance During Inference</div>
-    <p>When the AI processes a command, it uses significant CPU and RAM. Your PC may feel slower for 5–30 seconds per command. The 50% RAM rule reduces this impact but does not eliminate it.</p>
-  </div>
-  <div class="warn">
-    <div class="warn-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>CAPTCHA Cannot Be Bypassed</div>
-    <p>Websites that show CAPTCHA challenges during automation will block the agent. This includes some financial institutions, government portals, and heavily protected login pages. You will need to complete these manually.</p>
-  </div>
-  <div class="warn">
-    <div class="warn-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Email Requires Browser Login</div>
-    <p>Email sending works through browser automation — the agent opens Gmail or Outlook and uses the compose interface. Direct email sending without a browser is not yet supported and is planned for a future update.</p>
-  </div>
+  <div class="warn"><div class="warn-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Small Models Make Mistakes</div><p>On 8 GB RAM, agent uses 4B model. Handles simple tasks well but may misunderstand complex multi-step commands. Rephrase and retry if something fails.</p></div>
+  <div class="warn"><div class="warn-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>No Undo for Destructive Actions</div><p>Agent can delete files and push code. No confirmation for low-risk operations. Verify your command before sending. Blocked commands prevent the most dangerous operations.</p></div>
+  <div class="warn"><div class="warn-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Internet Required for Setup Only</div><p>AI engine and model download once on first setup. After that, agent works fully offline. On slow connections, 19 GB model can take over an hour.</p></div>
+  <div class="warn"><div class="warn-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>PC Performance During Inference</div><p>AI uses significant CPU/RAM while processing commands. PC may feel slower for 5–30 seconds. The 50% RAM rule reduces this impact.</p></div>
+  <div class="warn"><div class="warn-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>CAPTCHA Cannot Be Bypassed</div><p>Websites showing CAPTCHA during automation block the agent. Financial institutions, government portals, heavily protected login pages may not work.</p></div>
+  <div class="warn"><div class="warn-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Email Uses Browser Automation</div><p>Email sending opens Gmail/Outlook in browser and uses the compose interface. Direct SMTP email is planned for a future update.</p></div>
   <div class="founder">Prince Tanwar — Founder, Agentic Vnus</div>
 </section>
 <div class="div"></div>
 
-<!-- ── FAQ ── -->
+<!-- FAQ -->
 <section class="doc-section" id="faq">
   <div class="eyebrow">FAQ</div>
   <h2 class="dh2">Frequently Asked Questions</h2>
   <h3 class="dh3">Does the agent work without internet?</h3>
-  <p>Yes — after the first setup, everything runs offline. The only network activity is the 3-second polling to check for new commands from your dashboard, which is a tiny amount of data.</p>
+  <p>Yes — after first setup, everything runs offline. Only network activity is the Realtime Database WebSocket to receive commands and send results — tiny amount of data.</p>
   <h3 class="dh3">Where does my data go?</h3>
-  <p>Commands are temporarily stored in a secure cloud relay to bridge your browser and your PC. AI processing happens entirely on your machine. Memory, skills, session history, and access tokens are stored locally and never transmitted anywhere.</p>
+  <p>Commands temporarily pass through Realtime Database to bridge browser and PC. AI processing happens entirely on your machine. Memory, skills, session history, tokens — stored locally, never transmitted anywhere.</p>
   <h3 class="dh3">How do I reconnect after disconnect?</h3>
-  <p>Open the agent app — it shows your connection code. Go to your dashboard → Add Workspace → enter the code. Your permanent code never changes on the same machine.</p>
-  <h3 class="dh3">How do I delete a downloaded model?</h3>
-  <p>Open Terminal or Command Prompt and run: <code>ollama rm [model-name]</code>. Then reopen the agent — the model picker will appear so you can download a different one.</p>
+  <p>Open the agent app — shows your connection code. Dashboard → Add Workspace → enter code. Your permanent code never changes on the same machine.</p>
   <h3 class="dh3">Can I use the agent on multiple PCs?</h3>
   <p>Yes — each PC gets its own connection code. Add as many workspaces as your plan allows. Each workspace runs independently with its own model and memory.</p>
-  <h3 class="dh3">What if the model download fails?</h3>
-  <p>The agent shows a specific error message and a Retry button. Your plan stays active — retry after checking your internet connection and available disk space. You need at least 2 GB more free space than the model size.</p>
-  <h3 class="dh3">Does the agent run in the background?</h3>
-  <p>Yes — it stays in the system tray while running. Commands sent from the dashboard are executed as long as the tray icon is visible. Right-click the tray icon → Quit to stop it.</p>
+  <h3 class="dh3">What if model download fails?</h3>
+  <p>Agent shows specific error and Retry button. Your plan stays active. Check internet connection and available disk space — you need at least 2 GB more than the model size.</p>
+  <h3 class="dh3">Does the scheduler keep running when browser is closed?</h3>
+  <p>Yes — scheduler runs inside the Electron agent in your system tray. As long as the tray icon is visible, all scheduled tasks execute on time regardless of browser.</p>
+  <h3 class="dh3">Can I create schedules from my phone?</h3>
+  <p>Currently through the dashboard website on mobile browser. Native mobile app with full scheduler UI launches August 20, 2026.</p>
   <div class="founder">Prince Tanwar — Founder, Agentic Vnus</div>
 </section>
 <div class="div"></div>
 
-<!-- ── ARCHITECTURE ── -->
+<!-- ARCHITECTURE -->
 <section class="doc-section" id="arch">
   <div class="eyebrow">Technical Reference</div>
   <h2 class="dh2">Architecture Deep Dive</h2>
-  <p>For developers and technically curious users who want to understand how the agent works internally.</p>
-  <h3 class="dh3">Intelligence Layer</h3>
-  <p>The core intelligence module builds a system prompt that combines your persistent memory, available skills, and task-specific reasoning instructions. It detects whether a command is a coding task, browser task, file operation, or reasoning question — and adjusts both the prompt structure and the AI model selection accordingly. Responses are parsed as structured action sequences. If the AI produces malformed output, the module retries with increasingly explicit formatting instructions.</p>
-  <h3 class="dh3">Memory Layer</h3>
-  <p>Reads from and writes to a local JSON file on startup and after every task. User preferences, saved facts, corrections, and session summaries are all stored here. The entire memory context is injected into every AI prompt, so the agent always has full context without you repeating yourself.</p>
-  <h3 class="dh3">Skills Layer</h3>
-  <p>After each successful task, the system checks whether the command matches a learnable pattern. If it does, a skill file is saved locally. Skills include trigger phrases, action templates, and a success counter. Skills that fail are automatically marked stale and regenerated from fresh AI planning on the next use.</p>
-  <h3 class="dh3">Command Listener</h3>
-  <p>Polls the cloud relay every 3 seconds for pending commands. Uses a local set to track in-progress commands and prevent double execution. Verifies command ownership before executing. Enforces a rate limit of 20 commands per minute per user. All execution happens asynchronously — the poll loop never blocks.</p>
+  <h3 class="dh3">Intelligence Layer (brain.js)</h3>
+  <p>Builds system prompt combining persistent memory, available skills, and task-specific Chain-of-Thought reasoning instructions. Detects task type (coding / browser / files / reasoning) and routes to appropriate model. Responses parsed as structured JSON action sequences. Invalid output retries 3 times with clearer formatting instructions.</p>
+  <h3 class="dh3">Memory Layer (memory.js)</h3>
+  <p>Reads/writes <code>~/.vnus-agent/memory.json</code>. User preferences, facts, corrections, session summaries — injected into every AI prompt automatically. Agent always has full context without you repeating yourself.</p>
+  <h3 class="dh3">Skills Layer (skills.js)</h3>
+  <p>After each successful task, checks if command matches a learnable pattern. If matched, saves skill file locally with trigger phrases, action templates, success counter. Failed skills auto-marked stale and regenerated from fresh AI planning.</p>
+  <h3 class="dh3">Scheduler Layer (scheduler.js)</h3>
+  <p>node-cron engine registers all schedules on startup. 6 trigger types handled independently — cron/daily/interval use node-cron, file triggers use fs.watch, conditions poll every 5 minutes, startup runs after 5 second delay. All schedule operations (create/update/delete/run-now) received via RTDB WebSocket instantly from website. History logged locally and synced to RTDB for dashboard display.</p>
+  <h3 class="dh3">Command Listener (listener.js)</h3>
+  <p>Firebase Realtime Database SSE (Server-Sent Events) WebSocket — zero polling. Commands arrive instantly via persistent connection. Rate limited to 20/minute per user. Ownership verified before execution. Skills synced to RTDB after every task so workspace dashboard shows learned skills in real time.</p>
   <h3 class="dh3">Action Execution Priority</h3>
   <pre><code>1. Browser actions   — most reliable for web tasks
 2. PC control        — native app interactions
 3. File operations   — always reliable
 4. Repository API    — requires access token
 5. Shell commands    — most powerful, permission-gated</code></pre>
-  <div class="warn">
-    <div class="warn-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Shell Commands Are Powerful</div>
-    <p>Shell command execution runs with the permissions of the current user. Dangerous patterns are blocklisted, and medium/high risk commands require explicit approval. Use shell commands only when you understand what will run.</p>
-  </div>
   <div class="founder">Prince Tanwar — Founder, Agentic Vnus</div>
 </section>
+<div class="div"></div>
 
-<!-- Footer -->
-<div style="text-align:center;padding:20px 0 40px;border-top:1px solid var(--border2);margin-top:20px">
-  <div style="display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:10px">
-    <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-      <circle cx="16" cy="16" r="14" fill="#1a0505" stroke="#FF3B30" stroke-width="1.5"/>
-      <path d="M11 11C10 8 12 6 13 8 14 6 15 8 14 11Z" fill="#FF3B30"/>
-      <path d="M21 11C20 8 22 6 23 8 24 6 21 8 22 11Z" fill="#FF3B30"/>
-      <circle cx="13" cy="16" r="2" fill="#FF3B30"/>
-      <circle cx="19" cy="16" r="2" fill="#FF3B30"/>
-      <circle cx="13" cy="16" r="0.9" fill="#000"/>
-      <circle cx="19" cy="16" r="0.9" fill="#000"/>
-    </svg>
-    <span style="font-size:14px;font-weight:800;color:var(--white)">Agentic Vnus</span>
+<!-- UPDATES — MOVED TO BOTTOM -->
+<section class="doc-section" id="updates">
+  <div class="eyebrow">Roadmap</div>
+  <h2 class="dh2">Upcoming Updates <span style="font-size:14px;font-weight:600;color:#fbbf24;margin-left:8px">— August 20, 2026</span></h2>
+  <p>Three major updates shipping August 20. Every subscribed user gets these automatically — no reinstall, no action required.</p>
+
+  <div class="update-card u1">
+    <div class="update-badge" style="background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.25)">Update 01</div>
+    <div class="update-title">Native Mobile App — Android & iOS</div>
+    <div class="update-desc">Control your PC from anywhere — from your phone. Full Agentic Vnus experience on Android and iOS with a redesigned touch interface. Send commands, watch the agent work live, get notified when tasks complete.</div>
+    <div class="update-feats">
+      <div class="update-feat"><div class="update-feat-title">Remote PC Control</div><div class="update-feat-desc">Send commands from phone, agent executes on PC instantly via WebSocket.</div></div>
+      <div class="update-feat"><div class="update-feat-title">Live View on Mobile</div><div class="update-feat-desc">See your PC screen in real time. Watch the demon work.</div></div>
+      <div class="update-feat"><div class="update-feat-title">Push Notifications</div><div class="update-feat-desc">Notified when task completes, permission needed, or error occurs.</div></div>
+      <div class="update-feat"><div class="update-feat-title">Voice Commands</div><div class="update-feat-desc">Speak to your agent — mic input transcribed and sent automatically.</div></div>
+    </div>
   </div>
-  <p style="font-size:12px;color:var(--gray2)">Built by <strong style="color:var(--red)">Prince Tanwar</strong> — Founder, Agentic Vnus</p>
-  <p style="font-size:11px;color:#2a2a2a;margin-top:4px">© 2026 Agentic Vnus. All rights reserved.</p>
-</div>
 
-</main>
-</div>
-
-<script>
-// Active nav on scroll
-const sections = document.querySelectorAll('.doc-section');
-const links    = document.querySelectorAll('.nav-link');
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      const id = e.target.id;
-      links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
-    }
-  });
-}, { rootMargin: '-20% 0px -70% 0px' });
-sections.forEach(s => obs.observe(s));
-
-// Nav click
-links.forEach(l => {
-  l.addEventListener('click', e => {
-    e.preventDefault();
-    const t = document.querySelector(l.getAttribute('href'));
-    if (t) t.scrollIntoView({ behavior: 'smooth' });
-  });
-});
-
-// Search
-document.getElementById('sq').addEventListener('input', function() {
-  const q = this.value.toLowerCase();
-  sections.forEach(s => {
-    s.style.display = (!q || s.textContent.toLowerCase().includes(q)) ? '' : 'none';
-  });
-});
-</script>
-</body>
-</html>
+  <div class="update-card u2">
+    <div class="update-badge" style="background:var(--red-dim);color:var(--red);border:1px solid var(--red-glow)">Update 02</div>
+    <div class="update-title">Claude Integration — Max Performance for Coding & Reasoning</div>
+    <div class="update-desc">For tasks where local models hit limits — complex multi-file code, deep reasoning chains, architecture decisions — Pro Max and above get optional access to frontier AI. Agent auto-routes complex tasks to the best model, executes locally on your PC. Simple tasks stay local — free and instant.</div>
+    <div class="update-feats">
+      <div class="update-feat"><div class="update-feat-title">Smart Task Routing</div><div class="update-feat-desc">Simple tasks stay local. Complex code routes to frontier models automatically.</div></div>
+      <div class="update-feat"><div class="update-feat-title">Execution Stays Local</div><div class="update-feat-desc">Planning in cloud, execution on your PC. Files never leave your machine.</div></div>
+      <div class="update-feat"><div class="update-feat-title">Coding Benchmark Jump</div><div class="update-feat-desc">Complex multi-file projects reach near-perfect accuracy.</div></div>
+      <div class="updat
