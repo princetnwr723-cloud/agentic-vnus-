@@ -18,10 +18,11 @@ const jetbrains = JetBrains_Mono({
 
 export const metadata = {
   metadataBase: new URL("https://agentic-vnus.vercel.app"),
-
   title: "Agentic Vnus — The AI Demon That Lives on Your PC",
   description: "Local AI agent. No cloud. No subscription. Self-improving. Launches August 15, 2026.",
-
+  verification: {
+    google: "zao0N9eIRGLdJiJLwsF_xtewexmCRjHsaiXpX_DCNps",
+  },
   openGraph: {
     title: "Introducing Agentic Vnus 👹",
     description: "The AI demon that lives on your PC. No cloud. No data leaving. Launches August 15.",
@@ -29,9 +30,8 @@ export const metadata = {
     siteName: "Agentic Vnus",
     type: "website",
   },
-
   twitter: {
-    card: "summary_large_image", // Badi image dikhane ke liye mandatory hai
+    card: "summary_large_image",
     title: "Introducing Agentic Vnus 👹",
     description: "The AI demon that lives on your PC. No cloud. Launches August 15.",
     creator: "@AgenticVnus",
