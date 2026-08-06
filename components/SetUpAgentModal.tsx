@@ -6,13 +6,13 @@ interface SetUpAgentModalProps {
   onClose: () => void;
 }
 
-const BASE = "https://github.com/princetnwr723-cloud/windows-agent/releases/download/v1.0.0";
+const BASE = "https://github.com/princetnwr723-cloud/vnus.agent/releases/download/v1.0.0";
 
 const DOWNLOAD_LINKS = {
-  windows: `${BASE}/Vnus.Agent.Setup.1.0.0.exe`,
-  mac: `${BASE}/Vnus.Agent-1.0.0.dmg`,
-  macArm: `${BASE}/Vnus.Agent-1.0.0-arm64.dmg`,
-  linux: `${BASE}/Vnus.Agent-1.0.0.AppImage`,
+  windows: `${BASE}/AgenticVnus-Setup-1.0.0.exe`,
+  mac: `${BASE}/AgenticVnus-1.0.0-x64.dmg`,
+  macArm: `${BASE}/AgenticVnus-1.0.0-arm64.dmg`,
+  linux: `${BASE}/AgenticVnus-1.0.0.AppImage`,
 };
 
 const SHARE_LINK = `${BASE}/Vnus.Agent.Setup.1.0.0.exe`;
