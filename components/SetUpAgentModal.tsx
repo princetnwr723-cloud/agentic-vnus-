@@ -15,7 +15,7 @@ const DOWNLOAD_LINKS = {
   linux: `${BASE}/AgenticVnus-1.0.0.AppImage`,
 };
 
-const SHARE_LINK = `${BASE}/Vnus.Agent.Setup.1.0.0.exe`;
+const SHARE_LINK = `${BASE}/AgenticVnus-Setup-1.0.0.exe`;
 
 export default function SetUpAgentModal({ isOpen, onClose }: SetUpAgentModalProps) {
   const [tab, setTab] = useState<"download" | "share">("download");
