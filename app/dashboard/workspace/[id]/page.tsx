@@ -8,6 +8,8 @@ import {
 } from "firebase/database";
 import DemonMascot       from "@/components/DemonMascot";
 import PricingModal      from "@/components/PricingModal";
+import BusinessDNASection from "@/components/BusinessDNASection";
+import MultiAgentSection  from "@/components/MultiAgentSection";
 import PlanWall          from "@/components/PlanWall";
 import PermissionBanner  from "@/components/PermissionBanner";
 import SchedulerSection  from "@/components/SchedulerSection";
