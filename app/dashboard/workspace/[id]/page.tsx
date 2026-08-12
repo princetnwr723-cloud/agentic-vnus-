@@ -10,7 +10,8 @@ import PlanWall           from "@/components/PlanWall";
 import PermissionBanner   from "@/components/PermissionBanner";
 import SchedulerSection   from "@/components/SchedulerSection";
 import BusinessDNASection from "@/components/BusinessDNASection";
-import MultiAgentSection  from "@/components/MultiAgentSection";
+import MultiAgentSection   from "@/components/MultiAgentSection";
+import ConnectorsSection   from "@/components/ConnectorsSection";
 import Link               from "next/link";
 
 // ── Types ──────────────────────────────────────────────────
@@ -687,10 +688,14 @@ export default function WorkspacePage({ params }: { params: { id:string } }) {
         {section==="settings" && (
           <div className="flex-1 overflow-y-auto p-6">
             <h2 className="text-white font-bold text-lg mb-6">Settings</h2>
+
+            {/* Workspace Info */}
             <div className="rounded-xl p-5 mb-4" style={{background:"rgba(255,255,255,.03)",border:"1px solid rgba(255,255,255,.06)"}}>
               <h3 className="text-white font-semibold text-sm mb-2">Workspace ID</h3>
               <p className="text-gray-500 text-xs font-mono">{params.id}</p>
             </div>
+
+            {/* Plan */}
             <div className="rounded-xl p-5 mb-4" style={{background:"rgba(255,255,255,.03)",border:"1px solid rgba(255,255,255,.06)"}}>
               <div className="flex items-center justify-between">
                 <div>
@@ -704,6 +709,13 @@ export default function WorkspacePage({ params }: { params: { id:string } }) {
                 </button>
               </div>
             </div>
+
+            {/* ── API Connectors ── */}
+            <div className="rounded-xl p-5 mb-4" style={{background:"rgba(255,255,255,.03)",border:"1px solid rgba(255,255,255,.06)"}}>
+              <ConnectorsSection workspaceId={params.id}/>
+            </div>
+
+            {/* Disconnect */}
             <button onClick={handleDisconnect} disabled={disconnecting}
               className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold text-red-400 border border-red-500/20 hover:bg-red-500/10 transition-all disabled:opacity-50 mb-4">
               {disconnecting?"Disconnecting...":"Disconnect Workspace"}
