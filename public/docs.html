@@ -3,213 +3,265 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Agentic Vnus Docs</title>
+<title>Agentic Vnus — Documentation</title>
+<meta name="description" content="The local AI agent that lives on your PC. Complete documentation."/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0a0a0a;--bg2:#111;--bg3:#161616;
-  --bdr:#1e1e1e;--bdr2:#2a2a2a;
-  --red:#FF3B30;--red2:#cc1a10;--red3:rgba(255,59,48,.12);
-  --wh:#f0f0f0;--gr:#666;--lgr:#999;--mgr:#ccc;
-  --sw:260px;--th:56px;
-  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --bg:#0f0f0f;--bg2:#141414;--bg3:#1a1a1a;
+  --bdr:#222;--bdr2:#2a2a2a;
+  --red:#FF3B30;--red2:#cc1a10;
+  --rd:rgba(255,59,48,.1);--rdb:rgba(255,59,48,.18);
+  --wh:#f5f5f5;--gr:#666;--lgr:#999;--mgr:#ccc;
+  --sw:272px;--th:52px;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --mono:'JetBrains Mono','Fira Code','Cascadia Code',monospace;
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--wh);font-family:var(--font);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
-a{color:var(--red);text-decoration:none}
-a:hover{text-decoration:underline}
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:2px}
+body{background:var(--bg);color:var(--wh);font-family:var(--font);font-size:14.5px;line-height:1.72;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--red);text-decoration:none;transition:opacity .15s}
+a:hover{opacity:.8;text-decoration:underline}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:#444}
 
-/* ── Top bar ── */
-.topbar{position:fixed;top:0;left:0;right:0;height:var(--th);background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 20px;gap:14px;z-index:200}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none!important}
-.logo-text{font-size:15px;font-weight:800;color:var(--wh)}
-.logo-docs{font-size:11px;color:var(--gr);font-weight:500;background:var(--bg3);border:1px solid var(--bdr2);padding:2px 8px;border-radius:6px;margin-left:2px}
-.tb-sep{width:1px;height:22px;background:var(--bdr);margin:0 4px}
-.search-box{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--bdr);border-radius:8px;padding:6px 12px;cursor:text;flex:1;max-width:280px}
-.search-box input{background:none;border:none;outline:none;color:var(--mgr);font-size:13px;width:100%}
-.search-box input::placeholder{color:var(--gr)}
-.tb-right{margin-left:auto;display:flex;align-items:center;gap:10px}
-.tb-link{font-size:13px;color:var(--gr);display:flex;align-items:center;gap:5px;transition:color .15s}
-.tb-link:hover{color:var(--wh);text-decoration:none!important}
-.tb-btn{padding:6px 14px;border-radius:8px;background:var(--red);color:#fff;font-size:13px;font-weight:700;border:none;cursor:pointer;transition:opacity .15s}
-.tb-btn:hover{opacity:.85}
-
-/* ── Tab bar ── */
-.tabbar{position:fixed;top:var(--th);left:0;right:0;height:44px;background:rgba(10,10,10,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 20px;gap:2px;z-index:199;overflow-x:auto}
-.tabbar::-webkit-scrollbar{height:0}
-.tab{padding:6px 14px;font-size:13px;color:var(--gr);cursor:pointer;border-radius:7px;white-space:nowrap;transition:all .15s;border:1px solid transparent;text-decoration:none}
-.tab:hover{color:var(--wh);background:rgba(255,255,255,.05);text-decoration:none!important}
-.tab.active{color:var(--wh);background:var(--bg3);border-color:var(--bdr2)}
-
-/* ── Layout ── */
-.layout{display:flex;margin-top:calc(var(--th) + 44px);min-height:calc(100vh - var(--th) - 44px)}
+/* ── Topbar ── */
+.topbar{position:fixed;top:0;left:0;right:0;height:var(--th);background:rgba(15,15,15,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 20px;gap:12px;z-index:500}
+.tb-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0}
+.tb-logo:hover{opacity:1;text-decoration:none}
+.tb-logo-text{font-size:14px;font-weight:800;color:var(--wh);letter-spacing:-.01em}
+.tb-logo-badge{font-size:10px;color:var(--gr);background:var(--bg3);border:1px solid var(--bdr2);padding:2px 8px;border-radius:20px;font-weight:500;letter-spacing:.02em}
+.tb-sep{width:1px;height:20px;background:var(--bdr2);flex-shrink:0}
+.tb-version{font-size:12px;color:var(--gr)}
+.tb-search{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--bdr2);border-radius:8px;padding:6px 12px;cursor:pointer;width:240px;transition:border-color .15s;flex-shrink:0}
+.tb-search:hover{border-color:#444}
+.tb-search:focus-within{border-color:var(--red)}
+.tb-search input{background:none;border:none;outline:none;color:var(--mgr);font-size:13px;width:100%;font-family:var(--font)}
+.tb-search input::placeholder{color:var(--gr)}
+.tb-search-kbd{font-size:10px;color:var(--gr);background:var(--bg3);border:1px solid var(--bdr2);padding:1px 6px;border-radius:4px;white-space:nowrap;margin-left:auto}
+.tb-right{display:flex;align-items:center;gap:8px;margin-left:auto}
+.tb-link{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--gr);padding:5px 8px;border-radius:6px;transition:all .15s;text-decoration:none!important}
+.tb-link:hover{color:var(--wh);background:var(--bg3);opacity:1;text-decoration:none}
+.tb-cta{background:var(--red);color:#fff!important;font-size:13px;font-weight:600;padding:6px 14px;border-radius:7px;border:none;cursor:pointer;transition:opacity .15s;text-decoration:none!important}
+.tb-cta:hover{opacity:.88;text-decoration:none}
 
 /* ── Sidebar ── */
-.sidebar{width:var(--sw);flex-shrink:0;position:fixed;top:calc(var(--th)+44px);bottom:0;left:0;overflow-y:auto;border-right:1px solid var(--bdr);background:var(--bg);padding:20px 0 60px}
-.sidebar::-webkit-scrollbar{width:3px}
-.sb-sec{font-size:11px;font-weight:700;color:var(--gr);letter-spacing:.06em;text-transform:uppercase;padding:14px 18px 5px}
-.sb-link{display:block;padding:5px 18px;font-size:13px;color:var(--lgr);border-left:2px solid transparent;transition:all .12s;text-decoration:none!important}
-.sb-link:hover{color:var(--wh);background:rgba(255,255,255,.03)}
-.sb-link.active{color:var(--red);border-left-color:var(--red);background:rgba(255,59,48,.06)}
-.sb-badge{font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;background:rgba(255,59,48,.15);color:var(--red);border:1px solid rgba(255,59,48,.25);margin-left:6px;vertical-align:middle}
+.sidebar{position:fixed;top:var(--th);left:0;bottom:0;width:var(--sw);background:var(--bg);border-right:1px solid var(--bdr);overflow-y:auto;z-index:400;padding:16px 0 80px}
+.sidebar::-webkit-scrollbar{width:0}
+.sb-sec{font-size:11px;font-weight:600;color:var(--gr);letter-spacing:.05em;text-transform:uppercase;padding:14px 18px 5px;margin-top:4px}
+.sb-sec:first-child{margin-top:0}
+.sb-link{display:flex;align-items:center;justify-content:space-between;padding:5.5px 18px;font-size:13px;color:var(--lgr);border-left:2px solid transparent;transition:all .12s;text-decoration:none!important;cursor:pointer}
+.sb-link:hover{color:var(--wh);background:rgba(255,255,255,.04);opacity:1;text-decoration:none}
+.sb-link.active{color:var(--wh);border-left-color:var(--red);background:rgba(255,59,48,.07);font-weight:500}
+.sb-divider{height:1px;background:var(--bdr);margin:8px 18px}
 
 /* ── Content ── */
-.content{margin-left:var(--sw);flex:1;max-width:800px;padding:48px 52px 100px}
-.breadcrumb{font-size:12px;color:var(--gr);margin-bottom:20px;display:flex;align-items:center;gap:6px}
-.breadcrumb a{color:var(--gr);text-decoration:none}
-.breadcrumb a:hover{color:var(--wh)}
-.copy-btn{margin-left:auto;font-size:12px;color:var(--gr);background:var(--bg3);border:1px solid var(--bdr);padding:3px 10px;border-radius:6px;cursor:pointer}
-.eyebrow{font-size:11px;font-weight:600;color:var(--red);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
-h1.ph1{font-size:36px;font-weight:800;letter-spacing:-.02em;line-height:1.12;margin-bottom:16px}
-h2.ph2{font-size:22px;font-weight:700;letter-spacing:-.01em;margin:48px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--bdr)}
-h3.ph3{font-size:16px;font-weight:700;margin:28px 0 10px;color:var(--wh)}
-p{color:#b0b0b0;margin-bottom:14px;line-height:1.78}
+.content{margin-left:var(--sw);padding-top:var(--th);min-height:100vh}
+.content-inner{max-width:860px;padding:44px 56px 100px;margin:0 auto}
+
+/* ── Typography ── */
+.page-eyebrow{font-size:11px;font-weight:600;color:var(--red);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+h1{font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:14px}
+h2{font-size:21px;font-weight:700;letter-spacing:-.02em;margin:48px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--bdr)}
+h2:first-of-type{margin-top:28px}
+h3{font-size:15.5px;font-weight:700;margin:26px 0 10px;color:var(--wh)}
+h4{font-size:13.5px;font-weight:600;margin:18px 0 8px;color:var(--mgr)}
+p{color:#b8b8b8;margin-bottom:14px;line-height:1.78}
 p:last-child{margin-bottom:0}
 strong{color:var(--wh);font-weight:600}
-.lead{font-size:17px;color:#c0c0c0;line-height:1.7;margin-bottom:24px}
-.gt{background:linear-gradient(135deg,#ff6b5b,var(--red),var(--red2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.lead{font-size:16.5px;color:#c8c8c8;line-height:1.7;margin-bottom:22px;max-width:700px}
+.gradient-text{background:linear-gradient(135deg,#ff6b5b,var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
 /* ── Code ── */
-pre{background:#0d0d0d;border:1px solid var(--bdr2);border-radius:10px;padding:18px 20px;overflow-x:auto;margin:16px 0;font-family:'JetBrains Mono','Fira Code',monospace;font-size:13px;line-height:1.7;color:#e0e0e0;position:relative}
-pre .lang{position:absolute;top:8px;right:12px;font-size:10px;color:var(--gr);font-family:var(--font);text-transform:uppercase;letter-spacing:.08em}
-code{font-family:'JetBrains Mono','Fira Code',monospace;font-size:12.5px;background:rgba(255,255,255,.07);border-radius:4px;padding:1px 6px;color:#ff9580}
-pre code{background:none;padding:0;color:#e0e0e0;font-size:13px}
+pre{background:#0c0c0c;border:1px solid var(--bdr2);border-radius:9px;padding:16px 18px;overflow-x:auto;margin:14px 0;font-family:var(--mono);font-size:13px;line-height:1.68;color:#e0e0e0;position:relative}
+pre .lang-tag{position:absolute;top:8px;right:10px;font-size:10px;color:#444;font-family:var(--font);text-transform:uppercase;letter-spacing:.06em}
+code{font-family:var(--mono);font-size:12.5px;background:rgba(255,255,255,.08);border-radius:4px;padding:1.5px 6px;color:#ff9580}
+pre code{background:none;padding:0;color:#ddd;font-size:13px}
+.code-title{font-size:11px;color:var(--gr);background:var(--bg3);border:1px solid var(--bdr2);border-bottom:none;border-radius:8px 8px 0 0;padding:7px 14px;display:flex;align-items:center;gap:6px;font-family:var(--mono);margin-top:14px}
+.code-title+pre{margin-top:0;border-top-left-radius:0;border-top-right-radius:0}
 
-/* ── Callout boxes ── */
-.callout{border-radius:10px;padding:14px 18px;margin:18px 0}
-.callout.red{background:rgba(255,59,48,.06);border:1px solid rgba(255,59,48,.2);border-left:3px solid var(--red)}
-.callout.red p{color:rgba(255,59,48,.9);margin:0;font-size:13px}
-.callout.blue{background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.15);border-left:3px solid #60a5fa}
-.callout.blue p{color:#90c0ff;margin:0;font-size:13px}
-.callout.green{background:rgba(74,222,128,.05);border:1px solid rgba(74,222,128,.15);border-left:3px solid #4ade80}
-.callout.green p{color:#80e0a0;margin:0;font-size:13px}
-.callout.yellow{background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.15);border-left:3px solid #fbbf24}
-.callout.yellow p{color:#e0b060;margin:0;font-size:13px}
-.callout-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+/* ── Callouts ── */
+.callout{border-radius:9px;padding:13px 16px;margin:16px 0;display:flex;gap:10px}
+.callout-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.callout-body{flex:1}
+.callout-title{font-size:12px;font-weight:700;margin-bottom:4px}
+.callout p{font-size:13px;margin:0;line-height:1.6}
+.callout.info{background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.18)}
+.callout.info .callout-title{color:#60a5fa}
+.callout.info p{color:#80b0e0}
+.callout.tip{background:rgba(74,222,128,.05);border:1px solid rgba(74,222,128,.16)}
+.callout.tip .callout-title{color:#4ade80}
+.callout.tip p{color:#70c090}
+.callout.warn{background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.16)}
+.callout.warn .callout-title{color:#fbbf24}
+.callout.warn p{color:#c09030}
+.callout.danger{background:rgba(255,59,48,.05);border:1px solid rgba(255,59,48,.18);border-left:3px solid var(--red)}
+.callout.danger .callout-title{color:var(--red)}
+.callout.danger p{color:#cc6660}
+
+/* ── Tabs ── */
+.tabs{margin:16px 0}
+.tab-list{display:flex;gap:2px;border-bottom:1px solid var(--bdr);margin-bottom:0;overflow-x:auto}
+.tab-list::-webkit-scrollbar{height:0}
+.tab-btn{padding:8px 16px;font-size:13px;color:var(--gr);cursor:pointer;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-family:var(--font);transition:all .15s}
+.tab-btn:hover{color:var(--mgr)}
+.tab-btn.active{color:var(--wh);border-bottom-color:var(--red);font-weight:500}
+.tab-content{display:none;padding:18px 0 0}
+.tab-content.active{display:block}
+
+/* ── Accordion ── */
+.accordion{border:1px solid var(--bdr);border-radius:9px;margin:8px 0;overflow:hidden}
+.accordion-header{display:flex;align-items:center;gap:10px;padding:13px 16px;cursor:pointer;background:var(--bg2);transition:background .15s;user-select:none}
+.accordion-header:hover{background:var(--bg3)}
+.accordion-icon{font-size:15px;flex-shrink:0}
+.accordion-title{font-size:14px;font-weight:600;color:var(--wh);flex:1}
+.accordion-chevron{color:var(--gr);transition:transform .2s;font-size:12px}
+.accordion.open .accordion-chevron{transform:rotate(90deg)}
+.accordion-body{display:none;padding:0 16px 16px;border-top:1px solid var(--bdr)}
+.accordion.open .accordion-body{display:block}
+.accordion-body p{font-size:13.5px;margin-top:12px}
 
 /* ── Table ── */
-.tbl-wrap{border:1px solid var(--bdr);border-radius:10px;overflow:hidden;margin:16px 0}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:left;padding:10px 14px;font-size:11px;font-weight:700;color:var(--gr);text-transform:uppercase;letter-spacing:.06em;background:var(--bg3);border-bottom:1px solid var(--bdr)}
-td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.04);color:#b0b0b0;vertical-align:top}
+.table-wrap{border:1px solid var(--bdr);border-radius:9px;overflow:hidden;margin:16px 0;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:500px}
+thead{background:var(--bg3)}
+th{text-align:left;padding:10px 14px;font-size:11px;font-weight:600;color:var(--gr);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--bdr)}
+td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.04);color:#b0b0b0;vertical-align:top;line-height:1.5}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:rgba(255,255,255,.02)}
+td a{font-size:13px}
 
-/* ── Chip badges ── */
-.chip{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:600}
-.chip-r{background:rgba(255,59,48,.12);color:var(--red);border:1px solid rgba(255,59,48,.2)}
-.chip-g{background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.2)}
-.chip-b{background:rgba(96,165,250,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.2)}
-.chip-y{background:rgba(251,191,36,.1);color:#fbbf24;border:1px solid rgba(251,191,36,.2)}
-.chip-x{background:rgba(255,255,255,.07);color:#777;border:1px solid rgba(255,255,255,.12)}
-
-/* ── Card grid ── */
-.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+/* ── Cards ── */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
 .card-grid.three{grid-template-columns:1fr 1fr 1fr}
-.doc-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:18px;text-decoration:none!important;transition:all .2s;display:block;position:relative;overflow:hidden}
-.doc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent);transform:scaleX(0);transition:transform .3s}
-.doc-card:hover::before{transform:scaleX(1)}
-.doc-card:hover{border-color:rgba(255,59,48,.2);background:#161616}
-.dc-icon{font-size:22px;margin-bottom:10px}
-.dc-title{font-size:14px;font-weight:700;color:var(--wh);margin-bottom:5px}
-.dc-desc{font-size:12px;color:var(--gr);line-height:1.55}
+.card{background:var(--bg2);border:1px solid var(--bdr);border-radius:10px;padding:18px;text-decoration:none!important;transition:all .18s;display:block;cursor:pointer}
+.card:hover{border-color:#444;background:var(--bg3);opacity:1;text-decoration:none}
+.card-icon{font-size:20px;margin-bottom:10px;line-height:1}
+.card-title{font-size:14px;font-weight:700;color:var(--wh);margin-bottom:5px}
+.card-desc{font-size:12.5px;color:var(--gr);line-height:1.55}
+.card-arrow{font-size:12px;color:var(--gr);margin-top:10px}
 
 /* ── Steps ── */
-.steps{list-style:none;margin:16px 0}
-.steps li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04)}
-.steps li:last-child{border-bottom:none}
-.sn{width:26px;height:26px;border-radius:50%;flex-shrink:0;background:var(--red3);border:1px solid rgba(255,59,48,.25);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--red);margin-top:2px}
-.st{font-size:14px;font-weight:600;color:var(--wh);margin-bottom:3px}
-.sd{font-size:13px;color:var(--gr);line-height:1.6}
+.steps-list{list-style:none;margin:14px 0;display:flex;flex-direction:column;gap:2px}
+.step-item{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.step-item:last-child{border-bottom:none}
+.step-num{width:24px;height:24px;border-radius:50%;background:var(--rd);border:1px solid var(--rdb);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--red);flex-shrink:0;margin-top:2px}
+.step-title{font-size:14px;font-weight:600;color:var(--wh);margin-bottom:3px}
+.step-desc{font-size:13px;color:var(--gr);line-height:1.6}
 
-/* ── Flow diagram ── */
-.flow{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:20px 0;background:var(--bg2);border:1px solid var(--bdr);border-radius:10px;padding:16px}
-.fbox{padding:6px 12px;border-radius:7px;font-size:12px;font-weight:600;background:var(--bg3);border:1px solid var(--bdr2);color:var(--wh);text-align:center;white-space:nowrap}
-.fbox.r{border-color:var(--red);color:var(--red);background:var(--red3)}
-.farr{color:var(--bdr2);font-size:16px;flex-shrink:0}
+/* ── Chips / badges ── */
+.chip{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500}
+.chip-red{background:rgba(255,59,48,.12);color:#ff6b5b;border:1px solid rgba(255,59,48,.2)}
+.chip-green{background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.18)}
+.chip-blue{background:rgba(96,165,250,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.18)}
+.chip-yellow{background:rgba(251,191,36,.1);color:#fbbf24;border:1px solid rgba(251,191,36,.18)}
+.chip-gray{background:rgba(255,255,255,.07);color:#888;border:1px solid rgba(255,255,255,.1)}
+
+/* ── Flow ── */
+.flow{display:flex;align-items:center;flex-wrap:wrap;gap:6px;background:var(--bg2);border:1px solid var(--bdr);border-radius:9px;padding:14px;margin:14px 0}
+.flow-box{padding:5px 12px;border-radius:6px;font-size:12px;font-weight:500;background:var(--bg3);border:1px solid var(--bdr2);color:var(--mgr);white-space:nowrap}
+.flow-box.red{border-color:rgba(255,59,48,.3);color:#ff7b70;background:rgba(255,59,48,.07)}
+.flow-arr{color:#333;font-size:14px;flex-shrink:0}
 
 /* ── RAM tiers ── */
-.ram-tier{background:var(--bg2);border:1px solid var(--bdr);border-radius:10px;padding:14px 18px;margin:8px 0}
-.rt-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.rt-label{font-size:14px;font-weight:700;color:var(--wh)}
-.rt-size{font-size:12px;color:var(--gr);background:var(--bg3);padding:2px 8px;border-radius:20px}
-.rt-models{font-size:13px;color:var(--lgr);line-height:1.6}
-.rt-warn{font-size:12px;color:var(--red);margin-top:4px}
+.ram-tier{background:var(--bg2);border:1px solid var(--bdr);border-radius:8px;padding:13px 16px;margin:7px 0}
+.ram-tier-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.ram-tier-label{font-size:13.5px;font-weight:700;color:var(--wh)}
+.ram-tier-size{font-size:11.5px;color:var(--gr);background:var(--bg3);padding:2px 9px;border-radius:20px}
+.ram-tier-desc{font-size:13px;color:var(--lgr);line-height:1.55}
+.ram-tier-warn{font-size:12px;color:#ff7b70;margin-top:4px}
 
 /* ── Cron demo ── */
-.cron-demo{background:#0d0d0d;border:1px solid var(--bdr);border-radius:10px;overflow:hidden;margin:16px 0}
-.cd-bar{background:var(--bg3);padding:10px 16px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--bdr)}
-.cdd{width:10px;height:10px;border-radius:50%}
-.cd-title{font-size:11px;color:var(--gr);margin-left:6px}
-.cd-body{padding:14px 16px}
-.cron-row{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:8px;margin-bottom:5px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);transition:all .2s}
-.cron-row:last-child{margin-bottom:0}
-.cron-row:hover{border-color:rgba(255,59,48,.2);background:var(--red3)}
-.cron-dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;animation:cpulse 2s ease-in-out infinite}
-@keyframes cpulse{0%,100%{box-shadow:0 0 0 0 rgba(255,59,48,.5)}50%{box-shadow:0 0 0 5px rgba(255,59,48,0)}}
-.cron-time{font-size:11px;color:var(--red);font-weight:700;white-space:nowrap;min-width:120px;font-family:'JetBrains Mono',monospace}
-.cron-cmd{font-size:12px;color:#aaa;font-family:'JetBrains Mono',monospace;flex:1}
-.cron-tag{font-size:10px;padding:2px 7px;border-radius:8px;background:rgba(255,59,48,.1);color:var(--red);flex-shrink:0}
+.terminal-window{background:#0c0c0c;border:1px solid var(--bdr2);border-radius:10px;overflow:hidden;margin:14px 0}
+.tw-bar{background:var(--bg3);padding:9px 14px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--bdr)}
+.tw-dot{width:10px;height:10px;border-radius:50%}
+.tw-title{font-size:11.5px;color:var(--gr);margin-left:6px;font-family:var(--mono)}
+.tw-body{padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.cron-row{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:7px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.04);transition:all .18s}
+.cron-row:hover{border-color:rgba(255,59,48,.18);background:rgba(255,59,48,.04)}
+.cron-pulse{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;animation:cpulse 2s ease-in-out infinite}
+@keyframes cpulse{0%,100%{box-shadow:0 0 0 0 rgba(255,59,48,.6)}50%{box-shadow:0 0 0 5px rgba(255,59,48,0)}}
+.cron-time{font-size:11px;color:var(--red);font-weight:600;white-space:nowrap;min-width:118px;font-family:var(--mono)}
+.cron-cmd{font-size:12px;color:#aaa;font-family:var(--mono);flex:1}
+.cron-tag{font-size:10px;padding:2px 7px;border-radius:8px;background:rgba(255,59,48,.08);color:var(--red);border:1px solid rgba(255,59,48,.15);flex-shrink:0}
 
-/* ── Agent team grid ── */
-.agent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:16px 0}
-.agent-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:10px;padding:14px;text-align:center;transition:all .2s}
-.agent-card:hover{border-color:rgba(255,59,48,.2);background:var(--bg3)}
-.ac-emoji{font-size:22px;margin-bottom:6px}
-.ac-name{font-size:12px;font-weight:700;color:var(--wh);margin-bottom:3px}
-.ac-desc{font-size:11px;color:var(--gr);line-height:1.4}
+/* ── Agent grid ── */
+.agent-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:9px;margin:14px 0}
+.agent-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:9px;padding:13px;text-align:center;transition:all .18s}
+.agent-card:hover{border-color:#444;background:var(--bg3)}
+.ac-emoji{font-size:20px;margin-bottom:6px}
+.ac-name{font-size:11.5px;font-weight:600;color:var(--wh);margin-bottom:3px}
+.ac-desc{font-size:10.5px;color:var(--gr);line-height:1.4}
+
+/* ── Connector cards ── */
+.connector-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:14px 0}
+.connector-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:9px;padding:13px 14px;transition:all .18s}
+.connector-card:hover{border-color:#444}
+.cc-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.cc-icon{font-size:18px}
+.cc-name{font-size:13px;font-weight:700;color:var(--wh)}
+.cc-desc{font-size:12px;color:var(--gr);line-height:1.5;margin-bottom:8px}
+.cc-tags{display:flex;gap:5px;flex-wrap:wrap}
 
 /* ── DNA questions ── */
-.dna-questions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0}
-.dq{background:var(--bg2);border:1px solid var(--bdr);border-radius:8px;padding:12px 14px}
-.dq-n{font-size:10px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
-.dq-q{font-size:12px;color:#b0b0b0;line-height:1.5}
+.dna-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:14px 0}
+.dna-q{background:var(--bg2);border:1px solid var(--bdr);border-radius:7px;padding:11px 13px}
+.dna-q-n{font-size:10px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px}
+.dna-q-text{font-size:12.5px;color:#b0b0b0;line-height:1.5}
 
-/* ── VS compare ── */
-.vs-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:16px 0}
-.vs-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:10px;padding:14px}
-.vs-card.winner{border-color:rgba(255,59,48,.25);background:var(--red3)}
-.vs-name{font-size:13px;font-weight:700;margin-bottom:8px;color:var(--wh)}
-.vs-score{font-size:30px;font-weight:800;line-height:1;color:var(--red)}
-.vs-note{font-size:11px;color:var(--gr);margin-top:5px;line-height:1.4}
-
-/* ── On this page ── */
-.on-this-page{position:fixed;top:calc(var(--th)+44px);right:0;width:200px;padding:24px 16px;font-size:12px}
-.otp-title{font-size:11px;font-weight:700;color:var(--gr);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
-.otp-link{display:block;padding:3px 0;color:var(--gr);text-decoration:none;transition:color .15s;border-left:1px solid var(--bdr);padding-left:10px;margin-bottom:2px}
-.otp-link:hover{color:var(--wh)}
-
-/* ── Footer ── */
-.footer{border-top:1px solid var(--bdr);margin-top:60px;padding:28px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.footer p{font-size:12px;color:var(--gr)}
-.footer a{color:var(--gr);text-decoration:none}
-.footer a:hover{color:var(--wh)}
-.helpful{display:flex;align-items:center;gap:10px;margin:32px 0 0;padding-top:20px;border-top:1px solid var(--bdr)}
-.helpful span{font-size:13px;color:var(--gr)}
-.hbtn{padding:5px 14px;border-radius:7px;border:1px solid var(--bdr2);background:var(--bg2);color:var(--lgr);font-size:13px;cursor:pointer;transition:all .15s}
-.hbtn:hover{border-color:var(--red);color:var(--red)}
+/* ── Breadcrumb ── */
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--gr);margin-bottom:18px}
+.breadcrumb a{color:var(--gr);text-decoration:none}
+.breadcrumb a:hover{color:var(--wh)}
+.bc-sep{opacity:.5}
 
 /* ── Section divider ── */
-.div{height:1px;background:var(--bdr);margin:40px 0}
+.divider{height:1px;background:var(--bdr);margin:44px 0}
+
+/* ── Helpful bar ── */
+.helpful{display:flex;align-items:center;gap:10px;margin-top:36px;padding-top:18px;border-top:1px solid var(--bdr)}
+.helpful-text{font-size:13px;color:var(--gr)}
+.helpful-btn{padding:5px 14px;border-radius:6px;border:1px solid var(--bdr2);background:var(--bg2);color:var(--lgr);font-size:13px;cursor:pointer;transition:all .15s;font-family:var(--font)}
+.helpful-btn:hover{border-color:var(--red);color:var(--red)}
+
+/* ── Demon mascot ── */
+.demon-hero{display:flex;justify-content:center;margin:24px 0 32px;position:relative}
+.demon-glow{position:absolute;width:180px;height:180px;background:radial-gradient(circle,rgba(255,59,48,.2),transparent 70%);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);animation:dglow 3.5s ease-in-out infinite}
+@keyframes dglow{0%,100%{opacity:.35;transform:translate(-50%,-50%) scale(1)}50%{opacity:.7;transform:translate(-50%,-50%) scale(1.15)}}
+.demon-svg{animation:dfloat 4s ease-in-out infinite;position:relative;z-index:1;filter:drop-shadow(0 0 28px rgba(255,59,48,.45))}
+@keyframes dfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 
 /* ── Search overlay ── */
-.search-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);z-index:1000;display:none;align-items:flex-start;justify-content:center;padding-top:80px}
-.search-overlay.show{display:flex}
-.search-modal{background:var(--bg2);border:1px solid var(--bdr2);border-radius:14px;width:560px;overflow:hidden}
+.search-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(10px);z-index:2000;display:none;align-items:flex-start;justify-content:center;padding-top:72px}
+.search-overlay.open{display:flex}
+.search-modal{background:var(--bg2);border:1px solid var(--bdr2);border-radius:12px;width:540px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.6)}
 .sm-input{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--bdr)}
-.sm-input input{flex:1;background:none;border:none;outline:none;color:var(--wh);font-size:15px}
+.sm-input svg{flex-shrink:0;opacity:.5}
+.sm-input input{flex:1;background:none;border:none;outline:none;color:var(--wh);font-size:15px;font-family:var(--font)}
 .sm-input input::placeholder{color:var(--gr)}
-.sm-results{padding:10px;max-height:360px;overflow-y:auto}
-.sm-result{padding:10px 12px;border-radius:8px;cursor:pointer;transition:background .12s;border:1px solid transparent}
-.sm-result:hover{background:var(--bg3);border-color:var(--bdr)}
-.sm-rt{font-size:13px;font-weight:600;color:var(--wh);margin-bottom:2px}
+.sm-esc{font-size:11px;color:var(--gr);background:var(--bg3);border:1px solid var(--bdr2);padding:2px 7px;border-radius:5px;flex-shrink:0}
+.sm-results{padding:8px;max-height:360px;overflow-y:auto}
+.sm-result{padding:10px 12px;border-radius:7px;cursor:pointer;transition:background .12s}
+.sm-result:hover{background:var(--bg3)}
+.sm-rt{font-size:13.5px;font-weight:600;color:var(--wh);margin-bottom:2px}
 .sm-rs{font-size:12px;color:var(--gr)}
-.sm-empty{text-align:center;padding:30px;color:var(--gr);font-size:13px}
+.sm-empty{padding:28px;text-align:center;color:var(--gr);font-size:13px}
 
-@media(max-width:1100px){.on-this-page{display:none}}
-@media(max-width:768px){.sidebar{display:none}.content{margin-left:0;padding:24px 18px 60px}.card-grid,.card-grid.three,.vs-grid,.dna-questions,.agent-grid{grid-template-columns:1fr}h1.ph1{font-size:26px}.tabbar{padding:0 12px}}
+/* ── Footer ── */
+footer{border-top:1px solid var(--bdr);padding:24px 0 0;margin-top:0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer p{font-size:12px;color:var(--gr)}
+footer a{color:var(--gr);font-size:12px}
+footer a:hover{color:var(--wh)}
+
+@media(max-width:768px){
+  .sidebar{display:none}
+  .content{margin-left:0}
+  .content-inner{padding:28px 18px 80px}
+  .card-grid,.card-grid.three,.connector-grid,.dna-grid,.agent-grid{grid-template-columns:1fr}
+  h1{font-size:26px}
+  .tb-search{display:none}
+}
 </style>
 </head>
 <body>
@@ -220,667 +272,781 @@ tr:hover td{background:rgba(255,255,255,.02)}
     <div class="sm-input">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input id="searchInput" placeholder="Search documentation..." oninput="doSearch(this.value)" onkeydown="if(event.key==='Escape')closeSearch()"/>
-      <span style="font-size:11px;color:var(--gr);background:var(--bg3);padding:2px 7px;border-radius:5px">ESC</span>
+      <span class="sm-esc">ESC</span>
     </div>
-    <div class="sm-results" id="searchResults">
-      <div class="sm-empty">Type to search docs...</div>
-    </div>
+    <div class="sm-results" id="searchResults"><div class="sm-empty">Type to search...</div></div>
   </div>
 </div>
 
-<!-- Top Bar -->
+<!-- Topbar -->
 <header class="topbar">
-  <a class="logo" href="#overview">
-    <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-      <circle cx="16" cy="16" r="14" fill="#1a0505" stroke="#FF3B30" stroke-width="1.5"/>
-      <path d="M11 11C10 8 12 6 13 8 14 6 15 8 14 11Z" fill="#FF3B30"/>
-      <path d="M21 11C20 8 22 6 23 8 24 6 21 8 22 11Z" fill="#FF3B30"/>
-      <circle cx="13" cy="16" r="2.2" fill="#FF3B30"/>
-      <circle cx="19" cy="16" r="2.2" fill="#FF3B30"/>
-      <circle cx="13" cy="16" r="1" fill="#000"/>
-      <circle cx="19" cy="16" r="1" fill="#000"/>
-    </svg>
-    <span class="logo-text">Agentic Vnus</span>
-    <span class="logo-docs">Docs</span>
+  <a class="tb-logo" href="#overview">
+    <svg width="26" height="26" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#1a0505" stroke="#FF3B30" stroke-width="1.5"/><path d="M11 11C10 8 12 6 13 8 14 6 15 8 14 11Z" fill="#FF3B30"/><path d="M21 11C20 8 22 6 23 8 24 6 21 8 22 11Z" fill="#FF3B30"/><circle cx="13" cy="16" r="2.2" fill="#FF3B30"/><circle cx="19" cy="16" r="2.2" fill="#FF3B30"/><circle cx="13" cy="16" r="1" fill="#000"/><circle cx="19" cy="16" r="1" fill="#000"/></svg>
+    <span class="tb-logo-text">Agentic Vnus</span>
+    <span class="tb-logo-badge">docs</span>
   </a>
   <div class="tb-sep"></div>
-  <div class="search-box" onclick="openSearch()">
+  <span class="tb-version">v1.0</span>
+  <div class="tb-search" onclick="openSearch()">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     <input placeholder="Search docs..." readonly/>
-    <span style="font-size:11px;color:var(--gr);margin-left:auto;background:var(--bg3);border:1px solid var(--bdr2);padding:1px 6px;border-radius:4px">⌘K</span>
+    <span class="tb-search-kbd">⌘K</span>
   </div>
   <div class="tb-right">
-    <a class="tb-link" href="https://agenticvnus.com">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
-      Website
-    </a>
-    <a class="tb-link" href="https://x.com/AgenticVnus">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.763l7.728-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      X / Twitter
-    </a>
-    <button class="tb-btn" onclick="window.location='https://agenticvnus.com'">Get Started</button>
+    <a class="tb-link" href="https://agenticvnus.com"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Website</a>
+    <a class="tb-link" href="https://x.com/AgenticVnus"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.763l7.728-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X</a>
+    <a class="tb-cta" href="https://agenticvnus.com">Get Started →</a>
   </div>
 </header>
 
-<!-- Tab Bar -->
-<div class="tabbar">
-  <a class="tab active" href="#overview">Get Started</a>
-  <a class="tab" href="#install">Install</a>
-  <a class="tab" href="#quickstart">Quick Start</a>
-  <a class="tab" href="#models">Models</a>
-  <a class="tab" href="#features">Features</a>
-  <a class="tab" href="#business-dna">Business DNA</a>
-  <a class="tab" href="#multi-agent">Agent Teams</a>
-  <a class="tab" href="#scheduler">Scheduler</a>
-  <a class="tab" href="#browser">Browser</a>
-  <a class="tab" href="#github">GitHub</a>
-  <a class="tab" href="#security">Security</a>
-  <a class="tab" href="#install-warnings">Install Warnings</a>
-  <a class="tab" href="#plans">Plans</a>
-  <a class="tab" href="#faq">FAQ</a>
-  <a class="tab" href="#updates">Updates</a>
-</div>
-
-<div class="layout">
-
 <!-- Sidebar -->
-<nav class="sidebar">
-  <div class="sb-sec">Overview</div>
-  <a class="sb-link active" href="#overview">Introduction</a>
-  <a class="sb-link" href="#how-it-works">How It Works</a>
-  <a class="sb-link" href="#install">Installation</a>
-  <a class="sb-link" href="#quickstart">Quick Start</a>
+<nav class="sidebar" id="sidebar">
+  <div class="sb-sec">Get Started</div>
+  <a class="sb-link active" onclick="scrollTo('overview')">Overview</a>
+  <a class="sb-link" onclick="scrollTo('how-it-works')">How It Works</a>
+  <a class="sb-link" onclick="scrollTo('quickstart')">Quick Start</a>
+  <a class="sb-link" onclick="scrollTo('install-warnings')">Installation Warnings</a>
 
   <div class="sb-sec">AI Models</div>
-  <a class="sb-link" href="#models">All Models</a>
-  <a class="sb-link" href="#ram-rule">50% RAM Rule</a>
-  <a class="sb-link" href="#vision">Vision Models</a>
+  <a class="sb-link" onclick="scrollTo('models')">All Models</a>
+  <a class="sb-link" onclick="scrollTo('ram-rule')">50% RAM Rule</a>
+  <a class="sb-link" onclick="scrollTo('vision')">Vision Models</a>
 
   <div class="sb-sec">Core Features</div>
-  <a class="sb-link" href="#memory">Memory System</a>
-  <a class="sb-link" href="#skills">Self-Improving Skills</a>
+  <a class="sb-link" onclick="scrollTo('memory')">Memory System</a>
+  <a class="sb-link" onclick="scrollTo('skills')">Self-Improving Skills</a>
+  <a class="sb-link" onclick="scrollTo('scheduler')">Scheduler</a>
+  <a class="sb-link" onclick="scrollTo('browser')">Browser Control</a>
+  <a class="sb-link" onclick="scrollTo('github')">GitHub Integration</a>
 
-  <div class="sb-sec">New Features <span class="sb-badge">NEW</span></div>
-  <a class="sb-link" href="#business-dna">Business DNA <span class="sb-badge">NEW</span></a>
-  <a class="sb-link" href="#multi-agent">Agent Teams <span class="sb-badge">NEW</span></a>
-  <a class="sb-link" href="#proactive">Proactive AI <span class="sb-badge">NEW</span></a>
-  <a class="sb-link" href="#scheduler">Scheduler</a>
-
-  <div class="sb-sec">Integrations</div>
-  <a class="sb-link" href="#browser">Browser Control</a>
-  <a class="sb-link" href="#github">GitHub Integration</a>
+  <div class="sb-sec">Business Features</div>
+  <a class="sb-link" onclick="scrollTo('business-dna')">Business DNA</a>
+  <a class="sb-link" onclick="scrollTo('agent-roles')">Agent Roles</a>
+  <a class="sb-link" onclick="scrollTo('proactive')">Proactive AI</a>
+  <a class="sb-link" onclick="scrollTo('multi-agent')">Agent Teams</a>
+  <a class="sb-link" onclick="scrollTo('connectors')">API Connectors</a>
 
   <div class="sb-sec">Reference</div>
-  <a class="sb-link" href="#security">Security</a>
-  <a class="sb-link" href="#install-warnings">Install Warnings</a>
-  <a class="sb-link" href="#plans">Plans & Pricing</a>
-  <a class="sb-link" href="#faq">FAQ</a>
-  <a class="sb-link" href="#arch">Architecture</a>
-  <a class="sb-link" href="#updates">Updates — Aug 20</a>
+  <a class="sb-link" onclick="scrollTo('security')">Security</a>
+  <a class="sb-link" onclick="scrollTo('plans')">Plans & Pricing</a>
+  <a class="sb-link" onclick="scrollTo('faq')">FAQ</a>
+  <a class="sb-link" onclick="scrollTo('arch')">Architecture</a>
+  <a class="sb-link" onclick="scrollTo('updates')">Upcoming Updates</a>
 </nav>
 
 <!-- Content -->
-<main class="content">
+<div class="content">
+<div class="content-inner">
 
-<!-- ══ OVERVIEW ══ -->
+<!-- ═══ OVERVIEW ═══ -->
 <section id="overview">
-  <div class="breadcrumb">
-    <a href="#overview">Docs</a> / <span>Overview</span>
-    <button class="copy-btn" onclick="navigator.clipboard.writeText(location.href)">Copy link</button>
-  </div>
-  <div class="eyebrow">Overview</div>
-  <h1 class="ph1">Agentic Vnus <span class="gt">👹</span></h1>
+  <div class="page-eyebrow">Overview</div>
+  <h1>Agentic Vnus <span class="gradient-text">Documentation</span></h1>
 
-  <!-- Demon hero -->
-  <div style="display:flex;justify-content:center;margin:28px 0;position:relative">
-    <div style="position:absolute;width:200px;height:200px;background:radial-gradient(circle,rgba(255,59,48,.2),transparent 70%);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);animation:heroGlow 3s ease-in-out infinite"></div>
-    <svg style="position:relative;z-index:1;filter:drop-shadow(0 0 30px rgba(255,59,48,.4));animation:demonFloat 4s ease-in-out infinite" width="120" height="120" viewBox="0 0 130 130" fill="none">
-      <ellipse cx="65" cy="75" rx="38" ry="42" fill="#1a0505" stroke="#FF3B30" stroke-width="1.5"/>
-      <ellipse cx="65" cy="52" rx="30" ry="28" fill="#1a0505" stroke="#FF3B30" stroke-width="1.5"/>
-      <path d="M42 30 C38 18 30 10 32 4 C36 12 40 20 44 28Z" fill="#FF3B30"/>
-      <path d="M88 30 C92 18 100 10 98 4 C94 12 90 20 86 28Z" fill="#FF3B30"/>
-      <ellipse cx="54" cy="50" rx="8" ry="9" fill="#FF3B30" opacity=".9"/>
-      <ellipse cx="76" cy="50" rx="8" ry="9" fill="#FF3B30" opacity=".9"/>
-      <ellipse cx="54" cy="50" rx="4" ry="5" fill="#000"/>
-      <ellipse cx="76" cy="50" rx="4" ry="5" fill="#000"/>
-      <path d="M52 62 Q65 72 78 62" stroke="#FF3B30" stroke-width="2" fill="none" stroke-linecap="round"/>
-      <rect x="58" y="62" width="5" height="6" rx="1" fill="#FF3B30" opacity=".7"/>
-      <rect x="67" y="62" width="5" height="6" rx="1" fill="#FF3B30" opacity=".7"/>
-      <path d="M27 70 C18 65 14 72 16 80 C18 88 26 86 30 80Z" fill="#1a0505" stroke="#FF3B30" stroke-width="1.2"/>
-      <path d="M103 70 C112 65 116 72 114 80 C112 88 104 86 100 80Z" fill="#1a0505" stroke="#FF3B30" stroke-width="1.2"/>
-      <path d="M65 117 C75 120 85 115 90 108 C95 100 88 94 82 98" stroke="#FF3B30" stroke-width="2" fill="none" stroke-linecap="round"/>
-      <path d="M82 98 L86 92 L80 94Z" fill="#FF3B30"/>
-    </svg>
-  </div>
 
-  <p class="lead"><strong>The local AI agent that lives on your PC.</strong> No cloud. No API bill. Persistent memory, self-improving skills, Business DNA, multi-agent teams, and 24/7 background automation — all running on your hardware.</p>
+  <p class="lead">The local AI agent that lives on your PC. No cloud. No API bill. Persistent memory, self-improving skills, Business DNA, multi-agent teams, API connectors, and 24/7 background automation — all on your hardware.</p>
 
-  <div class="callout yellow"><div class="callout-title">🚀 Launching August 15, 2026</div><p>Agent is live. All core features operational. Download for Windows, Mac, and Linux.</p></div>
+  <div class="callout info"><div class="callout-icon">🚀</div><div class="callout-body"><div class="callout-title">Launching August 15, 2026</div><p>Agent is live. All features operational. Download for Windows, Mac Intel, Mac Apple Silicon, and Linux.</p></div></div>
 
-  <div class="card-grid">
-    <a class="doc-card" href="#quickstart"><div class="dc-icon">⚡</div><div class="dc-title">Quick Start</div><div class="dc-desc">Install and run your first command in under 10 minutes.</div></a>
-    <a class="doc-card" href="#business-dna"><div class="dc-icon">🧬</div><div class="dc-title">Business DNA <span class="chip chip-r">NEW</span></div><div class="dc-desc">Introduce your business once — agent works for it forever.</div></a>
-    <a class="doc-card" href="#multi-agent"><div class="dc-icon">👥</div><div class="dc-title">Agent Teams <span class="chip chip-r">NEW</span></div><div class="dc-desc">Complex tasks automatically assemble a specialist team.</div></a>
-    <a class="doc-card" href="#scheduler"><div class="dc-icon">⏰</div><div class="dc-title">Scheduler</div><div class="dc-desc">6 trigger types. Background automation. No other agent has this.</div></a>
-  </div>
-
-  <h2 class="ph2">What is Agentic Vnus?</h2>
+  <h2>What is Agentic Vnus?</h2>
   <p>Agentic Vnus is a <strong>self-hosted AI agent</strong> that runs entirely on your PC. It connects your browser dashboard to an always-available AI that controls your machine — files, browser, terminal, GitHub, and more.</p>
-  <p><strong>Who is it for?</strong> Developers, founders, and power users who want a personal AI that knows their work, executes on their machine, and gets smarter every day — without sending data to any cloud.</p>
+  <p>The agent learns from every interaction. It remembers your preferences, saves reusable skill patterns, understands your business context, and gets smarter with every session.</p>
 
-  <div class="tbl-wrap"><table>
-    <thead><tr><th>What makes it different</th><th>Details</th></tr></thead>
-    <tbody>
-      <tr><td><strong>100% local AI</strong></td><td>All inference runs on your machine. No API cost per query.</td></tr>
-      <tr><td><strong>Persistent memory</strong></td><td>Remembers preferences, corrections, and context across every session.</td></tr>
-      <tr><td><strong>Business DNA</strong> <span class="chip chip-r">NEW</span></td><td>Set your business context once — agent acts as your AI CEO/CMO/CTO forever.</td></tr>
-      <tr><td><strong>Multi-agent teams</strong> <span class="chip chip-r">NEW</span></td><td>Complex tasks auto-assemble a team of 3-5 specialist agents.</td></tr>
-      <tr><td><strong>Visual scheduler</strong></td><td>6 trigger types with a full dashboard UI. No competitor has this.</td></tr>
-      <tr><td><strong>Self-improving skills</strong></td><td>Repeated tasks get saved as instant skills — no AI call needed.</td></tr>
-    </tbody>
-  </table></div>
+  <h2>What you can do</h2>
 
-  <div class="helpful"><span>Was this useful?</span><button class="hbtn">Yes</button><button class="hbtn">No</button></div>
+  <div id="acc-1" class="accordion open">
+    <div class="accordion-header" onclick="toggleAcc('acc-1')">
+      <span class="accordion-icon">⚡</span><span class="accordion-title">Control your PC with plain language</span><span class="accordion-chevron">›</span>
+    </div>
+    <div class="accordion-body"><p>Open apps, create files, run terminal commands, take screenshots, browse the web, interact with any application — all from your dashboard. Commands arrive in under 100ms via WebSocket.</p>
+    <pre><code>"Create a Python script on Desktop that renames all photos by date"
+"Open VS Code and push my changes to GitHub"
+"Take a screenshot and send it to me"</code></pre></div>
+  </div>
+
+  <div id="acc-2" class="accordion">
+    <div class="accordion-header" onclick="toggleAcc('acc-2')">
+      <span class="accordion-icon">🧬</span><span class="accordion-title">Set up Business DNA and become your AI executive</span><span class="accordion-chevron">›</span>
+    </div>
+    <div class="accordion-body"><p>Introduce your business once — 20 questions, 5 minutes. Your agent stores everything forever and operates as your dedicated AI CEO, CMO, CTO, CFO, or Sales Lead. Every command uses your business context. No other agent in the world does this.</p></div>
+  </div>
+
+  <div id="acc-3" class="accordion">
+    <div class="accordion-header" onclick="toggleAcc('acc-3')">
+      <span class="accordion-icon">👥</span><span class="accordion-title">Assemble agent teams for complex tasks</span><span class="accordion-chevron">›</span>
+    </div>
+    <div class="accordion-body"><p>Complex tasks automatically assemble a team of specialist agents — Research, Strategy, Marketing, Developer, Writer, Analyst, Sales, Editor. Each agent builds on the previous one's output. Results are far better than a single agent alone.</p>
+    <pre><code>"Create a full marketing campaign for my SaaS launch"
+→ Research Agent → Strategy Agent → Marketing Agent → Writer → Editor</code></pre></div>
+  </div>
+
+  <div id="acc-4" class="accordion">
+    <div class="accordion-header" onclick="toggleAcc('acc-4')">
+      <span class="accordion-icon">⏰</span><span class="accordion-title">Automate tasks on a schedule</span><span class="accordion-chevron">›</span>
+    </div>
+    <div class="accordion-body"><p>Schedule any task with 6 trigger types — daily, interval, cron expression, condition, file watcher, or startup. Runs in the background even when your browser is closed. No other local AI agent has a visual scheduler.</p></div>
+  </div>
+
+  <div id="acc-5" class="accordion">
+    <div class="accordion-header" onclick="toggleAcc('acc-5')">
+      <span class="accordion-icon">🔀</span><span class="accordion-title">Connect API keys for complex task power</span><span class="accordion-chevron">›</span>
+    </div>
+    <div class="accordion-body"><p>Paste one API key from any of 10 providers — Anthropic, OpenRouter, OpenAI, Gemini, Groq, Mistral, Together AI, DeepSeek, Perplexity, or Cohere. Simple tasks always use local AI (free). Complex tasks automatically use your connected API. Keys are encrypted on your PC — never sent to any server.</p></div>
+  </div>
+
+  <div id="acc-6" class="accordion">
+    <div class="accordion-header" onclick="toggleAcc('acc-6')">
+      <span class="accordion-icon">🔗</span><span class="accordion-title">Integrate with GitHub, browser, and terminal</span><span class="accordion-chevron">›</span>
+    </div>
+    <div class="accordion-body"><p>Full GitHub REST API — read files, write commits, create PRs, manage issues. Stealth Playwright browser — navigate, click, fill forms, extract data. Terminal commands with a permission system for safety.</p></div>
+  </div>
+
+  <h2>Get started</h2>
+  <div class="card-grid">
+    <div class="card" onclick="scrollTo('quickstart')"><div class="card-icon">⚡</div><div class="card-title">Quick Start</div><div class="card-desc">Install and run your first command in under 10 minutes.</div><div class="card-arrow">→</div></div>
+    <div class="card" onclick="scrollTo('business-dna')"><div class="card-icon">🧬</div><div class="card-title">Business DNA</div><div class="card-desc">Introduce your business once — agent works for it forever.</div><div class="card-arrow">→</div></div>
+    <div class="card" onclick="scrollTo('multi-agent')"><div class="card-icon">👥</div><div class="card-title">Agent Teams</div><div class="card-desc">Complex tasks assemble a specialist team automatically.</div><div class="card-arrow">→</div></div>
+    <div class="card" onclick="scrollTo('scheduler')"><div class="card-icon">⏰</div><div class="card-title">Scheduler</div><div class="card-desc">6 trigger types. Background automation. No other agent has this.</div><div class="card-arrow">→</div></div>
+  </div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
 </section>
-<div class="div"></div>
 
-<!-- ══ HOW IT WORKS ══ -->
+<div class="divider"></div>
+
+<!-- ═══ HOW IT WORKS ═══ -->
 <section id="how-it-works">
-  <div class="eyebrow">Architecture</div>
-  <h2 class="ph2">How It Works</h2>
-  <p>Commands from your browser reach the agent via Firebase Realtime Database WebSocket — instant delivery, zero polling. Local AI processes the command, plans actions, executes them on your PC.</p>
+  <div class="page-eyebrow">Architecture</div>
+  <h2 style="margin-top:0;border-bottom:none">How It Works</h2>
+  <p>Commands from your browser reach the agent via <strong>Firebase Realtime Database WebSocket</strong> — instant delivery, zero polling. The local AI processes the command, plans a sequence of actions, and executes them on your PC.</p>
   <div class="flow">
-    <div class="fbox r">You type command</div><div class="farr">→</div>
-    <div class="fbox">RTDB WebSocket</div><div class="farr">→</div>
-    <div class="fbox r">Agent on PC</div><div class="farr">→</div>
-    <div class="fbox">Local AI plans</div><div class="farr">→</div>
-    <div class="fbox r">Executes</div><div class="farr">→</div>
-    <div class="fbox">Result back</div>
+    <div class="flow-box red">You type command</div><div class="flow-arr">→</div>
+    <div class="flow-box">RTDB WebSocket</div><div class="flow-arr">→</div>
+    <div class="flow-box red">Agent receives &lt;100ms</div><div class="flow-arr">→</div>
+    <div class="flow-box">Local AI plans</div><div class="flow-arr">→</div>
+    <div class="flow-box red">Executes on PC</div><div class="flow-arr">→</div>
+    <div class="flow-box">Result back to you</div>
   </div>
-  <div class="callout blue"><div class="callout-title">Zero polling</div><p>Unlike Firestore polling (3 second delay), RTDB WebSocket delivers commands in under 100ms. 99% less API calls.</p></div>
-  <div class="helpful"><span>Was this useful?</span><button class="hbtn">Yes</button><button class="hbtn">No</button></div>
+  <div class="callout tip"><div class="callout-icon">💡</div><div class="callout-body"><div class="callout-title">Zero polling</div><p>Commands arrive the moment you send them. No 3-second delay. 99% fewer API calls than Firestore polling.</p></div></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
 </section>
-<div class="div"></div>
 
-<!-- ══ QUICK START ══ -->
+<div class="divider"></div>
+
+<!-- ═══ QUICK START ═══ -->
 <section id="quickstart">
-  <div class="eyebrow">Getting Started</div>
-  <h2 class="ph2">Quick Start</h2>
-  <ul class="steps">
-    <li><div class="sn">1</div><div><div class="st">Download & Install</div><div class="sd">Download for your OS from the website. Installer handles everything including previous version cleanup.</div></div></li>
-    <li><div class="sn">2</div><div><div class="st">Copy Your Connection Code</div><div class="sd">Splash screen shows your permanent 10-character code tied to your machine. Same PC always gets the same code.</div></div></li>
-    <li><div class="sn">3</div><div><div class="st">Connect on Dashboard</div><div class="sd">Go to <code>agenticvnus.com</code> → Add Workspace → paste code. Your PC links via real-time WebSocket instantly.</div></div></li>
-    <li><div class="sn">4</div><div><div class="st">Choose Plan</div><div class="sd">Free plan activates immediately. Paid plans activate automatically after Gumroad payment — no manual steps.</div></div></li>
-    <li><div class="sn">5</div><div><div class="st">Download AI Model</div><div class="sd">App detects your RAM and recommends the best model. Download once — runs offline forever after that.</div></div></li>
-    <li><div class="sn">6</div><div><div class="st">Start Commanding</div><div class="sd">Type a command like <code>"Create a Python file on Desktop"</code> or <code>"Open Chrome and search AI news"</code>.</div></div></li>
-  </ul>
-  <div class="callout green"><div class="callout-title">First time after setup</div><p>Try: <strong>"introduce my business"</strong> to set up Business DNA — your agent becomes your dedicated AI executive in 5 minutes.</p></div>
-  <div class="helpful"><span>Was this useful?</span><button class="hbtn">Yes</button><button class="hbtn">No</button></div>
-</section>
-<div class="div"></div>
-
-<!-- ══ MODELS ══ -->
-<section id="models">
-  <div class="eyebrow">AI Models</div>
-  <h2 class="ph2">All Available Models</h2>
-  <p>18 main models + 4 vision models. Agent auto-selects the best one for your RAM. Change manually in the setup screen.</p>
-
-  <h3 class="ph3">Tiny — 4–8 GB RAM</h3>
-  <div class="tbl-wrap"><table><thead><tr><th>Model</th><th>Size</th><th>Best For</th><th>Quality</th></tr></thead><tbody>
-    <tr><td>0.8B Nano</td><td>0.5 GB</td><td>Simple commands</td><td><span class="chip chip-x">Basic</span></td></tr>
-    <tr><td>2B Standard</td><td>1.5 GB</td><td>Daily tasks</td><td><span class="chip chip-x">Good</span></td></tr>
-    <tr><td>4B Thinking ⚡</td><td>2.5 GB</td><td>Reasoning, 256K context</td><td><span class="chip chip-b">Good+</span></td></tr>
-    <tr><td>4B Mini</td><td>2.5 GB</td><td>Math, code basics</td><td><span class="chip chip-b">Good+</span></td></tr>
-  </tbody></table></div>
-
-  <h3 class="ph3">Small — 16 GB RAM</h3>
-  <div class="tbl-wrap"><table><thead><tr><th>Model</th><th>Size</th><th>Best For</th></tr></thead><tbody>
-    <tr><td>9B All-Rounder ⭐</td><td>6.0 GB</td><td>Coding, browser tasks, GitHub</td></tr>
-    <tr><td>8B Reasoning 🧠</td><td>4.7 GB</td><td>Chain-of-thought, debugging</td></tr>
-  </tbody></table></div>
-
-  <h3 class="ph3">Medium — 32 GB RAM</h3>
-  <div class="tbl-wrap"><table><thead><tr><th>Model</th><th>Size</th><th>Special</th></tr></thead><tbody>
-    <tr><td>14B Coder 💻</td><td>9.0 GB</td><td>Best for all coding tasks</td></tr>
-    <tr><td>14B General 🔥</td><td>9.0 GB</td><td>All-rounder, 262K context</td></tr>
-    <tr><td>14B Reasoning 🧠</td><td>9.0 GB</td><td>Complex multi-step tasks</td></tr>
-  </tbody></table></div>
-
-  <h3 class="ph3">Large — 48–128 GB RAM</h3>
-  <div class="tbl-wrap"><table><thead><tr><th>Model</th><th>Size</th><th>RAM Needed</th><th>Notes</th></tr></thead><tbody>
-    <tr><td>30B MoE 🌟</td><td>19 GB</td><td>48 GB+</td><td>30B quality at 3B speed</td></tr>
-    <tr><td>30B Coder 💻🌟</td><td>19 GB</td><td>48 GB+</td><td>Best local coding model 2026</td></tr>
-    <tr><td>32B Reasoning 🧠</td><td>19 GB</td><td>48 GB+</td><td>World-class CoT</td></tr>
-    <tr><td>70B Efficient ⭐</td><td>29 GB</td><td>64 GB+</td><td>GPT-4 Turbo level</td></tr>
-    <tr><td>405B Ultra 👑</td><td>108 GB</td><td>112 GB+</td><td>Highest quality</td></tr>
-  </tbody></table></div>
-</section>
-<div class="div"></div>
-
-<!-- ══ RAM RULE ══ -->
-<section id="ram-rule">
-  <div class="eyebrow">Critical Rule</div>
-  <h2 class="ph2">The 50% RAM Rule</h2>
-  <div class="callout red"><div class="callout-title">Always enforced — no exceptions</div><p>AI model must use no more than 50% of your total RAM. The app enforces this automatically. Your plan unlocks models — your RAM determines which actually run.</p></div>
-  <div class="ram-tier"><div class="rt-head"><span class="rt-label">8 GB RAM</span><span class="rt-size">Max: 4 GB model</span></div><div class="rt-models">Best: <strong>4B Thinking</strong> (2.5 GB) or <strong>4B Mini</strong> (2.5 GB)</div><div class="rt-warn">⚠️ 8B and 9B models will NOT run</div></div>
-  <div class="ram-tier"><div class="rt-head"><span class="rt-label">16 GB RAM</span><span class="rt-size">Max: 8 GB model</span></div><div class="rt-models">Best: <strong>9B All-Rounder</strong> (6 GB) or <strong>8B Reasoning</strong> (4.7 GB)</div></div>
-  <div class="ram-tier"><div class="rt-head"><span class="rt-label">32 GB RAM</span><span class="rt-size">Max: 16 GB model</span></div><div class="rt-models">Best: <strong>14B Coder</strong>, <strong>14B General</strong>, <strong>14B Reasoning</strong> — all at 9 GB</div></div>
-  <div class="ram-tier"><div class="rt-head"><span class="rt-label">48 GB RAM</span><span class="rt-size">Max: 24 GB model</span></div><div class="rt-models">Best: <strong>30B MoE</strong> (19 GB), <strong>30B Coder</strong> (19 GB), <strong>32B Reasoning</strong> (19 GB)</div></div>
-  <div class="ram-tier"><div class="rt-head"><span class="rt-label">64 GB+ RAM</span><span class="rt-size">Max: 32 GB+</span></div><div class="rt-models">Best: <strong>70B Efficient</strong> (29 GB) — GPT-4 Turbo level quality</div></div>
-  <div class="helpful"><span>Was this useful?</span><button class="hbtn">Yes</button><button class="hbtn">No</button></div>
-</section>
-<div class="div"></div>
-
-<!-- ══ MEMORY ══ -->
-<section id="memory">
-  <div class="eyebrow">Learning System</div>
-  <h2 class="ph2">Memory System</h2>
-  <p>Agent saves what it learns about you across sessions. Memory lives entirely on your PC — never on any server. Every session, it loads into AI context automatically.</p>
-  <div class="tbl-wrap"><table><thead><tr><th>Memory Type</th><th>What It Stores</th><th>How It's Used</th></tr></thead><tbody>
-    <tr><td><strong>User Preferences</strong></td><td>Browser, editor, save location, dark/light mode</td><td>Auto-applied to every command</td></tr>
-    <tr><td><strong>Saved Facts</strong></td><td>Up to 50 facts — repo names, project paths, account details</td><td>Recalled when relevant</td></tr>
-    <tr><td><strong>Corrections</strong></td><td>When you correct the agent, it saves the correction</td><td>Never makes same mistake twice</td></tr>
-    <tr><td><strong>Session History</strong></td><td>Last 100 sessions saved locally</td><td>Context for follow-up tasks</td></tr>
-  </tbody></table></div>
-  <div class="helpful"><span>Was this useful?</span><button class="hbtn">Yes</button><button class="hbtn">No</button></div>
-</section>
-<div class="div"></div>
-
-<!-- ══ SKILLS ══ -->
-<section id="skills">
-  <div class="eyebrow">Self-Improvement</div>
-  <h2 class="ph2">Self-Improving Skills</h2>
-  <p>Every successful task gets analyzed. If a repeatable pattern is detected, a skill file is saved. Next time you ask for the same task — the skill runs directly. No AI planning step, no wait.</p>
-  <ul class="steps">
-    <li><div class="sn">1</div><div><div class="st">First time</div><div class="sd">AI plans → executes → saves pattern</div></div></li>
-    <li><div class="sn">2</div><div><div class="st">Third time onward</div><div class="sd">Skill runs instantly — no AI call needed. 10x faster.</div></div></li>
-    <li><div class="sn">3</div><div><div class="st">Self-healing</div><div class="sd">If a skill fails (website layout changed), it automatically regenerates from fresh AI planning.</div></div></li>
-  </ul>
-  <div class="helpful"><span>Was this useful?</span><button class="hbtn">Yes</button><button class="hbtn">No</button></div>
-</section>
-<div class="div"></div>
-
-<!-- ══ BUSINESS DNA ══ -->
-<section id="business-dna">
-  <div class="eyebrow">World's First</div>
-  <h2 class="ph2">Business DNA <span class="chip chip-r">NEW</span></h2>
-  <p>No other AI agent in the world has this. Introduce your business once — your agent remembers everything forever and operates as a dedicated AI executive in your chosen role: CEO, CMO, CTO, CFO, or Sales Lead.</p>
-
-  <div class="callout green"><div class="callout-title">How to activate</div><p>Type <strong>"introduce my business"</strong> in any chat. Agent asks 20 questions over 5 minutes. Done once — active forever.</p></div>
-
-  <h3 class="ph3">20-Question Setup</h3>
-  <div class="dna-questions">
-    <div class="dq"><div class="dq-n">Q1</div><div class="dq-q">What is your business name?</div></div>
-    <div class="dq"><div class="dq-n">Q2</div><div class="dq-q">What type of business is it?</div></div>
-    <div class="dq"><div class="dq-n">Q3</div><div class="dq-q">Describe your product in 2-3 sentences</div></div>
-    <div class="dq"><div class="dq-n">Q4</div><div class="dq-q">Who is your ideal customer?</div></div>
-    <div class="dq"><div class="dq-n">Q5</div><div class="dq-q">What makes you different?</div></div>
-    <div class="dq"><div class="dq-n">Q6</div><div class="dq-q">What are your pricing plans?</div></div>
-    <div class="dq"><div class="dq-n">Q7</div><div class="dq-q">Who are your top competitors?</div></div>
-    <div class="dq"><div class="dq-n">Q8</div><div class="dq-q">Current monthly revenue?</div></div>
-    <div class="dq"><div class="dq-n">Q9</div><div class="dq-q">#1 business goal for next 6 months?</div></div>
-    <div class="dq"><div class="dq-n">Q10+</div><div class="dq-q">Marketing channels, tech stack, team size, agent role, focus, restrictions...</div></div>
-  </div>
-
-  <h3 class="ph3">Agent Roles</h3>
-  <div class="tbl-wrap"><table><thead><tr><th>Role</th><th>Focus</th><th>What Agent Does</th></tr></thead><tbody>
-    <tr><td>👑 <strong>CEO</strong></td><td>Strategy & Growth</td><td>Business decisions, expansion plans, competitor monitoring, weekly reviews</td></tr>
-    <tr><td>📢 <strong>CMO</strong></td><td>Marketing & Content</td><td>Content strategy, campaign creation, brand voice, social media</td></tr>
-    <tr><td>💻 <strong>CTO</strong></td><td>Technology</td><td>Architecture decisions, code reviews, tech debt, security</td></tr>
-    <tr><td>💰 <strong>CFO</strong></td><td>Finance & Revenue</td><td>Revenue analysis, cost optimization, pricing experiments</td></tr>
-    <tr><td>🎯 <strong>Sales</strong></td><td>Lead Generation</td><td>Outreach sequences, follow-ups, pipeline tracking</td></tr>
-    <tr><td>⚡ <strong>Custom</strong></td><td>You define it</td><td>Any role you describe</td></tr>
-  </tbody></table></div>
-
-  <h3 class="ph3">CEO Mode — What Happens Every Day</h3>
-  <p>With Business DNA + Scheduler active, your AI CEO runs automatically:</p>
-  <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin:12px 0">
-    <li style="display:flex;gap:10px;font-size:13px;color:#b0b0b0"><span style="color:var(--red);font-weight:700;min-width:80px">9:00 AM</span>Morning brief — alerts, priorities, competitor news</li>
-    <li style="display:flex;gap:10px;font-size:13px;color:#b0b0b0"><span style="color:var(--red);font-weight:700;min-width:80px">Every 6hr</span>Opportunity scan — finds what you might be missing</li>
-    <li style="display:flex;gap:10px;font-size:13px;color:#b0b0b0"><span style="color:var(--red);font-weight:700;min-width:80px">Monday</span>Weekly report — wins, challenges, next week priorities</li>
-    <li style="display:flex;gap:10px;font-size:13px;color:#b0b0b0"><span style="color:var(--red);font-weight:700;min-width:80px">Always</span>Every command uses business context — no generic answers</li>
-  </ul>
-
-  <h3 class="ph3">vs OpenClaw / Other Agents</h3>
-  <div class="vs-grid">
-    <div class="vs-card winner"><div class="vs-name" style="color:var(--red)">Agentic Vnus</div><div class="vs-score">10/10</div><div class="vs-note">Business DNA, role modes, proactive briefings, 24/7 automated work</div></div>
-    <div class="vs-card"><div class="vs-name">OpenClaw</div><div class="vs-score" style="color:#f97316">0/10</div><div class="vs-note">No business context. Forgets everything every session.</div></div>
-    <div class="vs-card"><div class="vs-name">Any Other Agent</div><div class="vs-score" style="color:#555">0/10</div><div class="vs-note">No agent in the world has persistent business DNA.</div></div>
-  </div>
-  <div class="helpful"><span>Was this useful?</span><button class="hbtn">Yes</button><button class="hbtn">No</button></div>
-</section>
-<div class="div"></div>
-
-<!-- ══ MULTI-AGENT ══ -->
-<section id="multi-agent">
-  <div class="eyebrow">World's First</div>
-  <h2 class="ph2">Agent Teams <span class="chip chip-r">NEW</span></h2>
-  <p>Complex tasks automatically assemble a team of specialized AI agents. Each agent has a distinct role. They work in sequence, passing context to the next agent — producing far better results than a single agent alone.</p>
-
-  <div class="callout blue"><div class="callout-title">Auto-detection</div><p>You don't need to ask for a team. Type <code>"Create a full marketing campaign"</code> and the Boss Agent assembles the right team automatically.</p></div>
-
-  <h3 class="ph3">Available Agents</h3>
-  <div class="agent-grid">
-    <div class="agent-card"><div class="ac-emoji">🔍</div><div class="ac-name">Research Agent</div><div class="ac-desc">Gathers data, analyzes competitors, finds opportunities</div></div>
-    <div class="agent-card"><div class="ac-emoji">🎯</div><div class="ac-name">Strategy Agent</div><div class="ac-desc">Plans campaigns, sets priorities, architecture decisions</div></div>
-    <div class="agent-card"><div class="ac-emoji">📢</div><div class="ac-name">Marketing Agent</div><div class="ac-desc">Ad copy, campaigns, launch plans</div></div>
-    <div class="agent-card"><div class="ac-emoji">✍️</div><div class="ac-name">Writer Agent</div><div class="ac-desc">Blog posts, emails, social media copy</div></div>
-    <div class="agent-card"><div class="ac-emoji">💻</div><div class="ac-name">Developer Agent</div><div class="ac-desc">Production code, architecture, reviews</div></div>
-    <div class="agent-card"><div class="ac-emoji">📊</div><div class="ac-name">Analyst Agent</div><div class="ac-desc">Data analysis, metrics, recommendations</div></div>
-    <div class="agent-card"><div class="ac-emoji">💰</div><div class="ac-name">Sales Agent</div><div class="ac-desc">Outreach sequences, follow-ups</div></div>
-    <div class="agent-card"><div class="ac-emoji">✅</div><div class="ac-name">Editor Agent</div><div class="ac-desc">Reviews everything, final polish</div></div>
-  </div>
-
-  <h3 class="ph3">Team Templates</h3>
-  <div class="tbl-wrap"><table><thead><tr><th>Team</th><th>Agents</th><th>Trigger Phrase</th></tr></thead><tbody>
-    <tr><td>📝 Content Creation</td><td>Research → Write → Edit</td><td>"write a blog post about..."</td></tr>
-    <tr><td>🚀 Marketing Campaign</td><td>Research → Strategy → Market → Write → Edit</td><td>"create a full campaign..."</td></tr>
-    <tr><td>🛠️ Software Dev</td><td>Plan → Code → Review</td><td>"build a complete..."</td></tr>
-    <tr><td>📧 Sales Outreach</td><td>Research → Sales → Edit</td><td>"write outreach sequence..."</td></tr>
-    <tr><td>♟️ Business Strategy</td><td>Research → Analyze → Strategize</td><td>"plan our growth strategy..."</td></tr>
-  </tbody></table></div>
-  <div class="helpful"><span>Was this useful?</span><button class="hbtn">Yes</button><button class="hbtn">No</button></div>
-</section>
-<div class="div"></div>
-
-<!-- ══ PROACTIVE ══ -->
-<section id="proactive">
-  <div class="eyebrow">24/7 Intelligence</div>
-  <h2 class="ph2">Proactive AI <span class="chip chip-r">NEW</span></h2>
-  <p>Once Business DNA is set, your agent works proactively — without you asking. It monitors, analyzes, and sends you insights automatically.</p>
-  <div class="tbl-wrap"><table><thead><tr><th>Feature</th><th>When</th><th>What It Does</th></tr></thead><tbody>
-    <tr><td><strong>Morning Brief</strong></td><td>Every day 9:00 AM</td><td>Alerts, competitor news, today's priorities, strategic insight</td></tr>
-    <tr><td><strong>Opportunity Scan</strong></td><td>Every 6 hours</td><td>Finds opportunities in your market you might have missed</td></tr>
-    <tr><td><strong>Weekly Report</strong></td><td>Every Monday 8:00 AM</td><td>Full week review, next week priorities, AI recommendation</td></tr>
-    <tr><td><strong>Competitor Monitor</strong></td><td>Daily</td><td>Checks what competitors are doing and suggests your response</td></tr>
-  </tbody></table></div>
-  <div class="callout yellow"><div class="callout-title">Requires Business DNA</div><p>Proactive features activate automatically after Business DNA setup. Agent needs to know your business to brief you on it.</p></div>
-  <div class="helpful"><span>Was this useful?</span><button class="hbtn">Yes</button><button class="hbtn">No</button></div>
-</section>
-<div class="div"></div>
-
-<!-- ══ SCHEDULER ══ -->
-<section id="scheduler">
-  <div class="eyebrow">Background Automation</div>
-  <h2 class="ph2">Scheduler — 6 Trigger Types</h2>
-  <p>No other local AI agent has a visual scheduler. OpenClaw has none. Hermes has a basic CLI cron with no UI. We built a complete background automation engine — visual, powerful, unique.</p>
-
-  <div class="vs-grid">
-    <div class="vs-card winner"><div class="vs-name" style="color:var(--red)">Agentic Vnus</div><div class="vs-score">10/10</div><div class="vs-note">6 triggers, visual UI, history, retry, skill combos</div></div>
-    <div class="vs-card"><div class="vs-name">OpenClaw</div><div class="vs-score" style="color:#f97316">0/10</div><div class="vs-note">No scheduling feature at all</div></div>
-    <div class="vs-card"><div class="vs-name">Hermes</div><div class="vs-score" style="color:#4ade80">2/10</div><div class="vs-note">Basic CLI cron only. No UI, no history, no retry</div></div>
-  </div>
-
-  <h3 class="ph3">Live Demo</h3>
-  <div class="cron-demo">
-    <div class="cd-bar"><div class="cdd" style="background:#ff5f57"></div><div class="cdd" style="background:#febc2e"></div><div class="cdd" style="background:#28c840"></div><div class="cd-title">Agentic Vnus — Scheduler (5 active)</div></div>
-    <div class="cd-body">
-      <div class="cron-row"><div class="cron-dot"></div><div class="cron-time">Every day 09:00</div><div class="cron-cmd">Check emails and summarize inbox</div><div class="cron-tag">daily</div></div>
-      <div class="cron-row"><div class="cron-dot" style="animation-delay:.4s"></div><div class="cron-time">Every 60 min</div><div class="cron-cmd">Backup ~/Projects to Desktop/backup</div><div class="cron-tag">interval</div></div>
-      <div class="cron-row"><div class="cron-dot" style="animation-delay:.8s"></div><div class="cron-time">0 23 * * *</div><div class="cron-cmd">Generate daily productivity report</div><div class="cron-tag">cron</div></div>
-      <div class="cron-row"><div class="cron-dot" style="animation-delay:1.2s"></div><div class="cron-time">File: ~/Downloads</div><div class="cron-cmd">Auto-sort new files by type</div><div class="cron-tag">file</div></div>
-      <div class="cron-row"><div class="cron-dot" style="animation-delay:1.6s"></div><div class="cron-time">On startup</div><div class="cron-cmd">Open VS Code + Chrome</div><div class="cron-tag">startup</div></div>
+  <div class="page-eyebrow">Getting Started</div>
+  <h2 style="margin-top:0;border-bottom:none">Quick Start</h2>
+  <div class="tabs">
+    <div class="tab-list">
+      <button class="tab-btn active" onclick="switchTab('install','windows')">Windows</button>
+      <button class="tab-btn" onclick="switchTab('install','mac-intel')">Mac Intel</button>
+      <button class="tab-btn" onclick="switchTab('install','mac-arm')">Mac Apple Silicon</button>
+      <button class="tab-btn" onclick="switchTab('install','linux')">Linux</button>
+    </div>
+    <div class="tab-content active" id="tab-install-windows">
+      <p>Download the Windows installer:</p>
+      <pre><code>AgenticVnus-Setup-1.0.0.exe</code><span class="lang-tag">windows</span></pre>
+      <p>Double-click to install. If Windows SmartScreen appears, click <strong>More info → Run anyway</strong>. See <a onclick="scrollTo('install-warnings')">Installation Warnings</a> for details.</p>
+    </div>
+    <div class="tab-content" id="tab-install-mac-intel">
+      <p>Download the Mac Intel DMG:</p>
+      <pre><code>AgenticVnus-1.0.0-x64.dmg</code><span class="lang-tag">mac intel</span></pre>
+      <p>Open DMG → drag to Applications → <strong>right-click → Open</strong> (not double-click). See <a onclick="scrollTo('install-warnings')">Installation Warnings</a>.</p>
+    </div>
+    <div class="tab-content" id="tab-install-mac-arm">
+      <p>Download the Apple Silicon DMG (M1/M2/M3/M4):</p>
+      <pre><code>AgenticVnus-1.0.0-arm64.dmg</code><span class="lang-tag">mac apple silicon</span></pre>
+      <p>Open DMG → drag to Applications → <strong>right-click → Open</strong> (not double-click). See <a onclick="scrollTo('install-warnings')">Installation Warnings</a>.</p>
+    </div>
+    <div class="tab-content" id="tab-install-linux">
+      <p>Download the AppImage:</p>
+      <pre><code>chmod +x ~/Downloads/AgenticVnus-1.0.0.AppImage
+~/Downloads/AgenticVnus-1.0.0.AppImage</code><span class="lang-tag">linux</span></pre>
+      <p>If you get a FUSE error: <code>sudo apt install libfuse2</code></p>
     </div>
   </div>
 
-  <h3 class="ph3">6 Trigger Types</h3>
-  <div class="tbl-wrap"><table><thead><tr><th>Trigger</th><th>How It Works</th><th>Example</th></tr></thead><tbody>
-    <tr><td><strong>Daily</strong></td><td>Specific time every day</td><td>Every day at 9:00 AM</td></tr>
-    <tr><td><strong>Interval</strong></td><td>Every N minutes</td><td>Every 60 minutes</td></tr>
-    <tr><td><strong>Cron Expression</strong></td><td>Full cron syntax</td><td><code>0 9 * * 1-5</code> weekdays only</td></tr>
-    <tr><td><strong>Condition</strong></td><td>Runs when a condition is true</td><td>If report.csv exists then process it</td></tr>
-    <tr><td><strong>File Watcher</strong></td><td>Triggered by file changes</td><td>New file in Downloads → auto-sort</td></tr>
-    <tr><td><strong>Startup</strong></td><td>Runs 5s after agent starts</td><td>Open VS Code + Chrome every morning</td></tr>
-  </tbody></table></div>
-  <div class="callout blue"><div class="callout-title">Runs when browser is closed</div><p>Scheduler runs inside the Electron agent in your system tray. As long as the tray icon is visible, all scheduled tasks execute on time regardless of whether the dashboard is open.</p></div>
-  <div class="helpful"><span>Was this useful?</span><button class="hbtn">Yes</button><button class="hbtn">No</button></div>
+  <h3>After installing</h3>
+  <ul class="steps-list">
+    <li class="step-item"><div class="step-num">1</div><div><div class="step-title">Copy your connection code</div><div class="step-desc">Splash screen shows a permanent 10-character code tied to your PC. Same machine always gets the same code.</div></div></li>
+    <li class="step-item"><div class="step-num">2</div><div><div class="step-title">Connect on dashboard</div><div class="step-desc">Go to <code>agenticvnus.com</code> → Add Workspace → paste code. PC links via real-time WebSocket instantly.</div></div></li>
+    <li class="step-item"><div class="step-num">3</div><div><div class="step-title">Choose plan and download model</div><div class="step-desc">Free plan activates immediately. App detects your RAM and suggests the best model. Download once — offline forever after.</div></div></li>
+    <li class="step-item"><div class="step-num">4</div><div><div class="step-title">Run your first command</div><div class="step-desc">Try: <code>"Create a text file on Desktop called hello.txt"</code> — agent creates it on your PC.</div></div></li>
+  </ul>
+  <div class="callout tip"><div class="callout-icon">💡</div><div class="callout-body"><div class="callout-title">Set up Business DNA next</div><p>Type <strong>"introduce my business"</strong> to set up Business DNA. Your agent becomes a dedicated AI executive in 5 minutes.</p></div></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
 </section>
-<div class="div"></div>
 
-<!-- ══ BROWSER ══ -->
+<div class="divider"></div>
+
+<!-- ═══ MODELS ═══ -->
+<section id="models">
+  <div class="page-eyebrow">AI Models</div>
+  <h2 style="margin-top:0;border-bottom:none">All Available Models</h2>
+  <p>18 main models plus 4 vision models. The agent auto-selects the best model for your RAM. You can change it manually in the model picker screen.</p>
+  <h3>Tiny — 4–8 GB RAM</h3>
+  <div class="table-wrap"><table><thead><tr><th>Model</th><th>Size</th><th>Best For</th><th>Quality</th></tr></thead><tbody>
+    <tr><td>0.8B Nano</td><td>0.5 GB</td><td>Simple commands, file operations</td><td><span class="chip chip-gray">Basic</span></td></tr>
+    <tr><td>2B Standard</td><td>1.5 GB</td><td>Daily tasks, instructions</td><td><span class="chip chip-gray">Good</span></td></tr>
+    <tr><td>4B Thinking ⚡</td><td>2.5 GB</td><td>Step-by-step reasoning, 256K context</td><td><span class="chip chip-blue">Good+</span></td></tr>
+    <tr><td>4B Mini</td><td>2.5 GB</td><td>Math, reasoning, code basics</td><td><span class="chip chip-blue">Good+</span></td></tr>
+  </tbody></table></div>
+  <h3>Small — 16 GB RAM</h3>
+  <div class="table-wrap"><table><thead><tr><th>Model</th><th>Size</th><th>Best For</th><th>Quality</th></tr></thead><tbody>
+    <tr><td>9B All-Rounder ⭐</td><td>6.0 GB</td><td>Coding, browser tasks, GitHub</td><td><span class="chip chip-green">Great</span></td></tr>
+    <tr><td>8B Reasoning 🧠</td><td>4.7 GB</td><td>Chain-of-thought, debugging</td><td><span class="chip chip-green">Great</span></td></tr>
+  </tbody></table></div>
+  <h3>Medium — 32 GB RAM</h3>
+  <div class="table-wrap"><table><thead><tr><th>Model</th><th>Size</th><th>Special</th></tr></thead><tbody>
+    <tr><td>14B Coder 💻</td><td>9.0 GB</td><td>Best local coding model for 32 GB</td></tr>
+    <tr><td>14B General 🔥</td><td>9.0 GB</td><td>All-rounder, 262K context window</td></tr>
+    <tr><td>14B Reasoning 🧠</td><td>9.0 GB</td><td>Complex multi-step tasks</td></tr>
+  </tbody></table></div>
+  <h3>Large — 48–128 GB RAM</h3>
+  <div class="table-wrap"><table><thead><tr><th>Model</th><th>Size</th><th>RAM Needed</th><th>Notes</th></tr></thead><tbody>
+    <tr><td>30B MoE 🌟</td><td>19 GB</td><td>48 GB+</td><td>30B quality at 3B speed — mixture-of-experts</td></tr>
+    <tr><td>30B Coder 💻🌟</td><td>19 GB</td><td>48 GB+</td><td>Best local coding model 2026</td></tr>
+    <tr><td>32B Reasoning 🧠</td><td>19 GB</td><td>48 GB+</td><td>World-class chain-of-thought</td></tr>
+    <tr><td>70B Efficient ⭐</td><td>29 GB</td><td>64 GB+</td><td>GPT-4 Turbo level quality</td></tr>
+    <tr><td>405B Ultra 👑</td><td>108 GB</td><td>112 GB+</td><td>Maximum quality, enterprise use</td></tr>
+  </tbody></table></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ RAM RULE ═══ -->
+<section id="ram-rule">
+  <div class="page-eyebrow">Critical Rule</div>
+  <h2 style="margin-top:0;border-bottom:none">The 50% RAM Rule</h2>
+  <div class="callout danger"><div class="callout-icon">⚠️</div><div class="callout-body"><div class="callout-title">Always enforced — no exceptions</div><p>AI model must use no more than 50% of your total RAM. The app enforces this automatically. Your plan unlocks models — your RAM determines which actually run.</p></div></div>
+  <div class="ram-tier"><div class="ram-tier-head"><span class="ram-tier-label">8 GB RAM</span><span class="ram-tier-size">Max: 4 GB model</span></div><div class="ram-tier-desc">Best: <strong>4B Thinking</strong> (2.5 GB) or <strong>4B Mini</strong> (2.5 GB)</div><div class="ram-tier-warn">⚠️ 8B and 9B models will NOT run on 8 GB</div></div>
+  <div class="ram-tier"><div class="ram-tier-head"><span class="ram-tier-label">16 GB RAM</span><span class="ram-tier-size">Max: 8 GB model</span></div><div class="ram-tier-desc">Best: <strong>9B All-Rounder</strong> (6 GB) or <strong>8B Reasoning</strong> (4.7 GB)</div></div>
+  <div class="ram-tier"><div class="ram-tier-head"><span class="ram-tier-label">32 GB RAM</span><span class="ram-tier-size">Max: 16 GB model</span></div><div class="ram-tier-desc">Best: <strong>14B Coder</strong>, <strong>14B General</strong>, or <strong>14B Reasoning</strong> — all at 9 GB</div></div>
+  <div class="ram-tier"><div class="ram-tier-head"><span class="ram-tier-label">48 GB RAM</span><span class="ram-tier-size">Max: 24 GB model</span></div><div class="ram-tier-desc">Best: <strong>30B MoE</strong> (19 GB), <strong>30B Coder</strong> (19 GB), or <strong>32B Reasoning</strong> (19 GB)</div></div>
+  <div class="ram-tier"><div class="ram-tier-head"><span class="ram-tier-label">64 GB+ RAM</span><span class="ram-tier-size">Max: 32 GB+</span></div><div class="ram-tier-desc">Best: <strong>70B Efficient</strong> (29 GB) — GPT-4 Turbo level quality</div></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ VISION ═══ -->
+<section id="vision">
+  <div class="page-eyebrow">Vision</div>
+  <h2 style="margin-top:0;border-bottom:none">Vision Models</h2>
+  <p>Vision models let the agent see your screen before acting — dramatically improving accuracy for UI tasks, reading on-screen data, and clicking the right element.</p>
+  <div class="table-wrap"><table><thead><tr><th>Model</th><th>Size</th><th>Min RAM</th><th>Plan</th><th>Strength</th></tr></thead><tbody>
+    <tr><td>Lightweight Vision 👁️</td><td>2.5 GB</td><td>4 GB</td><td><span class="chip chip-gray">Free+</span></td><td>Best OCR, UI reading</td></tr>
+    <tr><td>Fast Vision 👁️</td><td>3.5 GB</td><td>6 GB</td><td><span class="chip chip-blue">Starter+</span></td><td>Screen understanding, 128K context</td></tr>
+    <tr><td>Full Vision 👁️</td><td>5.5 GB</td><td>8 GB</td><td><span class="chip chip-green">Pro+</span></td><td>Complex UI, screenshot analysis</td></tr>
+    <tr><td>High-Quality Vision 👁️</td><td>7.2 GB</td><td>10 GB</td><td><span class="chip chip-red">Elite</span></td><td>Highest accuracy</td></tr>
+  </tbody></table></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ MEMORY ═══ -->
+<section id="memory">
+  <div class="page-eyebrow">Learning System</div>
+  <h2 style="margin-top:0;border-bottom:none">Memory System</h2>
+  <p>The agent saves what it learns about you across sessions. Memory lives at <code>~/.vnus-agent/memory.json</code> — entirely on your PC, never on any server. It loads into AI context automatically every session.</p>
+  <div class="table-wrap"><table><thead><tr><th>Memory Type</th><th>What It Stores</th><th>How It's Used</th></tr></thead><tbody>
+    <tr><td><strong>User Preferences</strong></td><td>Browser, editor, save location, OS preferences</td><td>Applied to every command automatically</td></tr>
+    <tr><td><strong>Saved Facts</strong></td><td>Up to 50 facts — repo names, project paths, account details</td><td>Recalled when relevant to the current task</td></tr>
+    <tr><td><strong>Corrections</strong></td><td>When you correct the agent, the correction is stored</td><td>Never makes the same mistake twice</td></tr>
+    <tr><td><strong>Session History</strong></td><td>Last 100 sessions with commands and outcomes</td><td>Context for follow-up tasks across sessions</td></tr>
+  </tbody></table></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ SKILLS ═══ -->
+<section id="skills">
+  <div class="page-eyebrow">Self-Improvement</div>
+  <h2 style="margin-top:0;border-bottom:none">Self-Improving Skills</h2>
+  <p>Every successful task gets analyzed. When a repeatable pattern is detected, a skill file is saved to <code>~/.vnus-agent/skills/</code>. Next time you ask for the same task, the skill runs directly — no AI planning step, no wait. 10x faster.</p>
+  <ul class="steps-list">
+    <li class="step-item"><div class="step-num">1</div><div><div class="step-title">First time — AI plans and executes</div><div class="step-desc">Command is processed by AI. Successful execution saved as a pattern candidate.</div></div></li>
+    <li class="step-item"><div class="step-num">2</div><div><div class="step-title">Skill detected and saved</div><div class="step-desc">After repeated success, a skill file is created with trigger phrases, action templates, and success counter.</div></div></li>
+    <li class="step-item"><div class="step-num">3</div><div><div class="step-title">Future runs are instant</div><div class="step-desc">Matching commands skip AI planning entirely. Skill executes directly. Self-heals if the environment changes.</div></div></li>
+  </ul>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ SCHEDULER ═══ -->
+<section id="scheduler">
+  <div class="page-eyebrow">Background Automation</div>
+  <h2 style="margin-top:0;border-bottom:none">Scheduler</h2>
+  <p>No other local AI agent has a visual scheduler. OpenClaw has none. Hermes has a basic CLI cron with no UI, no history, no retry. Agentic Vnus ships a complete background automation engine with 6 trigger types, a full dashboard UI, and retry logic.</p>
+
+  <h3>Live example</h3>
+  <div class="terminal-window">
+    <div class="tw-bar"><div class="tw-dot" style="background:#ff5f57"></div><div class="tw-dot" style="background:#febc2e"></div><div class="tw-dot" style="background:#28c840"></div><span class="tw-title">Agentic Vnus — Scheduler (5 active)</span></div>
+    <div class="tw-body">
+      <div class="cron-row"><div class="cron-pulse"></div><div class="cron-time">Every day 09:00</div><div class="cron-cmd">Check emails and summarize inbox</div><div class="cron-tag">daily</div></div>
+      <div class="cron-row"><div class="cron-pulse" style="animation-delay:.4s"></div><div class="cron-time">Every 60 min</div><div class="cron-cmd">Backup ~/Projects to Desktop/backup</div><div class="cron-tag">interval</div></div>
+      <div class="cron-row"><div class="cron-pulse" style="animation-delay:.8s"></div><div class="cron-time">0 23 * * *</div><div class="cron-cmd">Generate daily productivity report</div><div class="cron-tag">cron</div></div>
+      <div class="cron-row"><div class="cron-pulse" style="animation-delay:1.2s"></div><div class="cron-time">File: ~/Downloads</div><div class="cron-cmd">Auto-sort new files by type</div><div class="cron-tag">file</div></div>
+      <div class="cron-row"><div class="cron-pulse" style="animation-delay:1.6s"></div><div class="cron-time">On startup</div><div class="cron-cmd">Open VS Code + Chrome</div><div class="cron-tag">startup</div></div>
+    </div>
+  </div>
+
+  <h3>6 trigger types</h3>
+  <div class="table-wrap"><table><thead><tr><th>Trigger</th><th>How It Works</th><th>Example</th></tr></thead><tbody>
+    <tr><td><strong>Daily</strong></td><td>Specific time each day with timezone support</td><td>Every day at 9:00 AM IST</td></tr>
+    <tr><td><strong>Interval</strong></td><td>Every N minutes, continuously</td><td>Every 60 minutes</td></tr>
+    <tr><td><strong>Cron Expression</strong></td><td>Full 5-field cron syntax</td><td><code>0 9 * * 1-5</code> — weekdays only</td></tr>
+    <tr><td><strong>Condition</strong></td><td>Runs when a condition is true, checked every 5 min</td><td>If report.csv exists, process it</td></tr>
+    <tr><td><strong>File Watcher</strong></td><td>Triggered by file changes in a folder</td><td>New file in Downloads → auto-sort</td></tr>
+    <tr><td><strong>Startup</strong></td><td>Runs 5 seconds after agent starts</td><td>Open VS Code + Chrome on boot</td></tr>
+  </tbody></table></div>
+
+  <div class="callout info"><div class="callout-icon">ℹ️</div><div class="callout-body"><div class="callout-title">Runs when browser is closed</div><p>Scheduler runs inside the Electron agent in your system tray. As long as the tray icon is visible, all scheduled tasks execute on time regardless of whether the dashboard is open.</p></div></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ BROWSER ═══ -->
 <section id="browser">
-  <div class="eyebrow">Automation</div>
-  <h2 class="ph2">Browser Control</h2>
-  <p>Full Playwright browser runs on your PC in stealth mode. Login once — session saved permanently. Watch the browser work in real time from your dashboard.</p>
-  <div class="tbl-wrap"><table><thead><tr><th>Capability</th><th>Example Command</th></tr></thead><tbody>
-    <tr><td>Navigate to any URL</td><td><code>"Open Gmail"</code></td></tr>
-    <tr><td>Click any element</td><td><code>"Click the compose button"</code></td></tr>
+  <div class="page-eyebrow">Automation</div>
+  <h2 style="margin-top:0;border-bottom:none">Browser Control</h2>
+  <p>Full Playwright browser runs on your PC in stealth mode — avoiding bot detection. Login once, session saved permanently in a browser profile at <code>~/.vnus-agent/browser-profile</code>.</p>
+  <div class="table-wrap"><table><thead><tr><th>Action</th><th>Example command</th></tr></thead><tbody>
+    <tr><td>Navigate</td><td><code>"Open Gmail"</code></td></tr>
+    <tr><td>Click elements</td><td><code>"Click the compose button"</code></td></tr>
     <tr><td>Fill forms</td><td><code>"Search for React tutorials"</code></td></tr>
-    <tr><td>Extract data</td><td><code>"Get the top 5 search results"</code></td></tr>
+    <tr><td>Extract text</td><td><code>"Get the top 5 search results"</code></td></tr>
     <tr><td>Extract tables</td><td><code>"Copy the pricing table from this page"</code></td></tr>
     <tr><td>Take screenshots</td><td><code>"Screenshot the current page"</code></td></tr>
     <tr><td>Run JavaScript</td><td>Advanced automation via <code>browser_eval</code></td></tr>
+    <tr><td>New tabs</td><td>Open multiple tabs in sequence</td></tr>
   </tbody></table></div>
-  <div class="callout red"><div class="callout-title">Limitations</div><p>CAPTCHA and 2FA cannot be automated. Agent pauses and asks you to complete these manually. Some bank and government sites block all automation tools.</p></div>
-  <div class="helpful"><span>Was this useful?</span><button class="hbtn">Yes</button><button class="hbtn">No</button></div>
+  <div class="callout danger"><div class="callout-icon">⚠️</div><div class="callout-body"><div class="callout-title">CAPTCHA and 2FA limitations</div><p>CAPTCHA and two-factor authentication cannot be automated. The agent pauses and asks you to complete these manually. Some financial and government sites block all browser automation tools.</p></div></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
 </section>
-<div class="div"></div>
 
-<!-- ══ GITHUB ══ -->
+<div class="divider"></div>
+
+<!-- ═══ GITHUB ═══ -->
 <section id="github">
-  <div class="eyebrow">Integration</div>
-  <h2 class="ph2">GitHub Integration</h2>
-  <p>Agent connects to GitHub via REST API. No git commands, no local git needed. Token stored encrypted on your machine only.</p>
-  <h3 class="ph3">Setup</h3>
-  <p>Type once: <code>github_auth ghp_yourToken</code>. Generate from GitHub → Settings → Developer Settings → Personal Access Tokens → select <code>repo</code> scope.</p>
-  <div class="tbl-wrap"><table><thead><tr><th>Operation</th><th>Example</th></tr></thead><tbody>
+  <div class="page-eyebrow">Integration</div>
+  <h2 style="margin-top:0;border-bottom:none">GitHub Integration</h2>
+  <p>Agent connects to GitHub via REST API. No local git required. Token stored encrypted on your machine only.</p>
+  <h3>Setup</h3>
+  <p>Type once in any chat:</p>
+  <pre><code>github_auth ghp_yourPersonalAccessToken</code><span class="lang-tag">command</span></pre>
+  <p>Generate a token at GitHub → Settings → Developer Settings → Personal Access Tokens → select the <code>repo</code> scope.</p>
+  <div class="table-wrap"><table><thead><tr><th>Operation</th><th>Example</th></tr></thead><tbody>
     <tr><td>List repositories</td><td><code>"Show all my repos"</code></td></tr>
     <tr><td>Read any file</td><td><code>"Read the README from my-project"</code></td></tr>
-    <tr><td>Write / update files</td><td><code>"Update config.js in my-repo"</code></td></tr>
-    <tr><td>Commit changes</td><td><code>"Commit these files to main"</code></td></tr>
-    <tr><td>Create pull request</td><td><code>"Create PR from feature/login to main"</code></td></tr>
-    <tr><td>List & create issues</td><td><code>"Create issue: auth bug"</code></td></tr>
+    <tr><td>Write and commit</td><td><code>"Update config.js in my-repo and commit"</code></td></tr>
+    <tr><td>Create repository</td><td><code>"Create a new private repo called my-app"</code></td></tr>
+    <tr><td>Create branch</td><td><code>"Create feature/login branch"</code></td></tr>
+    <tr><td>Open pull request</td><td><code>"Create PR from feature/login to main"</code></td></tr>
+    <tr><td>List and create issues</td><td><code>"Create issue: auth bug on login page"</code></td></tr>
     <tr><td>Search code</td><td><code>"Find all files containing useAuth"</code></td></tr>
   </tbody></table></div>
-  <div class="helpful"><span>Was this useful?</span><button class="hbtn">Yes</button><button class="hbtn">No</button></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
 </section>
-<div class="div"></div>
 
-<!-- ══ SECURITY ══ -->
+<div class="divider"></div>
+
+<!-- ═══ BUSINESS DNA ═══ -->
+<section id="business-dna">
+  <div class="page-eyebrow">Business Features</div>
+  <h2 style="margin-top:0;border-bottom:none">Business DNA</h2>
+  <p>Introduce your business once. The agent stores everything permanently and operates as a dedicated AI executive — knowing your product, customers, competitors, metrics, and goals. No other agent in the world has this system.</p>
+
+  <h3>How to activate</h3>
+  <p>Type in any chat:</p>
+  <pre><code>introduce my business</code><span class="lang-tag">command</span></pre>
+  <p>The agent asks 20 questions over approximately 5 minutes. After that, it never needs to ask again.</p>
+
+  <h3>What it stores</h3>
+  <div class="dna-grid">
+    <div class="dna-q"><div class="dna-q-n">Business</div><div class="dna-q-text">Name, type, description, stage, industry</div></div>
+    <div class="dna-q"><div class="dna-q-n">Product</div><div class="dna-q-text">Product name, target customer, unique value, pricing</div></div>
+    <div class="dna-q"><div class="dna-q-n">Metrics</div><div class="dna-q-text">MRR, ARR, users, goals, conversion rate</div></div>
+    <div class="dna-q"><div class="dna-q-n">Competitors</div><div class="dna-q-text">Names, weaknesses, your edge over each</div></div>
+    <div class="dna-q"><div class="dna-q-n">Marketing</div><div class="dna-q-text">Channels, brand voice, target audience, keywords</div></div>
+    <div class="dna-q"><div class="dna-q-n">Tech Stack</div><div class="dna-q-text">Languages, frameworks, hosting, repos</div></div>
+    <div class="dna-q"><div class="dna-q-n">Agent Role</div><div class="dna-q-text">CEO, CMO, CTO, CFO, Sales, or custom</div></div>
+    <div class="dna-q"><div class="dna-q-n">Focus</div><div class="dna-q-text">Current priority, weekly goals, restrictions</div></div>
+  </div>
+
+  <div class="callout tip"><div class="callout-icon">💡</div><div class="callout-body"><div class="callout-title">Update any time</div><p>Type <strong>"update my business DNA"</strong> or go to the Business DNA section in your workspace dashboard and click Update Business DNA.</p></div></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ AGENT ROLES ═══ -->
+<section id="agent-roles">
+  <div class="page-eyebrow">Business Features</div>
+  <h2 style="margin-top:0;border-bottom:none">Agent Roles</h2>
+  <p>After Business DNA setup, choose what role your agent takes in your business. The role shapes how it responds to every command — not just tone, but priorities and strategy.</p>
+  <div class="table-wrap"><table><thead><tr><th>Role</th><th>Focus</th><th>Proactive Actions</th></tr></thead><tbody>
+    <tr><td>👑 <strong>CEO</strong></td><td>Strategy & growth</td><td>Morning briefs, competitor monitoring, weekly reviews, expansion ideas</td></tr>
+    <tr><td>📢 <strong>CMO</strong></td><td>Marketing & content</td><td>Content calendar, campaign creation, brand voice consistency, social posts</td></tr>
+    <tr><td>💻 <strong>CTO</strong></td><td>Technology</td><td>Architecture decisions, code reviews, tech debt identification, security</td></tr>
+    <tr><td>💰 <strong>CFO</strong></td><td>Finance & revenue</td><td>Revenue analysis, cost optimization, pricing experiments, financial reports</td></tr>
+    <tr><td>🎯 <strong>Sales</strong></td><td>Lead generation</td><td>Outreach sequences, follow-up reminders, pipeline tracking</td></tr>
+    <tr><td>⚡ <strong>Custom</strong></td><td>You define it</td><td>Any role you describe in plain language</td></tr>
+  </tbody></table></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ PROACTIVE ═══ -->
+<section id="proactive">
+  <div class="page-eyebrow">Business Features</div>
+  <h2 style="margin-top:0;border-bottom:none">Proactive AI</h2>
+  <p>Once Business DNA is set up, your agent works proactively — without you asking. It monitors your market, generates briefings, and surfaces opportunities automatically.</p>
+  <div class="table-wrap"><table><thead><tr><th>Feature</th><th>Schedule</th><th>What It Does</th></tr></thead><tbody>
+    <tr><td><strong>Morning Brief</strong></td><td>Every day 9:00 AM</td><td>Competitor alerts, today's priorities, strategic insight, motivational note</td></tr>
+    <tr><td><strong>Opportunity Scan</strong></td><td>Every 6 hours</td><td>Finds opportunities in your market you might have missed</td></tr>
+    <tr><td><strong>Weekly Report</strong></td><td>Every Monday 8:00 AM</td><td>Week summary, wins, challenges, next week priorities, AI recommendation</td></tr>
+    <tr><td><strong>Competitor Monitor</strong></td><td>Daily via briefing</td><td>Analyzes competitor position and suggests your response</td></tr>
+  </tbody></table></div>
+  <p>You can also trigger any of these manually:</p>
+  <pre><code>"Brief me on today"
+"Find opportunities for my business"
+"Generate this week's report"</code><span class="lang-tag">commands</span></pre>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ MULTI-AGENT ═══ -->
+<section id="multi-agent">
+  <div class="page-eyebrow">Business Features</div>
+  <h2 style="margin-top:0;border-bottom:none">Agent Teams</h2>
+  <p>Complex tasks automatically assemble a team of specialist agents. A Boss Agent selects the right team, each agent works in sequence building on the previous one's output, and an Editor Agent reviews the final result.</p>
+
+  <div class="callout info"><div class="callout-icon">ℹ️</div><div class="callout-body"><div class="callout-title">Automatic detection</div><p>You do not need to ask for a team. Just describe a complex task and the Boss Agent assembles the right team automatically.</p></div></div>
+
+  <h3>Available agents</h3>
+  <div class="agent-grid">
+    <div class="agent-card"><div class="ac-emoji">🔍</div><div class="ac-name">Research</div><div class="ac-desc">Data, competitors, opportunities</div></div>
+    <div class="agent-card"><div class="ac-emoji">🎯</div><div class="ac-name">Strategy</div><div class="ac-desc">Plans, priorities, decisions</div></div>
+    <div class="agent-card"><div class="ac-emoji">📢</div><div class="ac-name">Marketing</div><div class="ac-desc">Campaigns, copy, launches</div></div>
+    <div class="agent-card"><div class="ac-emoji">✍️</div><div class="ac-name">Writer</div><div class="ac-desc">Blog, email, social media</div></div>
+    <div class="agent-card"><div class="ac-emoji">💻</div><div class="ac-name">Developer</div><div class="ac-desc">Code, architecture, reviews</div></div>
+    <div class="agent-card"><div class="ac-emoji">📊</div><div class="ac-name">Analyst</div><div class="ac-desc">Metrics, patterns, reports</div></div>
+    <div class="agent-card"><div class="ac-emoji">💰</div><div class="ac-name">Sales</div><div class="ac-desc">Outreach, follow-ups, pipeline</div></div>
+    <div class="agent-card"><div class="ac-emoji">✅</div><div class="ac-name">Editor</div><div class="ac-desc">Review, polish, finalize</div></div>
+  </div>
+
+  <h3>Team templates</h3>
+  <div class="table-wrap"><table><thead><tr><th>Team</th><th>Agents</th><th>Triggered by</th></tr></thead><tbody>
+    <tr><td>📝 Content Creation</td><td>Research → Write → Edit</td><td>"write a blog post about…"</td></tr>
+    <tr><td>🚀 Marketing Campaign</td><td>Research → Strategy → Market → Write → Edit</td><td>"create a full campaign for…"</td></tr>
+    <tr><td>🛠️ Software Dev</td><td>Plan → Code → Review</td><td>"build a complete…"</td></tr>
+    <tr><td>📧 Sales Outreach</td><td>Research → Sales → Edit</td><td>"write outreach sequence for…"</td></tr>
+    <tr><td>♟️ Business Strategy</td><td>Research → Analyze → Strategize</td><td>"plan our growth strategy…"</td></tr>
+  </tbody></table></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ CONNECTORS ═══ -->
+<section id="connectors">
+  <div class="page-eyebrow">Business Features</div>
+  <h2 style="margin-top:0;border-bottom:none">API Connectors</h2>
+  <p>Connect one API key from any of 10 providers. Simple tasks always use local AI — free and instant. Complex tasks automatically use your connected API key for higher quality output. Your key is encrypted on your PC and never sent to any server.</p>
+
+  <h3>How to connect</h3>
+  <p>Workspace → Settings → API Connectors → select provider → paste key → Test → Save.</p>
+
+  <div class="callout tip"><div class="callout-icon">💡</div><div class="callout-body"><div class="callout-title">One key is enough</div><p>You only need to connect one provider. The agent uses that key for all complex tasks — coding, strategy, content, research. Start with <strong>OpenRouter</strong> if you are unsure — it gives access to all major models with a single key.</p></div></div>
+
+  <h3>Supported providers</h3>
+  <div class="connector-grid">
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">🔀</span><span class="cc-name">OpenRouter</span></div><div class="cc-desc">100+ models — Claude, GPT-4o, Gemini, Llama in one key. Best for beginners.</div><div class="cc-tags"><span class="chip chip-green">Recommended</span></div></div>
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">🤖</span><span class="cc-name">Anthropic</span></div><div class="cc-desc">Claude Sonnet — best reasoning and coding quality.</div><div class="cc-tags"><span class="chip chip-blue">Best quality</span></div></div>
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">⚡</span><span class="cc-name">OpenAI</span></div><div class="cc-desc">GPT-4o, o1, o3 — most widely used models.</div><div class="cc-tags"><span class="chip chip-gray">Popular</span></div></div>
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">💎</span><span class="cc-name">Google Gemini</span></div><div class="cc-desc">Gemini 2.0 Flash — fast, generous free tier, 2M context.</div><div class="cc-tags"><span class="chip chip-gray">Free tier</span></div></div>
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">🚀</span><span class="cc-name">Groq</span></div><div class="cc-desc">Ultra-fast Llama and Mixtral inference. Free tier available.</div><div class="cc-tags"><span class="chip chip-gray">Fastest</span></div></div>
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">🔬</span><span class="cc-name">DeepSeek</span></div><div class="cc-desc">DeepSeek R1 — world-class reasoning at very low cost.</div><div class="cc-tags"><span class="chip chip-gray">Cheap</span></div></div>
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">🌊</span><span class="cc-name">Mistral AI</span></div><div class="cc-desc">Mistral Large — European privacy, strong reasoning.</div><div class="cc-tags"><span class="chip chip-gray">EU privacy</span></div></div>
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">🔍</span><span class="cc-name">Perplexity</span></div><div class="cc-desc">Web search + AI — real-time information access for research tasks.</div><div class="cc-tags"><span class="chip chip-gray">Web search</span></div></div>
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">🤝</span><span class="cc-name">Together AI</span></div><div class="cc-desc">Open source models — cheap, fast, Llama hosted.</div><div class="cc-tags"><span class="chip chip-gray">Open source</span></div></div>
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">🎯</span><span class="cc-name">Cohere</span></div><div class="cc-desc">Command R+ — excellent for RAG and enterprise workflows.</div><div class="cc-tags"><span class="chip chip-gray">Enterprise</span></div></div>
+  </div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ SECURITY ═══ -->
 <section id="security">
-  <div class="eyebrow">Safety</div>
-  <h2 class="ph2">Security Model</h2>
-  <div class="tbl-wrap"><table><thead><tr><th>Layer</th><th>What It Does</th></tr></thead><tbody>
+  <div class="page-eyebrow">Reference</div>
+  <h2 style="margin-top:0;border-bottom:none">Security</h2>
+  <div class="table-wrap"><table><thead><tr><th>Layer</th><th>What It Does</th></tr></thead><tbody>
     <tr><td><strong>Permanent Blocklist</strong></td><td>Disk format, recursive system deletion, fork bombs — blocked forever, no exceptions</td></tr>
-    <tr><td><strong>Permission System</strong></td><td>High-risk commands pause and show Approve/Deny banner. Agent waits 60 seconds for response</td></tr>
-    <tr><td><strong>Rate Limiting</strong></td><td>Max 20 commands per user per minute. Excess commands rejected automatically</td></tr>
-    <tr><td><strong>Ownership Verification</strong></td><td>Every command verified against workspace owner. Mismatched accounts silently rejected</td></tr>
+    <tr><td><strong>Permission System</strong></td><td>High-risk commands pause and show Approve / Deny in your dashboard. Agent waits 60 seconds</td></tr>
+    <tr><td><strong>Rate Limiting</strong></td><td>Maximum 20 commands per user per minute. Excess commands rejected automatically</td></tr>
+    <tr><td><strong>Ownership Verification</strong></td><td>Every command verified against the workspace owner. Mismatched accounts silently rejected</td></tr>
     <tr><td><strong>JSON Retry Loop</strong></td><td>Malformed AI response → retries 3 times with clearer instructions before failing safely</td></tr>
-    <tr><td><strong>Privacy</strong></td><td>All AI inference local. Commands relay to your PC only — no cloud AI processing</td></tr>
+    <tr><td><strong>Encrypted API Keys</strong></td><td>Connector keys encrypted with your machine ID — never stored in plain text, never sent to RTDB</td></tr>
+    <tr><td><strong>Local AI Processing</strong></td><td>All AI inference runs on your machine. Commands relay to your PC only — no cloud AI processing</td></tr>
   </tbody></table></div>
-  <div class="helpful"><span>Was this useful?</span><button class="hbtn">Yes</button><button class="hbtn">No</button></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
 </section>
-<div class="div"></div>
 
-<!-- ══ INSTALL WARNINGS ══ -->
+<div class="divider"></div>
+
+<!-- ═══ INSTALL WARNINGS ═══ -->
 <section id="install-warnings">
-  <div class="eyebrow">Installation</div>
-  <h2 class="ph2" style="color:var(--red)">Installation Warnings</h2>
-  <p>Agentic Vnus is not yet code-signed by Microsoft or Apple. Your OS will show a security warning during installation. <strong>This is completely normal</strong> — the app is safe.</p>
+  <div class="page-eyebrow">Reference</div>
+  <h2 style="margin-top:0;border-bottom:none">Installation Warnings</h2>
+  <p>Agentic Vnus is not yet code-signed by Microsoft or Apple. Your OS will show a security warning on first install. The app is safe — these warnings appear on all unsigned applications.</p>
 
-  <h3 class="ph3">Windows — "Don't Run" Warning</h3>
-  <div class="callout red"><div class="callout-title">Windows SmartScreen</div><p>"Windows protected your PC" appears because the app is not yet Microsoft-certified. Click More info → Run anyway.</p></div>
-  <ul class="steps">
-    <li><div class="sn">1</div><div><div class="st">Download the .exe</div><div class="sd">If browser blocks download, click the arrow → <strong>Keep anyway</strong></div></div></li>
-    <li><div class="sn">2</div><div><div class="st">Click "More info"</div><div class="sd">On the blue SmartScreen warning, click <strong>More info</strong> at the bottom</div></div></li>
-    <li><div class="sn">3</div><div><div class="st">Click "Run anyway"</div><div class="sd">Installation begins. Click <strong>Yes</strong> on the UAC prompt that follows.</div></div></li>
-  </ul>
+  <div class="tabs" id="warn-tabs">
+    <div class="tab-list">
+      <button class="tab-btn active" onclick="switchTab('warn','windows')">Windows</button>
+      <button class="tab-btn" onclick="switchTab('warn','mac')">Mac</button>
+      <button class="tab-btn" onclick="switchTab('warn','linux')">Linux</button>
+    </div>
+    <div class="tab-content active" id="tab-warn-windows">
+      <div class="callout danger"><div class="callout-icon">⚠️</div><div class="callout-body"><div class="callout-title">Windows SmartScreen</div><p>"Windows protected your PC" — click More info → Run anyway to proceed.</p></div></div>
+      <ul class="steps-list">
+        <li class="step-item"><div class="step-num">1</div><div><div class="step-title">Download the .exe</div><div class="step-desc">If the browser blocks the download, click the arrow → <strong>Keep anyway</strong>.</div></div></li>
+        <li class="step-item"><div class="step-num">2</div><div><div class="step-title">Click "More info"</div><div class="step-desc">On the blue SmartScreen screen, click <strong>More info</strong> at the bottom.</div></div></li>
+        <li class="step-item"><div class="step-num">3</div><div><div class="step-title">Click "Run anyway"</div><div class="step-desc">Installation begins. Click <strong>Yes</strong> on the UAC prompt.</div></div></li>
+      </ul>
+    </div>
+    <div class="tab-content" id="tab-warn-mac">
+      <div class="callout danger"><div class="callout-icon">⚠️</div><div class="callout-body"><div class="callout-title">macOS Gatekeeper</div><p>"Cannot be opened because it is from an unidentified developer" — right-click → Open to bypass.</p></div></div>
+      <ul class="steps-list">
+        <li class="step-item"><div class="step-num">1</div><div><div class="step-title">Download the correct DMG</div><div class="step-desc">Intel Mac → <code>x64.dmg</code> · Apple Silicon (M1/M2/M3/M4) → <code>arm64.dmg</code>. Check at Apple menu → About This Mac.</div></div></li>
+        <li class="step-item"><div class="step-num">2</div><div><div class="step-title">Right-click → Open</div><div class="step-desc">In Applications, right-click the app → Open. Do not double-click.</div></div></li>
+        <li class="step-item"><div class="step-num">3</div><div><div class="step-title">Click Open in the dialog</div><div class="step-desc">Only needed the first time. Opens normally every time after that.</div></div></li>
+        <li class="step-item"><div class="step-num">4</div><div><div class="step-title">If no Open button appears</div><div class="step-desc">System Settings → Privacy & Security → scroll down → <strong>Open Anyway</strong>.</div></div></li>
+      </ul>
+      <p>Alternative via Terminal:</p>
+      <pre><code>sudo xattr -rd com.apple.quarantine "/Applications/Agentic Vnus.app"</code><span class="lang-tag">terminal</span></pre>
+    </div>
+    <div class="tab-content" id="tab-warn-linux">
+      <p>AppImage files are not executable by default. Grant permission first:</p>
+      <pre><code>chmod +x ~/Downloads/AgenticVnus-1.0.0.AppImage
+~/Downloads/AgenticVnus-1.0.0.AppImage</code><span class="lang-tag">bash</span></pre>
+      <p>If you get a FUSE error:</p>
+      <pre><code># Ubuntu 22.04 and earlier
+sudo apt install libfuse2
 
-  <h3 class="ph3">Mac — "Cannot be Opened" Warning</h3>
-  <div class="callout red"><div class="callout-title">macOS Gatekeeper</div><p>"Agentic Vnus cannot be opened because it is from an unidentified developer." App is safe — not yet Apple-notarized.</p></div>
-  <ul class="steps">
-    <li><div class="sn">1</div><div><div class="st">Download the correct DMG</div><div class="sd">Intel Mac: <code>AgenticVnus-1.0.0-x64.dmg</code> · Apple Silicon (M1/M2/M3/M4): <code>AgenticVnus-1.0.0-arm64.dmg</code></div></div></li>
-    <li><div class="sn">2</div><div><div class="st">Right-click → Open</div><div class="sd">Do NOT double-click. Right-click the app in Applications → Open</div></div></li>
-    <li><div class="sn">3</div><div><div class="st">Click "Open" in popup</div><div class="sd">Only needed first time. Opens normally every time after that.</div></div></li>
-    <li><div class="sn">4</div><div><div class="st">If no Open button</div><div class="sd">System Settings → Privacy & Security → scroll down → <strong>Open Anyway</strong></div></div></li>
-  </ul>
-  <p>Terminal alternative: <code>sudo xattr -rd com.apple.quarantine "/Applications/Agentic Vnus.app"</code></p>
+# Ubuntu 24.04+
+sudo apt install libfuse2t64</code><span class="lang-tag">bash</span></pre>
+    </div>
+  </div>
 
-  <h3 class="ph3">Linux — AppImage Permission</h3>
-  <pre><span class="lang">bash</span>chmod +x ~/Downloads/AgenticVnus-1.0.0.AppImage
-~/Downloads/AgenticVnus-1.0.0.AppImage</pre>
-  <p>If FUSE error: <code>sudo apt install libfuse2</code> (Ubuntu 22.04+: <code>libfuse2t64</code>)</p>
-
-  <div class="tbl-wrap"><table><thead><tr><th>Problem</th><th>Platform</th><th>Fix</th></tr></thead><tbody>
-    <tr><td>"Windows protected your PC"</td><td><span class="chip chip-b">Win</span></td><td>More info → Run anyway</td></tr>
-    <tr><td>Browser blocked download</td><td><span class="chip chip-b">Win</span></td><td>Arrow → Keep anyway</td></tr>
-    <tr><td>"Cannot be opened"</td><td><span class="chip chip-x">Mac</span></td><td>Right-click → Open → Open</td></tr>
-    <tr><td>No "Open" button</td><td><span class="chip chip-x">Mac</span></td><td>System Settings → Privacy → Open Anyway</td></tr>
-    <tr><td>Wrong DMG downloaded</td><td><span class="chip chip-x">Mac</span></td><td>Apple menu → About This Mac → check chip type</td></tr>
-    <tr><td>AppImage won't open</td><td><span class="chip chip-y">Linux</span></td><td>chmod +x first</td></tr>
-    <tr><td>FUSE error</td><td><span class="chip chip-y">Linux</span></td><td>sudo apt install libfuse2</td></tr>
+  <h3>Common problems</h3>
+  <div class="table-wrap"><table><thead><tr><th>Problem</th><th>Platform</th><th>Fix</th></tr></thead><tbody>
+    <tr><td>"Windows protected your PC"</td><td><span class="chip chip-blue">Win</span></td><td>More info → Run anyway</td></tr>
+    <tr><td>Browser blocked the download</td><td><span class="chip chip-blue">Win</span></td><td>Arrow → Keep anyway</td></tr>
+    <tr><td>"Vnus Agent cannot be closed" on reinstall</td><td><span class="chip chip-blue">Win</span></td><td>Click Retry in installer — auto-closes old version</td></tr>
+    <tr><td>"Cannot be opened — unidentified developer"</td><td><span class="chip chip-gray">Mac</span></td><td>Right-click → Open → Open</td></tr>
+    <tr><td>No "Open" button in the warning dialog</td><td><span class="chip chip-gray">Mac</span></td><td>System Settings → Privacy & Security → Open Anyway</td></tr>
+    <tr><td>App opens then immediately quits</td><td><span class="chip chip-gray">Mac</span></td><td>Run the xattr command above in Terminal</td></tr>
+    <tr><td>Downloaded wrong DMG</td><td><span class="chip chip-gray">Mac</span></td><td>Apple menu → About This Mac → check chip type</td></tr>
+    <tr><td>AppImage does not open</td><td><span class="chip chip-yellow">Linux</span></td><td><code>chmod +x</code> the file first</td></tr>
+    <tr><td>FUSE error</td><td><span class="chip chip-yellow">Linux</span></td><td><code>sudo apt install libfuse2</code></td></tr>
   </tbody></table></div>
-  <div class="callout green"><div class="callout-title">One time only</div><p>These warnings only appear on first install. After that the app opens normally every time. Code signing will be added in a future update.</p></div>
-  <div class="helpful"><span>Was this useful?</span><button class="hbtn">Yes</button><button class="hbtn">No</button></div>
+  <div class="callout tip"><div class="callout-icon">✓</div><div class="callout-body"><div class="callout-title">One time only</div><p>These warnings only appear on the first install. After that the app opens normally every time. Code signing will be added in a future update.</p></div></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
 </section>
-<div class="div"></div>
 
-<!-- ══ PLANS ══ -->
+<div class="divider"></div>
+
+<!-- ═══ PLANS ═══ -->
 <section id="plans">
-  <div class="eyebrow">Pricing</div>
-  <h2 class="ph2">Plans & Pricing</h2>
-  <div class="tbl-wrap"><table><thead><tr><th>Plan</th><th>Price</th><th>Tasks/mo</th><th>Workspaces</th><th>Max Model</th></tr></thead><tbody>
+  <div class="page-eyebrow">Reference</div>
+  <h2 style="margin-top:0;border-bottom:none">Plans & Pricing</h2>
+  <p>Your plan unlocks AI models and monthly task limits. Privacy is identical on every plan — all AI inference runs locally on your machine.</p>
+  <div class="table-wrap"><table><thead><tr><th>Plan</th><th>Price</th><th>Tasks / mo</th><th>Workspaces</th><th>Max Model</th></tr></thead><tbody>
     <tr><td>Free</td><td>$0</td><td>50</td><td>1</td><td>4B</td></tr>
-    <tr><td>Starter</td><td>$5/mo</td><td>250</td><td>2</td><td>8B</td></tr>
-    <tr><td><strong>Pro ⭐</strong></td><td><strong>$29/mo</strong></td><td>500</td><td>5</td><td>30B MoE</td></tr>
-    <tr><td>Pro Max</td><td>$60/mo</td><td>1,250</td><td>10</td><td>32B + Coder</td></tr>
-    <tr><td>Elite</td><td>$499/mo</td><td>5,000</td><td>Unlimited</td><td>70B</td></tr>
-    <tr><td>Elite Ultra</td><td>$999/mo</td><td>10,000</td><td>Unlimited + white-label</td><td>405B</td></tr>
+    <tr><td>Starter</td><td>$5 / mo</td><td>250</td><td>2</td><td>8B</td></tr>
+    <tr><td><strong>Pro</strong> ⭐</td><td><strong>$29 / mo</strong></td><td>500</td><td>5</td><td>30B MoE + Scheduler</td></tr>
+    <tr><td>Pro Max</td><td>$60 / mo</td><td>1,250</td><td>10</td><td>32B + Coder</td></tr>
+    <tr><td>Elite</td><td>$499 / mo</td><td>5,000</td><td>Unlimited</td><td>70B</td></tr>
+    <tr><td>Elite Ultra</td><td>$999 / mo</td><td>10,000</td><td>Unlimited + white-label</td><td>405B</td></tr>
   </tbody></table></div>
-  <div class="callout blue"><div class="callout-title">Privacy is identical on all plans</div><p>Every plan runs AI locally on your machine. The plan unlocks models and task limits — not privacy level.</p></div>
-  <div class="helpful"><span>Was this useful?</span><button class="hbtn">Yes</button><button class="hbtn">No</button></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
 </section>
-<div class="div"></div>
 
-<!-- ══ FAQ ══ -->
+<div class="divider"></div>
+
+<!-- ═══ FAQ ═══ -->
 <section id="faq">
-  <div class="eyebrow">FAQ</div>
-  <h2 class="ph2">Frequently Asked Questions</h2>
-  <h3 class="ph3">Does the agent work without internet?</h3>
-  <p>Yes — after first setup, everything runs offline. Only network activity is the Realtime Database WebSocket to receive commands from your dashboard. AI processing is entirely local.</p>
-  <h3 class="ph3">Where does my data go?</h3>
-  <p>Commands temporarily pass through Realtime Database to bridge browser and PC. AI processing happens entirely on your machine. Memory, skills, session history, tokens — stored locally, never transmitted anywhere.</p>
-  <h3 class="ph3">What if model download fails?</h3>
-  <p>Agent shows specific error and Retry button. Your plan stays active. Check internet connection and available disk space — you need at least 2 GB more than the model size.</p>
-  <h3 class="ph3">Can I use the agent on multiple PCs?</h3>
-  <p>Yes — each PC gets its own connection code. Add as many workspaces as your plan allows. Each workspace runs independently with its own model and memory.</p>
-  <h3 class="ph3">Does the scheduler keep running when browser is closed?</h3>
-  <p>Yes — scheduler runs inside the Electron agent in your system tray. As long as the tray icon is visible, all scheduled tasks execute on time regardless of browser state.</p>
-  <h3 class="ph3">What is Business DNA and how long does setup take?</h3>
-  <p>Business DNA is a one-time 20-question setup (about 5 minutes) where you introduce your business. After that, your agent remembers everything forever and acts as a dedicated AI executive in your chosen role.</p>
-  <h3 class="ph3">Can I reset Business DNA?</h3>
-  <p>Yes — type <strong>"update my business DNA"</strong> or go to the Business DNA section in your workspace dashboard and click "Update Business DNA".</p>
-  <div class="helpful"><span>Was this useful?</span><button class="hbtn">Yes</button><button class="hbtn">No</button></div>
-</section>
-<div class="div"></div>
+  <div class="page-eyebrow">Reference</div>
+  <h2 style="margin-top:0;border-bottom:none">FAQ</h2>
 
-<!-- ══ ARCH ══ -->
+  <div id="faq-1" class="accordion open"><div class="accordion-header" onclick="toggleAcc('faq-1')"><span class="accordion-icon">❓</span><span class="accordion-title">Does the agent work without internet?</span><span class="accordion-chevron">›</span></div><div class="accordion-body"><p>Yes. After first setup, all AI processing runs offline. The only network activity is the Realtime Database WebSocket to receive commands from your dashboard — a tiny amount of data. The AI model itself runs entirely on your hardware.</p></div></div>
+
+  <div id="faq-2" class="accordion"><div class="accordion-header" onclick="toggleAcc('faq-2')"><span class="accordion-icon">❓</span><span class="accordion-title">Where does my data go?</span><span class="accordion-chevron">›</span></div><div class="accordion-body"><p>Commands temporarily pass through Realtime Database to bridge your browser and PC. AI processing happens entirely on your machine. Memory, skills, session history, tokens, and API keys are stored locally — never transmitted to any server.</p></div></div>
+
+  <div id="faq-3" class="accordion"><div class="accordion-header" onclick="toggleAcc('faq-3')"><span class="accordion-icon">❓</span><span class="accordion-title">Can I use the agent on multiple PCs?</span><span class="accordion-chevron">›</span></div><div class="accordion-body"><p>Yes. Each PC gets its own permanent connection code. Add as many workspaces as your plan allows. Each workspace has its own model, memory, and skills — they do not share data with each other.</p></div></div>
+
+  <div id="faq-4" class="accordion"><div class="accordion-header" onclick="toggleAcc('faq-4')"><span class="accordion-icon">❓</span><span class="accordion-title">Does the scheduler run when my browser is closed?</span><span class="accordion-chevron">›</span></div><div class="accordion-body"><p>Yes. The scheduler runs inside the Electron app in your system tray. As long as the tray icon is visible, all scheduled tasks run on time regardless of whether the dashboard is open in a browser.</p></div></div>
+
+  <div id="faq-5" class="accordion"><div class="accordion-header" onclick="toggleAcc('faq-5')"><span class="accordion-icon">❓</span><span class="accordion-title">How long does Business DNA setup take?</span><span class="accordion-chevron">›</span></div><div class="accordion-body"><p>About 5 minutes. The agent asks 20 questions one at a time. After that it never asks again — all context is permanent until you update it.</p></div></div>
+
+  <div id="faq-6" class="accordion"><div class="accordion-header" onclick="toggleAcc('faq-6')"><span class="accordion-icon">❓</span><span class="accordion-title">Do I need to connect an API key?</span><span class="accordion-chevron">›</span></div><div class="accordion-body"><p>No. The agent works entirely on local AI without any API key. An API key unlocks higher quality output for complex tasks. Simple tasks — file operations, browser automation, apps — always use local AI regardless of whether an API key is connected.</p></div></div>
+
+  <div id="faq-7" class="accordion"><div class="accordion-header" onclick="toggleAcc('faq-7')"><span class="accordion-icon">❓</span><span class="accordion-title">What if the model download fails?</span><span class="accordion-chevron">›</span></div><div class="accordion-body"><p>The agent shows a specific error message and a Retry button. Your plan stays active. Check your internet connection and ensure you have at least 2 GB more free disk space than the model size.</p></div></div>
+
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ ARCHITECTURE ═══ -->
 <section id="arch">
-  <div class="eyebrow">Technical Reference</div>
-  <h2 class="ph2">Architecture</h2>
-  <h3 class="ph3">brain.js — Intelligence Layer</h3>
-  <p>Builds system prompt combining persistent memory, skills, business DNA context, and task-specific Chain-of-Thought reasoning. Detects task type (coding / browser / files / reasoning) and routes to appropriate model. Responses parsed as structured JSON action sequences. Invalid output retries 3 times.</p>
-  <h3 class="ph3">businessDNA.js — Business Context</h3>
-  <p>Handles 20-question setup flow. Stores DNA at <code>~/.vnus-agent/business-dna.json</code>. Injects business context into every AI prompt. Powers role-based agent modes. Source for all proactive features.</p>
-  <h3 class="ph3">multiAgent.js — Team System</h3>
-  <p>Boss Agent detects complex tasks and selects team template. 8 specialized agents with distinct system prompts. Sequential execution with context passing between agents. Results compiled by Editor Agent.</p>
-  <h3 class="ph3">proactiveAgent.js — Proactive Intelligence</h3>
-  <p>Generates morning briefings, opportunity scans, and weekly reports using business DNA context. All results synced to RTDB for dashboard display.</p>
-  <h3 class="ph3">scheduler.js — Cron Engine</h3>
-  <p>node-cron engine for 6 trigger types. All operations received via RTDB WebSocket instantly from website. History logged to <code>~/.vnus-agent/schedule-history.json</code>. Retry with exponential backoff.</p>
-  <h3 class="ph3">listener.js — Command Delivery</h3>
-  <p>Firebase Realtime Database SSE WebSocket — zero polling. Commands arrive instantly. Rate limited 20/min per user. Ownership verified before execution.</p>
-  <div class="helpful"><span>Was this useful?</span><button class="hbtn">Yes</button><button class="hbtn">No</button></div>
-</section>
-<div class="div"></div>
+  <div class="page-eyebrow">Reference</div>
+  <h2 style="margin-top:0;border-bottom:none">Architecture</h2>
 
-<!-- ══ UPDATES ══ -->
+  <h3>brain.js — Intelligence layer</h3>
+  <p>Builds the system prompt from persistent memory, learned skills, business DNA context, and task-specific Chain-of-Thought instructions. Detects task type — coding, browser, files, reasoning — and routes to the best available model. Responses are parsed as structured JSON action sequences. Invalid output retries up to 3 times automatically. When an API connector is connected, complex tasks route through it before falling back to local Ollama.</p>
+
+  <h3>listener.js — Command delivery</h3>
+  <p>Firebase Realtime Database SSE WebSocket — zero polling, instant delivery. Rate limited to 20 commands per minute per user. Ownership verified before every execution. Handles connector actions, screenshot requests, and proactive scheduler startup. Heartbeat every 30 seconds to keep workspace status current.</p>
+
+  <h3>businessDNA.js — Business context</h3>
+  <p>20-question setup flow stored at <code>~/.vnus-agent/business-dna.json</code>. Injects business context into every AI prompt. Powers role-based agent modes (CEO, CMO, CTO, CFO, Sales). Source of context for all proactive features.</p>
+
+  <h3>multiAgent.js — Team system</h3>
+  <p>Boss Agent detects complex tasks using pattern matching and selects the best team template. 8 specialized agents each with a distinct system prompt. Sequential execution with context passing between agents. Results compiled by the Editor Agent. Team sessions saved to <code>~/.vnus-agent/teams/</code>.</p>
+
+  <h3>proactiveAgent.js — Proactive intelligence</h3>
+  <p>Generates morning briefings at 9 AM, opportunity scans every 6 hours, and weekly reports on Monday mornings. All results synced to RTDB for display in the dashboard. Requires Business DNA to be set up first.</p>
+
+  <h3>scheduler.js — Cron engine</h3>
+  <p>node-cron engine registers all 6 trigger types on startup. Create, update, delete, and run-now operations received via RTDB WebSocket instantly from the website. History logged to <code>~/.vnus-agent/schedule-history.json</code>. Retry with exponential backoff on failure.</p>
+
+  <h3>connectors.js — API connector layer</h3>
+  <p>Stores API keys encrypted at <code>~/.vnus-agent/connectors.json</code> using AES-256-CBC with your machine ID as the encryption key. Keys are never sent to RTDB — only a masked version syncs to the dashboard. Supports 10 providers with OpenAI-compatible and provider-specific API formats.</p>
+
+  <h3>memory.js — Learning layer</h3>
+  <p>Reads and writes <code>~/.vnus-agent/memory.json</code>. Preferences, facts, corrections, and session summaries injected into every AI prompt. Extracts learnings automatically from completed tasks.</p>
+
+  <h3>skills.js — Skill engine</h3>
+  <p>After each successful task, checks if the command matches a learnable pattern. Saves skill files locally with trigger phrases, action templates, and success counter. Failed skills marked stale and regenerated from fresh AI planning.</p>
+
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ UPDATES ═══ -->
 <section id="updates">
-  <div class="eyebrow" style="color:#fbbf24">Coming August 20</div>
-  <h2 class="ph2">Upcoming Updates <span class="chip chip-y">Aug 20, 2026</span></h2>
-  <div class="card-grid">
-    <a class="doc-card" href="#updates"><div class="dc-icon">📱</div><div class="dc-title">Native Mobile App</div><div class="dc-desc">Android & iOS. Remote PC control, live view, push notifications, voice commands.</div></a>
-    <a class="doc-card" href="#updates"><div class="dc-icon">🤖</div><div class="dc-title">Claude Integration</div><div class="dc-desc">Pro Max+. Smart routing — complex tasks to Claude, execution stays local.</div></a>
-    <a class="doc-card" href="#updates" style="grid-column:1/-1"><div class="dc-icon">🛒</div><div class="dc-title">Open Skill Marketplace</div><div class="dc-desc">Publish skills, install community automations in one tap, earn from your published skills.</div></a>
+  <div class="page-eyebrow">Roadmap</div>
+  <h2 style="margin-top:0;border-bottom:none">Upcoming Updates — August 20, 2026</h2>
+  <p>Three major updates shipping simultaneously on August 20. All active subscribers receive them automatically — no reinstall, no manual steps.</p>
+
+  <div class="card-grid three">
+    <div class="card" style="cursor:default"><div class="card-icon">📱</div><div class="card-title">Native Mobile App</div><div class="card-desc">Android and iOS. Remote PC control, live view, push notifications when tasks complete, voice commands.</div></div>
+    <div class="card" style="cursor:default"><div class="card-icon">🤖</div><div class="card-title">Claude Integration</div><div class="card-desc">Pro Max and above. Complex tasks route to Claude Sonnet — planning in the cloud, execution stays local on your PC.</div></div>
+    <div class="card" style="cursor:default"><div class="card-icon">🛒</div><div class="card-title">Skill Marketplace</div><div class="card-desc">Install community automation skills in one tap. Publish your own skills. Earn from every install of your paid skills.</div></div>
   </div>
-  <div class="callout green"><div class="callout-title">Auto-update</div><p>All three updates arrive simultaneously on August 20. Active subscribers on any paid plan receive them automatically — no reinstall, no manual update.</p></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
 </section>
 
-<!-- Footer -->
-<div class="footer">
+<footer>
   <p>© 2026 <strong>Agentic Vnus</strong> · Built by <strong>Prince Tanwar</strong></p>
-  <div style="display:flex;gap:16px">
-    <a href="https://agenticvnus.com">agenticvnus.com</a>
-    <a href="https://x.com/AgenticVnus">X / Twitter</a>
-  </div>
-</div>
+  <div style="display:flex;gap:16px"><a href="https://agenticvnus.com">agenticvnus.com</a><a href="https://x.com/AgenticVnus">X / Twitter</a></div>
+</footer>
 
-</main>
+</div>
 </div>
 
 <script>
-// Search
-const SEARCH_INDEX = [
-  {title:"Introduction",desc:"What is Agentic Vnus and how it works",href:"#overview"},
-  {title:"Quick Start",desc:"Install and run your first command in 10 minutes",href:"#quickstart"},
-  {title:"Business DNA",desc:"Introduce your business once, agent works forever",href:"#business-dna"},
-  {title:"Agent Teams",desc:"Multi-agent teams for complex tasks",href:"#multi-agent"},
-  {title:"Proactive AI",desc:"Morning briefings, opportunity scans, weekly reports",href:"#proactive"},
-  {title:"Scheduler",desc:"6 trigger types, visual UI, background automation",href:"#scheduler"},
-  {title:"Memory System",desc:"Persistent memory across sessions",href:"#memory"},
-  {title:"Self-Improving Skills",desc:"Tasks get faster with repeated use",href:"#skills"},
-  {title:"Browser Control",desc:"Playwright automation, stealth mode",href:"#browser"},
-  {title:"GitHub Integration",desc:"Full REST API, commits, PRs, issues",href:"#github"},
-  {title:"Security",desc:"Permission system, blocklist, rate limiting",href:"#security"},
-  {title:"Installation Warnings",desc:"Windows SmartScreen, Mac Gatekeeper, Linux AppImage",href:"#install-warnings"},
-  {title:"Plans & Pricing",desc:"Free to Elite Ultra — $0 to $999/mo",href:"#plans"},
-  {title:"AI Models",desc:"18 models, 50% RAM rule, auto-selection",href:"#models"},
-  {title:"FAQ",desc:"Common questions answered",href:"#faq"},
-  {title:"Architecture",desc:"brain.js, listener.js, businessDNA.js explained",href:"#arch"},
-  {title:"Updates Aug 20",desc:"Mobile app, Claude integration, skill marketplace",href:"#updates"},
+// ── Search ────────────────────────────────────────────────
+const IDX = [
+  {t:"Overview",               d:"What is Agentic Vnus and its key features",         s:"overview"},
+  {t:"How It Works",           d:"WebSocket architecture and command flow",            s:"how-it-works"},
+  {t:"Quick Start",            d:"Install and run your first command in 10 minutes",   s:"quickstart"},
+  {t:"All Models",             d:"18 models from 0.8B to 405B, auto-selected by RAM",  s:"models"},
+  {t:"50% RAM Rule",           d:"Which models run on your hardware",                  s:"ram-rule"},
+  {t:"Vision Models",          d:"4 vision models for screen understanding",           s:"vision"},
+  {t:"Memory System",          d:"Persistent preferences, facts, corrections",         s:"memory"},
+  {t:"Self-Improving Skills",  d:"Tasks get faster with repeated use",                s:"skills"},
+  {t:"Scheduler",              d:"6 trigger types, background automation",             s:"scheduler"},
+  {t:"Browser Control",        d:"Playwright stealth browser automation",              s:"browser"},
+  {t:"GitHub Integration",     d:"Full REST API — commits, PRs, issues",              s:"github"},
+  {t:"Business DNA",           d:"20-question setup, agent knows your business forever",s:"business-dna"},
+  {t:"Agent Roles",            d:"CEO, CMO, CTO, CFO, Sales, or custom role",         s:"agent-roles"},
+  {t:"Proactive AI",           d:"Morning briefs, opportunity scans, weekly reports",  s:"proactive"},
+  {t:"Agent Teams",            d:"8 specialist agents for complex tasks",              s:"multi-agent"},
+  {t:"API Connectors",         d:"10 providers — one key handles all complex tasks",   s:"connectors"},
+  {t:"Security",               d:"Permission system, blocklist, rate limiting",        s:"security"},
+  {t:"Installation Warnings",  d:"Windows SmartScreen, Mac Gatekeeper, Linux AppImage",s:"install-warnings"},
+  {t:"Plans & Pricing",        d:"Free to Elite Ultra — $0 to $999/mo",               s:"plans"},
+  {t:"FAQ",                    d:"Common questions answered",                          s:"faq"},
+  {t:"Architecture",           d:"brain.js, listener.js, connectors.js explained",    s:"arch"},
+  {t:"Upcoming Updates",       d:"Mobile app, Claude integration, Skill Marketplace",  s:"updates"},
 ];
 
-function openSearch(){document.getElementById('searchOverlay').classList.add('show');setTimeout(()=>document.getElementById('searchInput').focus(),50)}
-function closeSearch(){document.getElementById('searchOverlay').classList.remove('show')}
-
+function openSearch(){document.getElementById('searchOverlay').classList.add('open');setTimeout(()=>document.getElementById('searchInput').focus(),60)}
+function closeSearch(){document.getElementById('searchOverlay').classList.remove('open')}
 function doSearch(q){
   const r=document.getElementById('searchResults');
-  if(!q.trim()){r.innerHTML='<div class="sm-empty">Type to search docs...</div>';return}
-  const results=SEARCH_INDEX.filter(i=>i.title.toLowerCase().includes(q.toLowerCase())||i.desc.toLowerCase().includes(q.toLowerCase()));
-  if(!results.length){r.innerHTML='<div class="sm-empty">No results found</div>';return}
-  r.innerHTML=results.map(i=>`<div class="sm-result" onclick="document.querySelector('${i.href}').scrollIntoView({behavior:'smooth'});closeSearch()"><div class="sm-rt">${i.title}</div><div class="sm-rs">${i.desc}</div></div>`).join('');
+  if(!q.trim()){r.innerHTML='<div class="sm-empty">Type to search...</div>';return}
+  const hits=IDX.filter(i=>i.t.toLowerCase().includes(q.toLowerCase())||i.d.toLowerCase().includes(q.toLowerCase()));
+  if(!hits.length){r.innerHTML='<div class="sm-empty">No results for "'+q+'"</div>';return}
+  r.innerHTML=hits.map(i=>`<div class="sm-result" onclick="scrollTo('${i.s}');closeSearch()"><div class="sm-rt">${i.t}</div><div class="sm-rs">${i.d}</div></div>`).join('');
 }
-
 document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openSearch()}});
 
-// Active nav on scroll
+// ── Scroll ────────────────────────────────────────────────
+function scrollTo(id){
+  const el=document.getElementById(id);
+  if(el){el.scrollIntoView({behavior:'smooth',block:'start'});
+    setTimeout(()=>{document.querySelectorAll('.sb-link').forEach(l=>l.classList.remove('active'));
+      const a=document.querySelector(`.sb-link[onclick="scrollTo('${id}')"]`);if(a)a.classList.add('active');},200);}
+}
+
+// ── Tabs ──────────────────────────────────────────────────
+function switchTab(group,tab){
+  document.querySelectorAll(`[id^="tab-${group}-"]`).forEach(el=>el.classList.remove('active'));
+  document.getElementById(`tab-${group}-${tab}`).classList.add('active');
+  event.target.closest('.tab-list').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ── Accordion ─────────────────────────────────────────────
+function toggleAcc(id){
+  const el=document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+// ── Active nav on scroll ──────────────────────────────────
 const sections=document.querySelectorAll('section[id]');
-const links=document.querySelectorAll('.sb-link,.tab');
+const sbLinks=document.querySelectorAll('.sb-link');
 const observer=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
       const id=e.target.id;
-      links.forEach(l=>{
-        const href=l.getAttribute('href');
-        l.classList.toggle('active',href==='#'+id);
+      sbLinks.forEach(l=>{
+        const fn=l.getAttribute('onclick')||'';
+        l.classList.toggle('active',fn.includes(`'${id}'`));
       });
     }
   });
-},{rootMargin:'-20% 0px -70% 0px'});
+},{rootMargin:'-15% 0px -75% 0px'});
 sections.forEach(s=>observer.observe(s));
 
-// Helpful buttons
-document.querySelectorAll('.hbtn').forEach(btn=>{
-  btn.addEventListener('click',function(){
-    const wrap=this.closest('.helpful');
-    wrap.innerHTML='<span style="font-size:13px;color:var(--gr)">Thanks for the feedback! </span>';
-  });
-});
+// ── Helpful buttons ───────────────────────────────────────
+function markHelpful(btn,val){
+  const wrap=btn.closest('.helpful');
+  wrap.innerHTML=`<span class="helpful-text">${val==='yes'?'Thanks! Glad it helped 👹':'Thanks for the feedback — we\'ll improve this.'}</span>`;
+}
 </script>
-
-<style>
-@keyframes heroGlow{0%,100%{opacity:.4;transform:translate(-50%,-50%) scale(1)}50%{opacity:.8;transform:translate(-50%,-50%) scale(1.2)}}
-@keyframes demonFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-</style>
 </body>
 </html>
