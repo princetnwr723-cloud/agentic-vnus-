@@ -1,8 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
 
-/* ── Mini animated mockups (pure inline SVG/CSS, no libs) ── */
-
 function ChatMockup() {
   return (
     <div className="grok-card p-5 w-full max-w-sm">
@@ -44,12 +42,11 @@ function ParallelAgentsMockup() {
           <div className="h-1.5 rounded-full bg-[#151515] overflow-hidden">
             <div
               className="h-full rounded-full bg-gradient-to-r from-[#FF3B30] to-[#ff8a80]"
-              style={{ width: r.w, animation: `growBar 2.4s ease-in-out ${i * 0.3}s infinite alternate` }}
+              style={{ width: r.w, animation: `vnusGrowBar 2.4s ease-in-out ${i * 0.3}s infinite alternate` }}
             />
           </div>
         </div>
       ))}
-      <style>{`@keyframes growBar{from{opacity:.5}to{opacity:1}}`}</style>
     </div>
   );
 }
@@ -59,12 +56,8 @@ function ConnectorsMockup() {
   return (
     <div className="grok-card p-5 w-full max-w-sm">
       <div className="grid grid-cols-3 gap-2.5">
-        {apps.map((app, i) => (
-          <div
-            key={app}
-            className="flex flex-col items-center justify-center gap-1.5 py-3 rounded-xl border border-[#1c1c1c] bg-[#0d0d0d]"
-            style={{ animation: `fadeIn .6s ease ${i * 0.12}s both` }}
-          >
+        {apps.map((app) => (
+          <div key={app} className="flex flex-col items-center justify-center gap-1.5 py-3 rounded-xl border border-[#1c1c1c] bg-[#0d0d0d]">
             <div className="w-6 h-6 rounded-md bg-[#1a1a1a] border border-[#2a2a2a]" />
             <span className="text-[10px] text-[#666]">{app}</span>
           </div>
@@ -79,9 +72,8 @@ function MemoryMockup() {
     <div className="grok-card p-5 w-full max-w-sm">
       <div className="text-xs text-[#666] mb-3">Updated memory for <span className="text-white font-semibold">Account Manager</span></div>
       <div className="space-y-2">
-        {["Only signs annual contracts", "Dana approves final pricing", "Prefers async follow-ups"].map((f, i) => (
-          <div key={f} className="flex items-center gap-2 text-xs text-[#999] bg-[#0d0d0d] border border-[#1c1c1c] rounded-lg px-3 py-2"
-            style={{ animation: `fadeIn .5s ease ${i * 0.15}s both` }}>
+        {["Only signs annual contracts", "Dana approves final pricing", "Prefers async follow-ups"].map((f) => (
+          <div key={f} className="flex items-center gap-2 text-xs text-[#999] bg-[#0d0d0d] border border-[#1c1c1c] rounded-lg px-3 py-2">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
             {f}
           </div>
@@ -136,12 +128,8 @@ export default function HowItWorks() {
   }, []);
 
   return (
-    <section
-      id="how-it-works"
-      ref={sectionRef as React.RefObject<HTMLElement>}
-      className="relative z-10 max-w-5xl mx-auto px-6 py-24"
-    >
-      <div className="text-center mb-16 grok-reveal visible">
+    <section id="how-it-works" ref={sectionRef as React.RefObject<HTMLElement>} className="relative z-10 max-w-5xl mx-auto px-6 py-24">
+      <div className="text-center mb-16">
         <div className="grok-eyebrow flex items-center justify-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B30]" /> How it works
         </div>
@@ -153,19 +141,23 @@ export default function HowItWorks() {
           <div
             key={s.title}
             ref={(el) => { rowRefs.current[i] = el; }}
-            className={`grok-reveal grid grid-cols-1 md:grid-cols-2 gap-10 items-center ${i % 2 === 1 ? "md:[direction:rtl]" : ""}`}
+            className="grok-reveal grid grid-cols-1 md:grid-cols-2 gap-10 items-center"
           >
-            <div style={{ direction: "ltr" }}>
+            <div className={i % 2 === 1 ? "md:order-2" : ""}>
               <div className="grok-eyebrow">{s.eyebrow}</div>
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">{s.title}</h3>
               <p className="text-[#8a8a8a] text-sm md:text-base leading-relaxed max-w-md">{s.desc}</p>
             </div>
-            <div className="flex justify-center" style={{ direction: "ltr" }}>
+            <div className={`flex justify-center ${i % 2 === 1 ? "md:order-1" : ""}`}>
               {s.mockup}
             </div>
           </div>
         ))}
       </div>
+
+      <style jsx global>{`
+        @keyframes vnusGrowBar { from { opacity: .5; } to { opacity: 1; } }
+      `}</style>
     </section>
   );
 }
