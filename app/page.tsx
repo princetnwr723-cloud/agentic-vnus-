@@ -6,12 +6,13 @@ import HowItWorks from "@/components/HowItWorks";
 import SkillsSection from "@/components/SkillsSection";
 import Testimonials from "@/components/Testimonials";
 import DocsSection from "@/components/DocsSection";
+import FaqSection from "@/components/FaqSection";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main className="relative">
+    <main className="relative bg-black">
       {/* Animated star background */}
       <StarField />
 
@@ -20,7 +21,7 @@ export default function Home() {
         className="fixed inset-0 pointer-events-none z-0"
         style={{
           background:
-            "radial-gradient(ellipse 80% 40% at 50% 0%, rgba(100,10,10,0.18) 0%, transparent 70%)",
+            "radial-gradient(ellipse 80% 40% at 50% 0%, rgba(100,10,10,0.12) 0%, transparent 70%)",
         }}
         aria-hidden
       />
@@ -35,6 +36,7 @@ export default function Home() {
         <HowItWorks />
         <SkillsSection />
         <Testimonials />
+        <FaqSection />
         <DocsSection />
         <FinalCTA />
         <Footer />
