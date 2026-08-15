@@ -13,10 +13,8 @@ import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <main className="relative bg-black">
-      {/* Animated star background */}
       <StarField />
 
-      {/* Deep red ambient background */}
       <div
         className="fixed inset-0 pointer-events-none z-0"
         style={{
@@ -26,10 +24,8 @@ export default function Home() {
         aria-hidden
       />
 
-      {/* Navigation */}
       <Navbar />
 
-      {/* Page content — sits above stars */}
       <div className="relative z-10">
         <HeroSection />
         <QuickStart />
