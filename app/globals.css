@@ -5,6 +5,9 @@
    .btn-primary / .glass-card / .section-marker used elsewhere
    (dashboard, scheduler, connectors etc.) so nothing else breaks.
    ══════════════════════════════════════════════════════════ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --g-bg:      #000000;
