@@ -1,55 +1,34 @@
 "use client";
 import { useEffect, useRef } from "react";
 
+const ICONS: Record<string, JSX.Element> = {
+  mail: <path d="M4 4h16v16H4zM4 6l8 7 8-7"/>,
+  calendar: <><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></>,
+  plane: <path d="M2 12l10-8v5l9 3-9 3v5z"/>,
+  bell: <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>,
+  task: <><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12l3 3 6-6"/></>,
+  globe: <><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/></>,
+  cart: <><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2l2.6 12.4A2 2 0 008.5 17h9a2 2 0 002-1.6L21 7H6"/></>,
+  spark: <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>,
+};
+
+function Icon({ name }: { name: string }) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      {ICONS[name]}
+    </svg>
+  );
+}
+
 const SKILLS = [
-  {
-    icon: "📧",
-    title: "Email Mastery",
-    description: "Reads, replies, archives and drafts emails with full context. Zero inbox, zero stress.",
-    tag: "Gmail · Outlook",
-  },
-  {
-    icon: "📅",
-    title: "Calendar Control",
-    description: "Reschedules meetings, sets reminders, blocks focus time — autonomously.",
-    tag: "Google · Outlook",
-  },
-  {
-    icon: "✈️",
-    title: "Flight Check-in",
-    description: "Monitors your bookings and checks you in the moment the window opens. Automatically.",
-    tag: "All Airlines",
-  },
-  {
-    icon: "🔔",
-    title: "Smart Notifications",
-    description: "Only pings you when it matters. Filters noise before it reaches you.",
-    tag: "Configurable",
-  },
-  {
-    icon: "📝",
-    title: "Task Automation",
-    description: "Creates Notion pages, Jira tickets, and Trello cards from a single message.",
-    tag: "Notion · Jira · Trello",
-  },
-  {
-    icon: "🌐",
-    title: "Web Browsing",
-    description: "Navigates websites, fills forms, and extracts information while you focus on real work.",
-    tag: "Any Website",
-  },
-  {
-    icon: "🛒",
-    title: "Agentic Shopping",
-    description: "Finds the best deal, places orders, tracks delivery — hands free.",
-    tag: "Amazon · Flipkart",
-  },
-  {
-    icon: "💡",
-    title: "Anything You Ask",
-    description: "If it can be done in a browser or chat app, Vnus can be trained to do it for you.",
-    tag: "Extensible",
-  },
+  { icon: "mail",     title: "Email Mastery",     tag: "Gmail · Outlook",       desc: "Reads, replies, archives and drafts with full context.", span: "span-2" },
+  { icon: "calendar", title: "Calendar Control",  tag: "Google · Outlook",      desc: "Reschedules meetings and blocks focus time — autonomously.", span: "span-2" },
+  { icon: "plane",    title: "Flight Check-in",   tag: "All Airlines",          desc: "Auto checks you in the moment the window opens.", span: "span-1" },
+  { icon: "bell",     title: "Smart Notifications", tag: "Configurable",        desc: "Only pings you when it actually matters.", span: "span-1" },
+  { icon: "task",     title: "Task Automation",   tag: "Notion · Jira · Trello", desc: "Creates pages, tickets, and cards from one message.", span: "span-1" },
+  { icon: "globe",    title: "Web Browsing",      tag: "Any Website",           desc: "Navigates sites and fills forms while you focus on real work.", span: "span-1" },
+  { icon: "cart",     title: "Agentic Shopping",  tag: "Amazon · Flipkart",     desc: "Finds the best deal and places the order, hands free.", span: "span-2" },
+  { icon: "spark",    title: "Anything You Ask",  tag: "Extensible",            desc: "If it runs in a browser or chat app, Vnus can be trained for it.", span: "span-2" },
 ];
 
 export default function SkillsSection() {
@@ -59,9 +38,7 @@ export default function SkillsSection() {
     const observers = cardRefs.current.map((card, i) => {
       if (!card) return null;
       const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) setTimeout(() => card.classList.add("visible"), i * 80);
-        },
+        ([entry]) => { if (entry.isIntersecting) setTimeout(() => card.classList.add("visible"), i * 60); },
         { threshold: 0.1 }
       );
       obs.observe(card);
@@ -71,24 +48,32 @@ export default function SkillsSection() {
   }, []);
 
   return (
-    <section id="skills" className="relative z-10 max-w-6xl mx-auto px-6 py-20">
-      <div className="section-marker">Skills</div>
-      <p className="text-gray-500 text-base mb-14 max-w-xl">
-        Vnus ships with a growing set of built-in skills. Every skill runs autonomously — no
-        babysitting required.
-      </p>
+    <section id="skills" className="relative z-10 max-w-6xl mx-auto px-6 py-24">
+      <div className="text-center mb-14">
+        <div className="grok-eyebrow flex items-center justify-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B30]" /> Skills
+        </div>
+        <h2 className="grok-h2 mb-4">Give Vnus a job.</h2>
+        <p className="text-[#8a8a8a] text-base max-w-xl mx-auto">
+          Every skill runs autonomously — no babysitting required. Mix and match as many as you need.
+        </p>
+      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grok-bento">
         {SKILLS.map((skill, i) => (
           <div
             key={skill.title}
             ref={(el) => { cardRefs.current[i] = el; }}
-            className="reveal glass-card rounded-xl p-5 group cursor-default"
+            className={`grok-reveal grok-card p-6 flex flex-col justify-between ${skill.span}`}
           >
-            <div className="feature-icon">{skill.icon}</div>
-            <h3 className="text-white font-semibold text-base mb-2">{skill.title}</h3>
-            <p className="text-gray-400 text-sm leading-relaxed mb-4">{skill.description}</p>
-            <span className="text-xs text-[#FF3B30]/80 bg-[#FF3B30]/10 border border-[#FF3B30]/20 px-2.5 py-1 rounded-full font-mono">
+            <div>
+              <div className="w-9 h-9 rounded-lg bg-[#111] border border-[#222] flex items-center justify-center text-[#FF3B30] mb-4">
+                <Icon name={skill.icon} />
+              </div>
+              <h3 className="text-white font-semibold text-[15px] mb-1.5">{skill.title}</h3>
+              <p className="text-[#7a7a7a] text-sm leading-relaxed">{skill.desc}</p>
+            </div>
+            <span className="mt-4 inline-block w-fit text-[10.5px] text-[#666] bg-[#111] border border-[#1f1f1f] px-2.5 py-1 rounded-full font-mono">
               {skill.tag}
             </span>
           </div>
