@@ -1,269 +1,214 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ══════════════════════════════════════════════════════════
+   GROK-STYLE LANDING PAGE ADDITIONS
+   Paste this block at the END of app/globals.css
+   These are NEW classes (prefixed grok-) — they don't touch
+   .btn-primary / .glass-card / .section-marker used elsewhere
+   (dashboard, scheduler, connectors etc.) so nothing else breaks.
+   ══════════════════════════════════════════════════════════ */
 
 :root {
-  --red: #FF3B30;
-  --red-dim: #CC2A1F;
-  --red-glow: rgba(255, 59, 48, 0.3);
-  --bg-dark: #050505;
-  --bg-deep: #0a0202;
+  --g-bg:      #000000;
+  --g-surface: #0a0a0a;
+  --g-border:  #1c1c1c;
+  --g-border2: #2a2a2a;
+  --g-text:    #f5f5f5;
+  --g-muted:   #7a7a7a;
+  --g-dim:     #4a4a4a;
+  --g-accent:  #FF3B30; /* used sparingly — dot indicators, hover glow only */
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background: #050505;
-  color: #ffffff;
-  font-family: 'Inter', system-ui, sans-serif;
-  overflow-x: hidden;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #0a0a0a; }
-::-webkit-scrollbar-thumb { background: #FF3B30; border-radius: 2px; }
-
-/* Stars canvas */
-#stars-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Glow effects */
-.glow-text {
-  text-shadow: 0 0 30px rgba(255, 59, 48, 0.5), 0 0 60px rgba(255, 59, 48, 0.2);
-}
-
-.glow-border {
-  box-shadow: 0 0 0 1px rgba(255, 59, 48, 0.3), 0 0 20px rgba(255, 59, 48, 0.1);
-}
-
-.glow-border:hover {
-  box-shadow: 0 0 0 1px rgba(255, 59, 48, 0.6), 0 0 30px rgba(255, 59, 48, 0.2);
-}
-
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, #FF6B5B 0%, #FF3B30 40%, #CC1A10 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Glass card */
-.glass-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 59, 48, 0.15);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-}
-
-.glass-card:hover {
-  background: rgba(255, 59, 48, 0.05);
-  border-color: rgba(255, 59, 48, 0.3);
-  transform: translateY(-2px);
-}
-
-/* Demon character animations */
-@keyframes demonFloat {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  25% { transform: translateY(-15px) rotate(-2deg); }
-  75% { transform: translateY(-8px) rotate(2deg); }
-}
-
-@keyframes wingBeat {
-  0%, 100% { transform: scaleX(1) rotate(-10deg); }
-  50% { transform: scaleX(0.85) rotate(10deg); }
-}
-
-@keyframes hornPulse {
-  0%, 100% { filter: drop-shadow(0 0 3px #FF3B30); }
-  50% { filter: drop-shadow(0 0 10px #FF3B30) drop-shadow(0 0 20px #FF000060); }
-}
-
-@keyframes eyeGlow {
-  0%, 100% { fill: #00BFFF; filter: drop-shadow(0 0 3px #00BFFF); }
-  50% { fill: #FF3B30; filter: drop-shadow(0 0 8px #FF3B30); }
-}
-
-@keyframes tailSwing {
-  0%, 100% { transform-origin: top; transform: rotate(-15deg); }
-  50% { transform-origin: top; transform: rotate(15deg); }
-}
-
-.demon-float {
-  animation: demonFloat 5s ease-in-out infinite;
-}
-
-/* Nav blur */
-.nav-blur {
-  background: rgba(5, 5, 5, 0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 59, 48, 0.1);
-}
-
-/* Button styles */
-.btn-primary {
-  background: linear-gradient(135deg, #FF3B30, #CC1A10);
-  border: 1px solid #FF3B30;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-  transition: left 0.5s ease;
-}
-
-.btn-primary:hover::before {
-  left: 100%;
-}
-
-.btn-primary:hover {
-  box-shadow: 0 0 30px rgba(255, 59, 48, 0.4), 0 0 60px rgba(255, 59, 48, 0.1);
-  transform: translateY(-1px);
-}
-
-.btn-ghost {
-  background: transparent;
-  border: 1px solid rgba(255, 59, 48, 0.3);
-  transition: all 0.3s ease;
-}
-
-.btn-ghost:hover {
-  background: rgba(255, 59, 48, 0.08);
-  border-color: rgba(255, 59, 48, 0.6);
-}
-
-/* Section heading marker */
-.section-marker {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 2rem;
-}
-
-.section-marker::before {
-  content: '›';
-  color: #FF3B30;
-  font-size: 1.8rem;
-  font-weight: 900;
-}
-
-/* Terminal */
-.terminal {
-  background: #0d0d0d;
-  border: 1px solid rgba(255, 59, 48, 0.2);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.terminal-bar {
-  background: #1a1a1a;
-  padding: 12px 16px;
-  display: flex;
+/* ── Badge / pill ── */
+.grok-badge {
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 6px 14px 6px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--g-border2);
+  background: rgba(255,255,255,0.02);
+  font-size: 12.5px;
+  color: var(--g-muted);
+  transition: border-color .2s ease, background .2s ease;
+}
+.grok-badge:hover { border-color: #3a3a3a; background: rgba(255,255,255,0.04); }
+.grok-badge .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--g-accent);
+  box-shadow: 0 0 8px var(--g-accent);
+  flex-shrink: 0;
+  animation: grokPulse 2s ease-in-out infinite;
+}
+.grok-badge-tag {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #000;
+  background: var(--g-text);
+  padding: 2px 8px;
+  border-radius: 999px;
+  letter-spacing: .02em;
 }
 
-/* Testimonial cards */
-.testimonial-card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px;
-  padding: 20px;
-  transition: all 0.3s ease;
+@keyframes grokPulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%     { opacity: .5; transform: scale(0.8); }
 }
 
-.testimonial-card:hover {
-  border-color: rgba(255, 59, 48, 0.25);
-  background: rgba(255, 59, 48, 0.04);
+/* ── Buttons ── */
+.grok-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  color: #000000;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 12px 24px;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  border: 1px solid #fff;
+}
+.grok-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 30px rgba(255,255,255,0.12);
+  background: #f0f0f0;
 }
 
-/* Scroll animation classes */
-.reveal {
+.grok-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--g-text);
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 12px 24px;
+  border: 1px solid var(--g-border2);
+  transition: all .18s ease;
+}
+.grok-btn-ghost:hover {
+  border-color: #4a4a4a;
+  background: rgba(255,255,255,0.04);
+}
+
+/* ── Cards ── */
+.grok-card {
+  background: var(--g-surface);
+  border: 1px solid var(--g-border);
+  border-radius: 16px;
+  transition: border-color .25s ease, transform .25s ease, background .25s ease;
+}
+.grok-card:hover {
+  border-color: var(--g-border2);
+  background: #0d0d0d;
+}
+
+.grok-card-lg {
+  background: linear-gradient(180deg, #0c0c0c 0%, #060606 100%);
+  border: 1px solid var(--g-border);
+  border-radius: 20px;
+}
+
+/* ── Section labels ── */
+.grok-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--g-muted);
+  margin-bottom: 14px;
+}
+
+.grok-h2 {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--g-text);
+}
+
+/* ── Grid background dots ── */
+.grok-dot-grid {
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
+}
+
+/* ── Animated connector line (used in feature rows) ── */
+.grok-flow-line {
+  stroke-dasharray: 6 6;
+  animation: grokDash 1.2s linear infinite;
+}
+@keyframes grokDash { to { stroke-dashoffset: -24; } }
+
+/* ── Node pulse (used for "agent" dots in mockups) ── */
+.grok-node {
+  animation: grokNode 2.4s ease-in-out infinite;
+}
+@keyframes grokNode {
+  0%,100% { filter: drop-shadow(0 0 0px currentColor); }
+  50%     { filter: drop-shadow(0 0 6px currentColor); }
+}
+
+/* ── Typing caret ── */
+.grok-caret {
+  display: inline-block;
+  width: 2px;
+  background: var(--g-text);
+  animation: grokBlink 1s step-end infinite;
+}
+@keyframes grokBlink { 50% { opacity: 0; } }
+
+/* ── Fade-up on scroll (separate from .reveal to avoid clashing) ── */
+.grok-reveal {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(24px);
+  transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+}
+.grok-reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── Bento grid ── */
+.grok-bento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(170px, auto);
+  gap: 14px;
+}
+.grok-bento .span-2 { grid-column: span 2; }
+.grok-bento .span-4 { grid-column: span 4; }
+@media (max-width: 900px) {
+  .grok-bento { grid-template-columns: repeat(2, 1fr); }
+  .grok-bento .span-2 { grid-column: span 2; }
+}
+@media (max-width: 560px) {
+  .grok-bento { grid-template-columns: 1fr; }
+  .grok-bento .span-2, .grok-bento .span-4 { grid-column: span 1; }
 }
 
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Feature icon wrapper */
-.feature-icon {
-  width: 48px;
-  height: 48px;
-  background: rgba(255, 59, 48, 0.1);
-  border: 1px solid rgba(255, 59, 48, 0.25);
-  border-radius: 10px;
+/* ── FAQ accordion ── */
+.grok-faq-item { border-bottom: 1px solid var(--g-border); }
+.grok-faq-q {
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  margin-bottom: 16px;
-  transition: all 0.3s ease;
+  justify-content: space-between;
+  padding: 20px 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--g-text);
+  font-size: 15.5px;
+  font-weight: 600;
 }
-
-.glass-card:hover .feature-icon {
-  background: rgba(255, 59, 48, 0.2);
-  box-shadow: 0 0 20px rgba(255, 59, 48, 0.2);
+.grok-faq-chevron { transition: transform .25s ease; color: var(--g-muted); flex-shrink: 0; }
+.grok-faq-item.open .grok-faq-chevron { transform: rotate(45deg); }
+.grok-faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s ease, padding .3s ease;
+  color: var(--g-muted);
+  font-size: 14px;
+  line-height: 1.7;
+  padding: 0 4px;
 }
-
-/* Red ambient glow behind hero */
-.hero-glow {
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(ellipse, rgba(255,59,48,0.12) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-/* Marquee track */
-.marquee-track {
-  display: flex;
-  gap: 20px;
-  animation: marquee 35s linear infinite;
-  width: max-content;
-}
-
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* Nav active highlight */
-.nav-active {
-  background: rgba(255, 59, 48, 0.12);
-  border: 1px solid rgba(255, 59, 48, 0.35);
-  border-radius: 6px;
-  color: #FF3B30;
-}
+.grok-faq-item.open .grok-faq-a { max-height: 240px; padding: 0 4px 20px; }
