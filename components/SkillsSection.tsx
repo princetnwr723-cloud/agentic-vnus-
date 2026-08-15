@@ -23,10 +23,10 @@ function Icon({ name }: { name: string }) {
 const SKILLS = [
   { icon: "mail",     title: "Email Mastery",     tag: "Gmail · Outlook",       desc: "Reads, replies, archives and drafts with full context.", span: "span-2" },
   { icon: "calendar", title: "Calendar Control",  tag: "Google · Outlook",      desc: "Reschedules meetings and blocks focus time — autonomously.", span: "span-2" },
-  { icon: "plane",    title: "Flight Check-in",   tag: "All Airlines",          desc: "Auto checks you in the moment the window opens.", span: "span-1" },
-  { icon: "bell",     title: "Smart Notifications", tag: "Configurable",        desc: "Only pings you when it actually matters.", span: "span-1" },
-  { icon: "task",     title: "Task Automation",   tag: "Notion · Jira · Trello", desc: "Creates pages, tickets, and cards from one message.", span: "span-1" },
-  { icon: "globe",    title: "Web Browsing",      tag: "Any Website",           desc: "Navigates sites and fills forms while you focus on real work.", span: "span-1" },
+  { icon: "plane",    title: "Flight Check-in",   tag: "All Airlines",          desc: "Auto checks you in the moment the window opens.", span: "" },
+  { icon: "bell",     title: "Smart Notifications", tag: "Configurable",        desc: "Only pings you when it actually matters.", span: "" },
+  { icon: "task",     title: "Task Automation",   tag: "Notion · Jira · Trello", desc: "Creates pages, tickets, and cards from one message.", span: "" },
+  { icon: "globe",    title: "Web Browsing",      tag: "Any Website",           desc: "Navigates sites and fills forms while you focus on real work.", span: "" },
   { icon: "cart",     title: "Agentic Shopping",  tag: "Amazon · Flipkart",     desc: "Finds the best deal and places the order, hands free.", span: "span-2" },
   { icon: "spark",    title: "Anything You Ask",  tag: "Extensible",            desc: "If it runs in a browser or chat app, Vnus can be trained for it.", span: "span-2" },
 ];
