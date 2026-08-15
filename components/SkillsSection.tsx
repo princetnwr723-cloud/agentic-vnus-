@@ -14,21 +14,21 @@ const ICONS: Record<string, JSX.Element> = {
 
 function Icon({ name }: { name: string }) {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       {ICONS[name]}
     </svg>
   );
 }
 
 const SKILLS = [
-  { icon: "mail",     title: "Email Mastery",     tag: "Gmail · Outlook",       desc: "Reads, replies, archives and drafts with full context.", span: "span-2" },
-  { icon: "calendar", title: "Calendar Control",  tag: "Google · Outlook",      desc: "Reschedules meetings and blocks focus time — autonomously.", span: "span-2" },
-  { icon: "plane",    title: "Flight Check-in",   tag: "All Airlines",          desc: "Auto checks you in the moment the window opens.", span: "" },
-  { icon: "bell",     title: "Smart Notifications", tag: "Configurable",        desc: "Only pings you when it actually matters.", span: "" },
-  { icon: "task",     title: "Task Automation",   tag: "Notion · Jira · Trello", desc: "Creates pages, tickets, and cards from one message.", span: "" },
-  { icon: "globe",    title: "Web Browsing",      tag: "Any Website",           desc: "Navigates sites and fills forms while you focus on real work.", span: "" },
-  { icon: "cart",     title: "Agentic Shopping",  tag: "Amazon · Flipkart",     desc: "Finds the best deal and places the order, hands free.", span: "span-2" },
-  { icon: "spark",    title: "Anything You Ask",  tag: "Extensible",            desc: "If it runs in a browser or chat app, Vnus can be trained for it.", span: "span-2" },
+  { icon: "mail",     title: "Email Mastery",       tag: "Gmail · Outlook",        desc: "Reads, replies, archives and drafts emails with full context. Zero inbox, zero stress.", wide: true },
+  { icon: "calendar", title: "Calendar Control",    tag: "Google · Outlook",       desc: "Reschedules meetings, sets reminders, blocks focus time — autonomously.", wide: true },
+  { icon: "plane",    title: "Flight Check-in",     tag: "All Airlines",           desc: "Monitors your bookings and checks you in the moment the window opens.", wide: false },
+  { icon: "bell",     title: "Smart Notifications", tag: "Configurable",           desc: "Only pings you when it matters. Filters noise before it reaches you.", wide: false },
+  { icon: "task",     title: "Task Automation",     tag: "Notion · Jira · Trello", desc: "Creates Notion pages, Jira tickets, and Trello cards from a single message.", wide: false },
+  { icon: "globe",    title: "Web Browsing",        tag: "Any Website",            desc: "Navigates websites, fills forms, extracts info while you focus on real work.", wide: false },
+  { icon: "cart",     title: "Agentic Shopping",    tag: "Amazon · Flipkart",      desc: "Finds the best deal, places orders, tracks delivery — hands free.", wide: true },
+  { icon: "spark",    title: "Anything You Ask",    tag: "Extensible",             desc: "If it can be done in a browser or chat app, Vnus can be trained to do it.", wide: true },
 ];
 
 export default function SkillsSection() {
@@ -38,7 +38,7 @@ export default function SkillsSection() {
     const observers = cardRefs.current.map((card, i) => {
       if (!card) return null;
       const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setTimeout(() => card.classList.add("visible"), i * 60); },
+        ([entry]) => { if (entry.isIntersecting) setTimeout(() => card.classList.add("visible"), i * 80); },
         { threshold: 0.1 }
       );
       obs.observe(card);
@@ -48,32 +48,26 @@ export default function SkillsSection() {
   }, []);
 
   return (
-    <section id="skills" className="relative z-10 max-w-6xl mx-auto px-6 py-24">
-      <div className="text-center mb-14">
-        <div className="grok-eyebrow flex items-center justify-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B30]" /> Skills
-        </div>
-        <h2 className="grok-h2 mb-4">Give Vnus a job.</h2>
-        <p className="text-[#8a8a8a] text-base max-w-xl mx-auto">
-          Every skill runs autonomously — no babysitting required. Mix and match as many as you need.
-        </p>
-      </div>
+    <section id="skills" className="relative z-10 max-w-6xl mx-auto px-6 py-20">
+      <div className="section-marker">Skills</div>
+      <p className="text-gray-500 text-base mb-14 max-w-xl">
+        Vnus ships with a growing set of built-in skills. Every skill runs autonomously — no
+        babysitting required.
+      </p>
 
-      <div className="grok-bento">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {SKILLS.map((skill, i) => (
           <div
             key={skill.title}
             ref={(el) => { cardRefs.current[i] = el; }}
-            className={`grok-reveal grok-card p-6 flex flex-col justify-between ${skill.span}`}
+            className={`reveal glass-card rounded-xl p-5 group cursor-default ${skill.wide ? "sm:col-span-2" : ""}`}
           >
-            <div>
-              <div className="w-9 h-9 rounded-lg bg-[#111] border border-[#222] flex items-center justify-center text-[#FF3B30] mb-4">
-                <Icon name={skill.icon} />
-              </div>
-              <h3 className="text-white font-semibold text-[15px] mb-1.5">{skill.title}</h3>
-              <p className="text-[#7a7a7a] text-sm leading-relaxed">{skill.desc}</p>
+            <div className="feature-icon">
+              <Icon name={skill.icon} />
             </div>
-            <span className="mt-4 inline-block w-fit text-[10.5px] text-[#666] bg-[#111] border border-[#1f1f1f] px-2.5 py-1 rounded-full font-mono">
+            <h3 className="text-white font-semibold text-base mb-2">{skill.title}</h3>
+            <p className="text-gray-400 text-sm leading-relaxed mb-4">{skill.desc}</p>
+            <span className="text-xs text-[#FF3B30]/80 bg-[#FF3B30]/10 border border-[#FF3B30]/20 px-2.5 py-1 rounded-full font-mono">
               {skill.tag}
             </span>
           </div>
