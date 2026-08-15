@@ -1,53 +1,135 @@
 "use client";
 import { useEffect, useRef } from "react";
 
-const STEPS = [
+/* ── Mini animated mockups (pure inline SVG/CSS, no libs) ── */
+
+function ChatMockup() {
+  return (
+    <div className="grok-card p-5 w-full max-w-sm">
+      <div className="flex items-center gap-2 mb-4">
+        <span className="w-2 h-2 rounded-full bg-[#333]" />
+        <span className="w-2 h-2 rounded-full bg-[#333]" />
+        <span className="w-2 h-2 rounded-full bg-[#333]" />
+        <span className="ml-2 text-xs text-[#555] font-mono">vnus — clear inbox</span>
+      </div>
+      <div className="flex justify-end mb-3">
+        <div className="bg-white text-black text-xs px-3 py-2 rounded-xl rounded-tr-sm max-w-[80%]">
+          Clear my inbox and reply to anything urgent
+        </div>
+      </div>
+      <div className="flex justify-start">
+        <div className="bg-[#111] border border-[#1c1c1c] text-[#bbb] text-xs px-3 py-2 rounded-xl rounded-tl-sm max-w-[85%]">
+          On it — scanning 47 unread, drafting 4 replies
+          <span className="grok-caret h-3 ml-1 align-middle" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ParallelAgentsMockup() {
+  const rows = [
+    { label: "Email Agent", w: "78%" },
+    { label: "Calendar Agent", w: "52%" },
+    { label: "Browser Agent", w: "91%" },
+  ];
+  return (
+    <div className="grok-card p-5 w-full max-w-sm space-y-3">
+      {rows.map((r, i) => (
+        <div key={r.label}>
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-xs text-[#999]">{r.label}</span>
+            <span className="text-xs text-[#444]">running</span>
+          </div>
+          <div className="h-1.5 rounded-full bg-[#151515] overflow-hidden">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-[#FF3B30] to-[#ff8a80]"
+              style={{ width: r.w, animation: `growBar 2.4s ease-in-out ${i * 0.3}s infinite alternate` }}
+            />
+          </div>
+        </div>
+      ))}
+      <style>{`@keyframes growBar{from{opacity:.5}to{opacity:1}}`}</style>
+    </div>
+  );
+}
+
+function ConnectorsMockup() {
+  const apps = ["Gmail", "Calendar", "GitHub", "Notion", "Chrome", "Slack"];
+  return (
+    <div className="grok-card p-5 w-full max-w-sm">
+      <div className="grid grid-cols-3 gap-2.5">
+        {apps.map((app, i) => (
+          <div
+            key={app}
+            className="flex flex-col items-center justify-center gap-1.5 py-3 rounded-xl border border-[#1c1c1c] bg-[#0d0d0d]"
+            style={{ animation: `fadeIn .6s ease ${i * 0.12}s both` }}
+          >
+            <div className="w-6 h-6 rounded-md bg-[#1a1a1a] border border-[#2a2a2a]" />
+            <span className="text-[10px] text-[#666]">{app}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MemoryMockup() {
+  return (
+    <div className="grok-card p-5 w-full max-w-sm">
+      <div className="text-xs text-[#666] mb-3">Updated memory for <span className="text-white font-semibold">Account Manager</span></div>
+      <div className="space-y-2">
+        {["Only signs annual contracts", "Dana approves final pricing", "Prefers async follow-ups"].map((f, i) => (
+          <div key={f} className="flex items-center gap-2 text-xs text-[#999] bg-[#0d0d0d] border border-[#1c1c1c] rounded-lg px-3 py-2"
+            style={{ animation: `fadeIn .5s ease ${i * 0.15}s both` }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            {f}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const STORIES = [
   {
-    number: "01",
-    icon: "💬",
-    title: "Connect Your Chat App",
-    description:
-      "Link Vnus AI to WhatsApp, Telegram, Discord, or any messaging platform you already use daily. No new app to learn.",
+    eyebrow: "Talk to it like a teammate",
+    title: "Message Vnus like a teammate",
+    desc: "Give it a task on desktop, WhatsApp, or Telegram. It takes the project start to finish, keeps context on how you work, and comes back only when your approval is needed.",
+    mockup: <ChatMockup />,
   },
   {
-    number: "02",
-    icon: "🔗",
-    title: "Grant Permissions",
-    description:
-      "Securely connect your Gmail, Google Calendar, or Outlook in one click. Your data stays encrypted and private.",
+    eyebrow: "Parallel execution",
+    title: "Run many skills at once",
+    desc: "Spin up Email, Calendar, and Browser agents in parallel. They work 24/7 in the background — one on your inbox, one on your schedule, one on research — without waiting on each other.",
+    mockup: <ParallelAgentsMockup />,
   },
   {
-    number: "03",
-    icon: "😈",
-    title: "Just Tell Vnus What To Do",
-    description:
-      'Type "clear my inbox", "reschedule tomorrow\'s meeting", or "check me in for my flight". Vnus does it instantly.',
+    eyebrow: "Works where you work",
+    title: "Vnus signs in and works your tools",
+    desc: "Log Vnus in once. It uses Gmail, Calendar, GitHub, Notion, and your browser exactly like you would — including the tools that are annoying to automate.",
+    mockup: <ConnectorsMockup />,
   },
   {
-    number: "04",
-    icon: "⚡",
-    title: "Watch It Execute",
-    description:
-      "Vnus autonomously navigates apps, fills forms, sends emails, and reports back — like a real assistant, not a chatbot.",
+    eyebrow: "Gets smarter over time",
+    title: "Vnus remembers everything",
+    desc: "Show it a workflow once and it saves it as a skill. It keeps facts, preferences, and corrections in permanent memory — so it never asks the same question twice.",
+    mockup: <MemoryMockup />,
   },
 ];
 
 export default function HowItWorks() {
   const sectionRef = useRef<HTMLElement>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    const observers = cardRefs.current.map((card, i) => {
-      if (!card) return null;
+    const observers = rowRefs.current.map((row) => {
+      if (!row) return null;
       const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => card.classList.add("visible"), i * 120);
-          }
-        },
-        { threshold: 0.1 }
+        ([entry]) => { if (entry.isIntersecting) row.classList.add("visible"); },
+        { threshold: 0.2 }
       );
-      obs.observe(card);
+      obs.observe(row);
       return obs;
     });
     return () => observers.forEach((o) => o?.disconnect());
@@ -57,51 +139,32 @@ export default function HowItWorks() {
     <section
       id="how-it-works"
       ref={sectionRef as React.RefObject<HTMLElement>}
-      className="relative z-10 max-w-6xl mx-auto px-6 py-20"
+      className="relative z-10 max-w-5xl mx-auto px-6 py-24"
     >
-      <div className="section-marker">How It Works</div>
-      <p className="text-gray-500 text-base mb-14 max-w-xl">
-        Four steps from zero to your very own agentic demon that handles the boring stuff.
-      </p>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {STEPS.map((step, i) => (
-          <div
-            key={step.number}
-            ref={(el) => { cardRefs.current[i] = el; }}
-            className="reveal glass-card rounded-2xl p-7 relative overflow-hidden group"
-          >
-            {/* Background step number */}
-            <span
-              className="absolute top-4 right-6 text-6xl font-black text-white/3 select-none pointer-events-none"
-              aria-hidden
-            >
-              {step.number}
-            </span>
-
-            {/* Red accent line */}
-            <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-transparent via-[#FF3B30] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-            <div className="feature-icon text-2xl" aria-hidden>{step.icon}</div>
-
-            <h3 className="text-white font-bold text-lg mb-3">
-              <span className="text-[#FF3B30] text-sm font-mono mr-2">{step.number}</span>
-              {step.title}
-            </h3>
-            <p className="text-gray-400 text-sm leading-relaxed">{step.description}</p>
-          </div>
-        ))}
+      <div className="text-center mb-16 grok-reveal visible">
+        <div className="grok-eyebrow flex items-center justify-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#FF3B30]" /> How it works
+        </div>
+        <h2 className="grok-h2">Give real work to Vnus.</h2>
       </div>
 
-      {/* Connector lines decoration */}
-      <div className="hidden md:flex justify-center mt-8 gap-4 items-center" aria-hidden>
-        {[0, 1, 2].map((i) => (
-          <div key={i} className="flex items-center gap-4">
-            <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#FF3B30]/40 to-transparent" />
-            <div className="w-2 h-2 rounded-full bg-[#FF3B30]/40" />
+      <div className="flex flex-col gap-24">
+        {STORIES.map((s, i) => (
+          <div
+            key={s.title}
+            ref={(el) => { rowRefs.current[i] = el; }}
+            className={`grok-reveal grid grid-cols-1 md:grid-cols-2 gap-10 items-center ${i % 2 === 1 ? "md:[direction:rtl]" : ""}`}
+          >
+            <div style={{ direction: "ltr" }}>
+              <div className="grok-eyebrow">{s.eyebrow}</div>
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">{s.title}</h3>
+              <p className="text-[#8a8a8a] text-sm md:text-base leading-relaxed max-w-md">{s.desc}</p>
+            </div>
+            <div className="flex justify-center" style={{ direction: "ltr" }}>
+              {s.mockup}
+            </div>
           </div>
         ))}
-        <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#FF3B30]/40 to-transparent" />
       </div>
     </section>
   );
