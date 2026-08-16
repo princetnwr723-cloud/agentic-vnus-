@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Agentic Vnus — Documentation</title>
+<title>Agentic Vnus Docs — Local AI Agent</title>
 <meta name="description" content="The local AI agent that lives on your PC. Complete documentation."/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -225,12 +225,6 @@ td a{font-size:13px}
 .helpful-btn{padding:5px 14px;border-radius:6px;border:1px solid var(--bdr2);background:var(--bg2);color:var(--lgr);font-size:13px;cursor:pointer;transition:all .15s;font-family:var(--font)}
 .helpful-btn:hover{border-color:var(--red);color:var(--red)}
 
-/* ── Demon mascot ── */
-.demon-hero{display:flex;justify-content:center;margin:24px 0 32px;position:relative}
-.demon-glow{position:absolute;width:180px;height:180px;background:radial-gradient(circle,rgba(255,59,48,.2),transparent 70%);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);animation:dglow 3.5s ease-in-out infinite}
-@keyframes dglow{0%,100%{opacity:.35;transform:translate(-50%,-50%) scale(1)}50%{opacity:.7;transform:translate(-50%,-50%) scale(1.15)}}
-.demon-svg{animation:dfloat 4s ease-in-out infinite;position:relative;z-index:1;filter:drop-shadow(0 0 28px rgba(255,59,48,.45))}
-@keyframes dfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 
 /* ── Search overlay ── */
 .search-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(10px);z-index:2000;display:none;align-items:flex-start;justify-content:center;padding-top:72px}
@@ -281,7 +275,7 @@ footer a:hover{color:var(--wh)}
 <!-- Topbar -->
 <header class="topbar">
   <a class="tb-logo" href="#overview">
-    <svg width="26" height="26" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#1a0505" stroke="#FF3B30" stroke-width="1.5"/><path d="M11 11C10 8 12 6 13 8 14 6 15 8 14 11Z" fill="#FF3B30"/><path d="M21 11C20 8 22 6 23 8 24 6 21 8 22 11Z" fill="#FF3B30"/><circle cx="13" cy="16" r="2.2" fill="#FF3B30"/><circle cx="19" cy="16" r="2.2" fill="#FF3B30"/><circle cx="13" cy="16" r="1" fill="#000"/><circle cx="19" cy="16" r="1" fill="#000"/></svg>
+    <div style="width:26px;height:26px;border-radius:7px;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff;letter-spacing:-.02em">AV</div>
     <span class="tb-logo-text">Agentic Vnus</span>
     <span class="tb-logo-badge">docs</span>
   </a>
@@ -324,6 +318,8 @@ footer a:hover{color:var(--wh)}
   <a class="sb-link" onclick="scrollTo('agent-roles')">Agent Roles</a>
   <a class="sb-link" onclick="scrollTo('proactive')">Proactive AI</a>
   <a class="sb-link" onclick="scrollTo('multi-agent')">Agent Teams</a>
+  <a class="sb-link" onclick="scrollTo('agent-teams')">Direct Chat & Training</a>
+  <a class="sb-link" onclick="scrollTo('agent-teams')">Agent Teams</a>
   <a class="sb-link" onclick="scrollTo('connectors')">API Connectors</a>
 
   <div class="sb-sec">Reference</div>
@@ -341,10 +337,9 @@ footer a:hover{color:var(--wh)}
 <!-- ═══ OVERVIEW ═══ -->
 <section id="overview">
   <div class="page-eyebrow">Overview</div>
-  <h1>Agentic Vnus <span class="gradient-text">Documentation</span></h1>
+  <h1>Agentic Vnus <span class="gradient-text">Docs</span></h1>
 
-
-  <p class="lead">The local AI agent that lives on your PC. No cloud. No API bill. Persistent memory, self-improving skills, Business DNA, multi-agent teams, API connectors, and 24/7 background automation — all on your hardware.</p>
+  <p class="lead">The local AI agent that lives on your PC. No cloud. No API bill. Persistent memory, Business DNA, multi-agent teams, API connectors, visual scheduler, and 24/7 proactive automation — all running on your hardware, fully private.</p>
 
   <h2>What is Agentic Vnus?</h2>
   <p>Agentic Vnus is a <strong>self-hosted AI agent</strong> that runs entirely on your PC. It connects your browser dashboard to an always-available AI that controls your machine — files, browser, terminal, GitHub, and more.</p>
@@ -754,6 +749,63 @@ footer a:hover{color:var(--wh)}
 
 <div class="divider"></div>
 
+<!-- ═══ AGENT TEAMS ═══ -->
+<section id="agent-teams">
+  <div class="page-eyebrow">Business Features</div>
+  <h2 style="margin-top:0;border-bottom:none">Agent Teams & Direct Chat</h2>
+  <p>8 specialist agents work together on complex tasks. You can talk directly to any agent, train them with custom instructions, and set per-agent scheduled tasks — all from the workspace dashboard.</p>
+
+  <h3>The 8 agents</h3>
+  <div class="agent-grid">
+    <div class="agent-card"><div class="ac-emoji">👑</div><div class="ac-name">Boss Agent</div><div class="ac-desc">Routes all tasks, assembles teams, coordinates output</div></div>
+    <div class="agent-card"><div class="ac-emoji">🔍</div><div class="ac-name">Research</div><div class="ac-desc">Market intelligence, competitor analysis, data gathering</div></div>
+    <div class="agent-card"><div class="ac-emoji">🎯</div><div class="ac-name">Strategy</div><div class="ac-desc">Planning, priorities, execution roadmaps</div></div>
+    <div class="agent-card"><div class="ac-emoji">📢</div><div class="ac-name">Marketing</div><div class="ac-desc">Campaigns, ad copy, launch strategies</div></div>
+    <div class="agent-card"><div class="ac-emoji">✍️</div><div class="ac-name">Writer</div><div class="ac-desc">Blog posts, emails, social media, all content</div></div>
+    <div class="agent-card"><div class="ac-emoji">💻</div><div class="ac-name">Developer</div><div class="ac-desc">Code, architecture, reviews, technical tasks</div></div>
+    <div class="agent-card"><div class="ac-emoji">📊</div><div class="ac-name">Analyst</div><div class="ac-desc">Data analysis, metrics, business reports</div></div>
+    <div class="agent-card"><div class="ac-emoji">💰</div><div class="ac-name">Sales</div><div class="ac-desc">Outreach sequences, follow-ups, pipeline</div></div>
+  </div>
+
+  <h3>Direct agent chat</h3>
+  <p>Go to Workspace → Agent Team tab → click any agent → chat opens directly. Each agent has its own memory, history, and trained preferences.</p>
+  <pre><code>Talk to Research Agent:
+"Find everything about Notion's latest pricing changes"
+
+Talk to Developer Agent:
+"Review my auth system for security issues"
+
+Talk to Writer Agent:
+"Rewrite this in our brand voice"</code><span class="lang-tag">examples</span></pre>
+
+  <h3>Training agents</h3>
+  <p>Type <code>train:</code> prefix in any agent chat to save a permanent instruction for that agent.</p>
+  <pre><code>train: Always include Indian market data in your research
+train: Focus only on B2B SaaS companies when analyzing competitors
+train: Write in a casual, founder-to-founder tone</code><span class="lang-tag">training commands</span></pre>
+  <div class="callout tip"><div class="callout-icon">💡</div><div class="callout-body"><div class="callout-title">Training is permanent</div><p>Trained instructions persist across all sessions. The agent follows them in every future task until you update them.</p></div></div>
+
+  <h3>Per-agent schedules</h3>
+  <p>Set cron jobs directly in agent chat using the <code>schedule:</code> prefix.</p>
+  <pre><code>schedule: Check competitor pricing | 0 9 * * 1 | Monday Price Check
+schedule: Find trending topics in my niche | 0 8 * * * | Daily Trends</code><span class="lang-tag">schedule commands</span></pre>
+
+  <h3>Activity log</h3>
+  <p>The Team tab shows a real-time activity log of everything agents are doing — who did what, when, and how long it took. Boss Agent routing decisions are visible here too.</p>
+
+  <h3>How Boss Agent routes tasks</h3>
+  <div class="flow">
+    <div class="flow-box red">Your command</div><div class="flow-arr">→</div>
+    <div class="flow-box">Boss analyzes complexity</div><div class="flow-arr">→</div>
+    <div class="flow-box red">Simple → handles alone</div>
+    <div class="flow-arr" style="width:100%;flex-basis:100%;height:0"></div>
+    <div class="flow-box">Complex → assembles team</div><div class="flow-arr">→</div>
+    <div class="flow-box red">Agents work in sequence</div><div class="flow-arr">→</div>
+    <div class="flow-box">Final output compiled</div>
+  </div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
+</section>
+
 <!-- ═══ CONNECTORS ═══ -->
 <section id="connectors">
   <div class="page-eyebrow">Business Features</div>
@@ -945,8 +997,8 @@ sudo apt install libfuse2t64</code><span class="lang-tag">bash</span></pre>
 <!-- ═══ UPDATES ═══ -->
 <section id="updates">
   <div class="page-eyebrow">Roadmap</div>
-  <h2 style="margin-top:0;border-bottom:none">Upcoming Updates — August 20, 2026</h2>
-  <p>Three major updates shipping simultaneously on August 20. All active subscribers receive them automatically — no reinstall, no manual steps.</p>
+  <h2 style="margin-top:0;border-bottom:none">Roadmap</h2>
+  <p>Planned features coming soon. All active subscribers receive updates automatically — no reinstall, no manual steps.</p>
 
   <div class="card-grid three">
     <div class="card" style="cursor:default"><div class="card-icon">📱</div><div class="card-title">Native Mobile App</div><div class="card-desc">Android and iOS. Remote PC control, live view, push notifications when tasks complete, voice commands.</div></div>
@@ -957,7 +1009,7 @@ sudo apt install libfuse2t64</code><span class="lang-tag">bash</span></pre>
 </section>
 
 <footer>
-  <p>© 2026 <strong>Agentic Vnus</strong> · Built by <strong>Prince Tanwar</strong></p>
+  <p>© 2026 <strong>Agentic Vnus</strong></p>
   <div style="display:flex;gap:16px"><a href="https://agenticvnus.com">agenticvnus.com</a><a href="https://x.com/AgenticVnus">X / Twitter</a></div>
 </footer>
 
@@ -982,6 +1034,7 @@ const IDX = [
   {t:"Agent Roles",            d:"CEO, CMO, CTO, CFO, Sales, or custom role",         s:"agent-roles"},
   {t:"Proactive AI",           d:"Morning briefs, opportunity scans, weekly reports",  s:"proactive"},
   {t:"Agent Teams",            d:"8 specialist agents for complex tasks",              s:"multi-agent"},
+  {t:"Agent Teams",               d:"Direct chat, training, per-agent schedules, activity log",   s:"agent-teams"},
   {t:"API Connectors",         d:"10 providers — one key handles all complex tasks",   s:"connectors"},
   {t:"Security",               d:"Permission system, blocklist, rate limiting",        s:"security"},
   {t:"Installation Warnings",  d:"Windows SmartScreen, Mac Gatekeeper, Linux AppImage",s:"install-warnings"},
