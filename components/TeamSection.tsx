@@ -317,11 +317,12 @@ export default function TeamSection({ workspaceId }: { workspaceId: string }) {
                     </div>
                   )}
                   <div style={{
-                    padding: "9px 13px", borderRadius: 10, fontSize: 12, lineHeight: 1.65, maxWidth: "76%", whiteSpace: "pre-line",
+                    padding: "9px 13px",
+                    borderRadius: msg.role === "user" ? "10px 10px 2px 10px" : msg.role === "system" ? "8px" : "10px 10px 10px 2px",
+                    fontSize: 12, lineHeight: 1.65, maxWidth: "76%", whiteSpace: "pre-line",
                     background: msg.role === "user" ? `${activeAgent.color}12` : msg.role === "system" ? "transparent" : "#0d0d0d",
                     border: msg.role === "user" ? `1px solid ${activeAgent.color}22` : msg.role === "system" ? "none" : "1px solid #1a1a1a",
                     color: msg.role === "user" ? "#ddd" : msg.role === "system" ? "#333" : "#bbb",
-                    borderRadius: msg.role === "user" ? "10px 10px 2px 10px" : "10px 10px 10px 2px",
                     textAlign: msg.role === "system" ? "center" : "left",
                   }}>
                     {(msg as any).status === "thinking" ? (
