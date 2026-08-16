@@ -12,6 +12,7 @@ import SchedulerSection   from "@/components/SchedulerSection";
 import BusinessDNASection from "@/components/BusinessDNASection";
 import MultiAgentSection   from "@/components/MultiAgentSection";
 import ConnectorsSection   from "@/components/ConnectorsSection";
+import TeamSection         from "@/components/TeamSection";
 import Link               from "next/link";
 
 // ── Types ──────────────────────────────────────────────────
@@ -394,8 +395,7 @@ export default function WorkspacePage({ params }: { params: { id:string } }) {
             {(["business","team"] as const).map(item => (
               <button key={item} onClick={()=>setSection(item)}
                 className={`w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs mb-0.5 transition-all ${section===item?"bg-[#FF3B30]/12 text-[#FF3B30] border border-[#FF3B30]/22":"text-gray-500 hover:text-gray-200 hover:bg-white/4"}`}>
-                {SECTION_LABELS[item]}
-                <span className="ml-auto text-xs px-1.5 py-0.5 rounded-full bg-[#FF3B30]/15 text-[#FF3B30] font-bold text-xs">NEW</span>
+                {item==="team" ? "👥 Agent Team" : SECTION_LABELS[item]}
               </button>
             ))}
           </div>
@@ -658,7 +658,11 @@ export default function WorkspacePage({ params }: { params: { id:string } }) {
         {section==="business" && <BusinessDNASection workspaceId={params.id}/>}
 
         {/* ── AGENT TEAMS ── */}
-        {section==="team" && <MultiAgentSection workspaceId={params.id}/>}
+        {section==="team" && (
+          <div style={{display:"flex",flex:1,overflow:"hidden"}}>
+            <TeamSection workspaceId={params.id}/>
+          </div>
+        )}
 
         {/* ── OVERVIEW ── */}
         {section==="overview" && (
