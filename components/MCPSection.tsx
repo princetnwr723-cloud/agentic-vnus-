@@ -178,7 +178,7 @@ export default function MCPSection({ workspaceId }: { workspaceId: string }) {
                     </div>
                     <button onClick={() => toggleServer(server, !server.installed)}
                       style={{
-                        padding: "6px 14px", borderRadius: 8, border: "none", flexShrink: 0,
+                        padding: "6px 14px", borderRadius: 8, flexShrink: 0,
                         background: server.running ? "rgba(255,59,48,.08)" : "linear-gradient(135deg,#FF3B30,#CC1A10)",
                         color: server.running ? "#FF3B30" : "#fff",
                         fontSize: 11, fontWeight: 700, cursor: "pointer",
