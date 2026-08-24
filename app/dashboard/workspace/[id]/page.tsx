@@ -12,6 +12,8 @@ import SchedulerSection   from "@/components/SchedulerSection";
 import BusinessDNASection from "@/components/BusinessDNASection";
 import MultiAgentSection   from "@/components/MultiAgentSection";
 import ConnectorsSection   from "@/components/ConnectorsSection";
+import MCPSection          from "@/components/MCPSection";
+import TelegramSection     from "@/components/TelegramSection";
 import TeamSection         from "@/components/TeamSection";
 import Link               from "next/link";
 
@@ -717,6 +719,16 @@ export default function WorkspacePage({ params }: { params: { id:string } }) {
             {/* ── API Connectors ── */}
             <div className="rounded-xl p-5 mb-4" style={{background:"rgba(255,255,255,.03)",border:"1px solid rgba(255,255,255,.06)"}}>
               <ConnectorsSection workspaceId={params.id}/>
+            </div>
+
+            {/* ── MCP Servers ── */}
+            <div className="rounded-xl p-5 mb-4" style={{background:"rgba(255,255,255,.03)",border:"1px solid rgba(255,255,255,.06)"}}>
+              <MCPSection workspaceId={params.id}/>
+            </div>
+
+            {/* ── Telegram ── */}
+            <div className="rounded-xl p-5 mb-4" style={{background:"rgba(255,255,255,.03)",border:"1px solid rgba(255,255,255,.06)"}}>
+              <TelegramSection workspaceId={params.id}/>
             </div>
 
             {/* Disconnect */}
