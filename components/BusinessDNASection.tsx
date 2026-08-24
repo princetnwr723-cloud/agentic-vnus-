@@ -314,7 +314,7 @@ export default function BusinessDNASection({ workspaceId }: { workspaceId: strin
 
                 {briefing.motivationalNote && (
                   <div style={{ fontSize: 12, color: "#555", fontStyle: "italic", textAlign: "center", paddingTop: 10 }}>
-                    {briefing.motivationalNote} 👾
+                    {briefing.motivationalNote} 👹
                   </div>
                 )}
               </div>
