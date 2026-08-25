@@ -319,15 +319,18 @@ footer a:hover{color:var(--wh)}
   <a class="sb-link" onclick="scrollTo('proactive')">Proactive AI</a>
   <a class="sb-link" onclick="scrollTo('multi-agent')">Agent Teams</a>
   <a class="sb-link" onclick="scrollTo('agent-teams')">Direct Chat & Training</a>
-  <a class="sb-link" onclick="scrollTo('agent-teams')">Agent Teams</a>
+
+  <div class="sb-sec">Connectivity</div>
   <a class="sb-link" onclick="scrollTo('connectors')">API Connectors</a>
+  <a class="sb-link" onclick="scrollTo('mcp-servers')">MCP Servers</a>
+  <a class="sb-link" onclick="scrollTo('telegram-bot')">Telegram Bot</a>
 
   <div class="sb-sec">Reference</div>
   <a class="sb-link" onclick="scrollTo('security')">Security</a>
   <a class="sb-link" onclick="scrollTo('plans')">Plans & Pricing</a>
   <a class="sb-link" onclick="scrollTo('faq')">FAQ</a>
   <a class="sb-link" onclick="scrollTo('arch')">Architecture</a>
-  <a class="sb-link" onclick="scrollTo('updates')">Upcoming Updates</a>
+  <a class="sb-link" onclick="scrollTo('updates')">Roadmap</a>
 </nav>
 
 <!-- Content -->
@@ -394,12 +397,21 @@ footer a:hover{color:var(--wh)}
     <div class="accordion-body"><p>Full GitHub REST API — read files, write commits, create PRs, manage issues. Stealth Playwright browser — navigate, click, fill forms, extract data. Terminal commands with a permission system for safety.</p></div>
   </div>
 
+  <div id="acc-7" class="accordion">
+    <div class="accordion-header" onclick="toggleAcc('acc-7')">
+      <span class="accordion-icon">🔌</span><span class="accordion-title">Connect any tool via MCP, or control it from Telegram</span><span class="accordion-chevron">›</span>
+    </div>
+    <div class="accordion-body"><p>Add any MCP server — official or custom, from npm, GitHub, a local path, or an HTTP endpoint — and the agent instantly gets that tool's capabilities. Pair it with the Telegram bot to run tasks, check status, and receive proactive briefings from your phone with no dashboard required.</p></div>
+  </div>
+
   <h2>Get started</h2>
   <div class="card-grid">
     <div class="card" onclick="scrollTo('quickstart')"><div class="card-icon">⚡</div><div class="card-title">Quick Start</div><div class="card-desc">Install and run your first command in under 10 minutes.</div><div class="card-arrow">→</div></div>
     <div class="card" onclick="scrollTo('business-dna')"><div class="card-icon">🧬</div><div class="card-title">Business DNA</div><div class="card-desc">Introduce your business once — agent works for it forever.</div><div class="card-arrow">→</div></div>
     <div class="card" onclick="scrollTo('multi-agent')"><div class="card-icon">👥</div><div class="card-title">Agent Teams</div><div class="card-desc">Complex tasks assemble a specialist team automatically.</div><div class="card-arrow">→</div></div>
     <div class="card" onclick="scrollTo('scheduler')"><div class="card-icon">⏰</div><div class="card-title">Scheduler</div><div class="card-desc">6 trigger types. Background automation. No other agent has this.</div><div class="card-arrow">→</div></div>
+    <div class="card" onclick="scrollTo('mcp-servers')"><div class="card-icon">🔌</div><div class="card-title">MCP Servers</div><div class="card-desc">Connect any tool — filesystem, search, Slack, Notion, or your own.</div><div class="card-arrow">→</div></div>
+    <div class="card" onclick="scrollTo('telegram-bot')"><div class="card-icon">📱</div><div class="card-title">Telegram Bot</div><div class="card-desc">Control your PC agent from your phone, anywhere.</div><div class="card-arrow">→</div></div>
   </div>
   <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
 </section>
@@ -656,9 +668,13 @@ footer a:hover{color:var(--wh)}
   <p>Introduce your business once. The agent stores everything permanently and operates as a dedicated AI executive — knowing your product, customers, competitors, metrics, and goals. No other agent in the world has this system.</p>
 
   <h3>How to activate</h3>
-  <p>Type in any chat:</p>
-  <pre><code>introduce my business</code><span class="lang-tag">command</span></pre>
-  <p>The agent asks 20 questions over approximately 5 minutes. After that, it never needs to ask again.</p>
+  <p>Type in any chat — the setup understands natural phrasing, not just the exact command:</p>
+  <pre><code>introduce my business
+i want to make you CEO of my business
+you're hired as my CMO
+be my business partner
+i run a SaaS startup</code><span class="lang-tag">any of these work</span></pre>
+  <p>The agent asks 20 questions over approximately 5 minutes, with an opening message tailored to how you framed it — asking to be CEO gets a different greeting than asking it to "run my business." After setup, it never needs to ask again.</p>
 
   <h3>What it stores</h3>
   <div class="dna-grid">
@@ -673,6 +689,24 @@ footer a:hover{color:var(--wh)}
   </div>
 
   <div class="callout tip"><div class="callout-icon">💡</div><div class="callout-body"><div class="callout-title">Update any time</div><p>Type <strong>"update my business DNA"</strong> or go to the Business DNA section in your workspace dashboard and click Update Business DNA.</p></div></div>
+
+  <h3>Drift detection</h3>
+  <p>Business reality changes faster than most people update their settings. Agentic Vnus watches every command for signals that your DNA has gone stale — revenue, user count, team size, product name, pricing, goals, focus, or funding stage — and flags the mismatch instead of silently working off outdated context.</p>
+  <pre><code>You: "Great news, we hit $25K MRR this month!"
+
+Agent: 🧬 DNA Update Detected
+
+Your Monthly Revenue seems to have changed:
+→ DNA says: $12K/mo
+→ You mentioned: $25K/mo
+
+Should I update your Business DNA?
+Reply "yes update DNA" to save.</code><span class="lang-tag">example</span></pre>
+  <p>Reply <code>yes update DNA</code> to save the change, or <code>no keep old</code> to dismiss it. Updates apply per-field — no need to redo the full 20-question setup.</p>
+
+  <h3>Weekly DNA health check</h3>
+  <p>Every Monday, alongside your weekly business report, the agent runs a health check on your DNA: how many days since it was last touched, and whether critical fields (revenue, focus, target customer, goals) are empty. A score out of 100 and a list of specific issues are generated automatically — no command needed.</p>
+
   <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
 </section>
 
@@ -835,6 +869,71 @@ schedule: Find trending topics in my niche | 0 8 * * * | Daily Trends</code><spa
 
 <div class="divider"></div>
 
+<!-- ═══ MCP SERVERS ═══ -->
+<section id="mcp-servers">
+  <div class="page-eyebrow">Connectivity</div>
+  <h2 style="margin-top:0;border-bottom:none">MCP Servers</h2>
+  <p>Model Context Protocol (MCP) is the standard way to give an AI agent access to external tools. Enable any MCP server and your agent instantly gets that tool's full capability set — no custom integration code required.</p>
+
+  <h3>How to add a server</h3>
+  <p>Workspace → Settings → MCP Servers. Two tabs: <strong>Official MCPs</strong> (toggle on/off) and <strong>Custom MCPs</strong> (add your own).</p>
+
+  <div class="table-wrap"><table><thead><tr><th>Source Type</th><th>What you provide</th><th>Example</th></tr></thead><tbody>
+    <tr><td><strong>NPM Package</strong></td><td>Package name</td><td><code>@modelcontextprotocol/server-brave-search</code></td></tr>
+    <tr><td><strong>GitHub Repo</strong></td><td>username/repo</td><td><code>username/my-mcp-server</code></td></tr>
+    <tr><td><strong>Local Path</strong></td><td>File path on your PC</td><td><code>C:/path/to/server.js</code></td></tr>
+    <tr><td><strong>HTTP Endpoint</strong></td><td>API URL</td><td><code>https://my-mcp.com/api</code></td></tr>
+  </tbody></table></div>
+
+  <h3>Official servers included</h3>
+  <div class="connector-grid">
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">📁</span><span class="cc-name">Filesystem</span></div><div class="cc-desc">Read, write, and manage files on your PC with deeper access than default file operations.</div></div>
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">🔍</span><span class="cc-name">Web Search</span></div><div class="cc-desc">Real-time web search injected into every task — powered by Brave Search.</div></div>
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">🐙</span><span class="cc-name">GitHub Enhanced</span></div><div class="cc-desc">More operations and better reliability than the built-in REST API pipeline.</div></div>
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">📂</span><span class="cc-name">Google Drive</span></div><div class="cc-desc">Access and manage Google Drive files directly.</div></div>
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">💬</span><span class="cc-name">Slack</span></div><div class="cc-desc">Send messages, read channels, manage your workspace.</div></div>
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">🗄️</span><span class="cc-name">PostgreSQL</span></div><div class="cc-desc">Direct database access and query execution.</div></div>
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">🌐</span><span class="cc-name">Puppeteer</span></div><div class="cc-desc">Enhanced browser automation as an alternative to the built-in Playwright engine.</div></div>
+    <div class="connector-card"><div class="cc-header"><span class="cc-icon">🧠</span><span class="cc-name">Enhanced Memory</span></div><div class="cc-desc">Vector-based persistent memory with semantic search.</div></div>
+  </div>
+
+  <div class="callout tip"><div class="callout-icon">💡</div><div class="callout-body"><div class="callout-title">Any MCP works</div><p>The 8 servers above are pre-configured for one-click install, but Agentic Vnus can connect to any MCP server that exists — official, community-built, or your own custom tool.</p></div></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ TELEGRAM BOT ═══ -->
+<section id="telegram-bot">
+  <div class="page-eyebrow">Connectivity</div>
+  <h2 style="margin-top:0;border-bottom:none">Telegram Bot</h2>
+  <p>Control your PC agent from anywhere — no dashboard required. Send a command from your phone, agent executes on your PC, result (with screenshot when relevant) comes back to the same chat.</p>
+
+  <h3>Setup — 2 minutes</h3>
+  <ul class="steps-list">
+    <li class="step-item"><div class="step-num">1</div><div><div class="step-title">Create a bot</div><div class="step-desc">Open Telegram, search <strong>@BotFather</strong>, send <code>/newbot</code>, follow the prompts.</div></div></li>
+    <li class="step-item"><div class="step-num">2</div><div><div class="step-title">Copy the token</div><div class="step-desc">BotFather gives you an API token immediately after naming your bot.</div></div></li>
+    <li class="step-item"><div class="step-num">3</div><div><div class="step-title">Paste in dashboard</div><div class="step-desc">Workspace → Settings → Telegram → paste token → Test Connection → Save & Enable.</div></div></li>
+    <li class="step-item"><div class="step-num">4</div><div><div class="step-title">Send /start</div><div class="step-desc">Open your new bot in Telegram and send <code>/start</code> to link your chat.</div></div></li>
+  </ul>
+
+  <h3>Commands</h3>
+  <div class="table-wrap"><table><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody>
+    <tr><td><code>/brief</code></td><td>Pulls today's morning briefing on demand</td></tr>
+    <tr><td><code>/status</code></td><td>Agent, business, and MCP health snapshot</td></tr>
+    <tr><td><code>/task [command]</code></td><td>Runs any command on your PC, returns result + screenshot</td></tr>
+    <tr><td><code>/team [agent] [message]</code></td><td>Talk directly to a specialist agent</td></tr>
+    <tr><td><code>/screenshot</code></td><td>Takes a screenshot of your current PC screen</td></tr>
+    <tr><td><code>/opportunities</code></td><td>Runs an opportunity scan for your business</td></tr>
+    <tr><td>Plain text</td><td>Executes directly as an agent command — no slash needed</td></tr>
+  </tbody></table></div>
+
+  <div class="callout info"><div class="callout-icon">ℹ️</div><div class="callout-body"><div class="callout-title">Notifications too</div><p>Morning briefings and weekly reports are pushed to Telegram automatically once connected — you don't need to ask for them.</p></div></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
+</section>
+
+<div class="divider"></div>
+
 <!-- ═══ SECURITY ═══ -->
 <section id="security">
   <div class="page-eyebrow">Reference</div>
@@ -952,6 +1051,10 @@ sudo apt install libfuse2t64</code><span class="lang-tag">bash</span></pre>
 
   <div id="faq-7" class="accordion"><div class="accordion-header" onclick="toggleAcc('faq-7')"><span class="accordion-icon">❓</span><span class="accordion-title">What if the model download fails?</span><span class="accordion-chevron">›</span></div><div class="accordion-body"><p>The agent shows a specific error message and a Retry button. Your plan stays active. Check your internet connection and ensure you have at least 2 GB more free disk space than the model size.</p></div></div>
 
+  <div id="faq-8" class="accordion"><div class="accordion-header" onclick="toggleAcc('faq-8')"><span class="accordion-icon">❓</span><span class="accordion-title">Can I connect an MCP server that isn't in the official list?</span><span class="accordion-chevron">›</span></div><div class="accordion-body"><p>Yes. The official list is just for one-click install. The Custom MCP tab accepts any npm package, GitHub repo, local file path, or HTTP endpoint — if it speaks the MCP protocol, it connects.</p></div></div>
+
+  <div id="faq-9" class="accordion"><div class="accordion-header" onclick="toggleAcc('faq-9')"><span class="accordion-icon">❓</span><span class="accordion-title">Does the Telegram bot need a public server or webhook?</span><span class="accordion-chevron">›</span></div><div class="accordion-body"><p>No. It uses long-polling, so it works entirely from your PC with no public URL, port forwarding, or webhook setup required. Your PC just needs to be online.</p></div></div>
+
   <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
 </section>
 
@@ -988,6 +1091,15 @@ sudo apt install libfuse2t64</code><span class="lang-tag">bash</span></pre>
 
   <h3>skills.js — Skill engine</h3>
   <p>After each successful task, checks if the command matches a learnable pattern. Saves skill files locally with trigger phrases, action templates, and success counter. Failed skills marked stale and regenerated from fresh AI planning.</p>
+
+  <h3>teamAgent.js — Team system</h3>
+  <p>Manages per-agent memory, training preferences, and cron schedules independently for all 8 specialist agents. Boss Agent routing logic lives here — decides whether a task is handled solo or needs a full team, and builds the task breakdown with dependency chains between agents. Activity log streams every action to the dashboard in real time.</p>
+
+  <h3>mcpManager.js — MCP orchestration</h3>
+  <p>Installs and runs MCP servers as local child processes over stdio, communicating via JSON-RPC. Supports npm packages, GitHub repos, local paths, and raw HTTP endpoints. Tools from all running servers are collected and injected into the AI's system prompt automatically, with a dedicated <code>mcp_call</code> action type for the executor.</p>
+
+  <h3>telegramBot.js — Remote control</h3>
+  <p>Long-polling bot using the Telegram Bot API — no webhook or public URL needed. Routes slash commands to their handlers, falls through to direct command execution for plain text, and pushes proactive notifications (morning briefings, weekly reports) to all linked chats automatically.</p>
 
   <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
 </section>
@@ -1030,18 +1142,20 @@ const IDX = [
   {t:"Scheduler",              d:"6 trigger types, background automation",             s:"scheduler"},
   {t:"Browser Control",        d:"Playwright stealth browser automation",              s:"browser"},
   {t:"GitHub Integration",     d:"Full REST API — commits, PRs, issues",              s:"github"},
-  {t:"Business DNA",           d:"20-question setup, agent knows your business forever",s:"business-dna"},
+  {t:"Business DNA",           d:"20-question setup, drift detection, weekly health check", s:"business-dna"},
   {t:"Agent Roles",            d:"CEO, CMO, CTO, CFO, Sales, or custom role",         s:"agent-roles"},
   {t:"Proactive AI",           d:"Morning briefs, opportunity scans, weekly reports",  s:"proactive"},
   {t:"Agent Teams",            d:"8 specialist agents for complex tasks",              s:"multi-agent"},
-  {t:"Agent Teams",               d:"Direct chat, training, per-agent schedules, activity log",   s:"agent-teams"},
+  {t:"Direct Chat & Training", d:"Talk to any agent, train them, per-agent schedules", s:"agent-teams"},
   {t:"API Connectors",         d:"10 providers — one key handles all complex tasks",   s:"connectors"},
+  {t:"MCP Servers",            d:"Connect any tool — npm, GitHub, local, or HTTP",     s:"mcp-servers"},
+  {t:"Telegram Bot",           d:"Control your agent from anywhere, no dashboard needed", s:"telegram-bot"},
   {t:"Security",               d:"Permission system, blocklist, rate limiting",        s:"security"},
   {t:"Installation Warnings",  d:"Windows SmartScreen, Mac Gatekeeper, Linux AppImage",s:"install-warnings"},
   {t:"Plans & Pricing",        d:"Free to Elite Ultra — $0 to $999/mo",               s:"plans"},
   {t:"FAQ",                    d:"Common questions answered",                          s:"faq"},
-  {t:"Architecture",           d:"brain.js, listener.js, connectors.js explained",    s:"arch"},
-  {t:"Upcoming Updates",       d:"Mobile app, Claude integration, Skill Marketplace",  s:"updates"},
+  {t:"Architecture",           d:"brain.js, listener.js, mcpManager.js explained",     s:"arch"},
+  {t:"Roadmap",                d:"Mobile app, Claude integration, Skill Marketplace",  s:"updates"},
 ];
 
 function openSearch(){document.getElementById('searchOverlay').classList.add('open');setTimeout(()=>document.getElementById('searchInput').focus(),60)}
