@@ -311,6 +311,7 @@ footer a:hover{color:var(--wh)}
   <a class="sb-link" onclick="scrollTo('skills')">Self-Improving Skills</a>
   <a class="sb-link" onclick="scrollTo('scheduler')">Scheduler</a>
   <a class="sb-link" onclick="scrollTo('browser')">Browser Control</a>
+  <a class="sb-link" onclick="scrollTo('reliable-automation')">Reliable Automation</a>
   <a class="sb-link" onclick="scrollTo('github')">GitHub Integration</a>
 
   <div class="sb-sec">Business Features</div>
@@ -404,6 +405,13 @@ footer a:hover{color:var(--wh)}
     <div class="accordion-body"><p>Add any MCP server — official or custom, from npm, GitHub, a local path, or an HTTP endpoint — and the agent instantly gets that tool's capabilities. Pair it with the Telegram bot to run tasks, check status, and receive proactive briefings from your phone with no dashboard required.</p></div>
   </div>
 
+  <div id="acc-8" class="accordion">
+    <div class="accordion-header" onclick="toggleAcc('acc-8')">
+      <span class="accordion-icon" style="color:var(--red);display:inline-flex;align-items:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span><span class="accordion-title">Automate tools that have no API at all</span><span class="accordion-chevron">›</span>
+    </div>
+    <div class="accordion-body"><p>For sites and tools without an API or MCP server, show the agent the task once — it records what you click and type, generalizes it into a replayable workflow, and runs it again later with new data. Long tasks can pause on a login wall or approval step and resume later from that exact point instead of starting over.</p></div>
+  </div>
+
   <h2>Get started</h2>
   <div class="card-grid">
     <div class="card" onclick="scrollTo('quickstart')"><div class="card-icon" style="color:var(--red);display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div class="card-title">Quick Start</div><div class="card-desc">Install and run your first command in under 10 minutes.</div><div class="card-arrow">→</div></div>
@@ -412,6 +420,7 @@ footer a:hover{color:var(--wh)}
     <div class="card" onclick="scrollTo('scheduler')"><div class="card-icon" style="color:var(--red);display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="card-title">Scheduler</div><div class="card-desc">6 trigger types. Background automation. No other agent has this.</div><div class="card-arrow">→</div></div>
     <div class="card" onclick="scrollTo('mcp-servers')"><div class="card-icon" style="color:var(--red);display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v3a6 6 0 01-12 0V8h12z"/></svg></div><div class="card-title">MCP Servers</div><div class="card-desc">Connect any tool — filesystem, search, Slack, Notion, or your own.</div><div class="card-arrow">→</div></div>
     <div class="card" onclick="scrollTo('telegram-bot')"><div class="card-icon" style="color:var(--red);display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px"><rect x="6" y="2" width="12" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg></div><div class="card-title">Telegram Bot</div><div class="card-desc">Control your PC agent from your phone, anywhere.</div><div class="card-arrow">→</div></div>
+    <div class="card" onclick="scrollTo('reliable-automation')"><div class="card-icon" style="color:var(--red);display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="card-title">Reliable Automation</div><div class="card-desc">Learn-by-demonstration and pause/resume for long tasks.</div><div class="card-arrow">→</div></div>
   </div>
   <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
 </section>
@@ -632,6 +641,54 @@ footer a:hover{color:var(--wh)}
     <tr><td>New tabs</td><td>Open multiple tabs in sequence</td></tr>
   </tbody></table></div>
   <div class="callout danger"><div class="callout-icon" style="display:flex"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="callout-body"><div class="callout-title">CAPTCHA and 2FA limitations</div><p>CAPTCHA and two-factor authentication cannot be automated. The agent pauses and asks you to complete these manually. Some financial and government sites block all browser automation tools.</p></div></div>
+  <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══ RELIABLE AUTOMATION ═══ -->
+<section id="reliable-automation">
+  <div class="page-eyebrow">Automation</div>
+  <h2 style="margin-top:0;border-bottom:none">Reliable Automation</h2>
+  <p>Standard browser control clicks based on CSS selectors, which break the moment a site's layout changes. For longer or unfamiliar workflows, Agentic Vnus adds three layers on top: a perception engine that reads the real page structure instead of guessing, a recorder that learns tools with no API by watching you do them once, and a persistence layer that lets a task pause and resume exactly where it left off.</p>
+
+  <h3>Perceive → Think → Act → Verify</h3>
+  <p>Instead of clicking fixed pixel coordinates, the agent reads the page's accessibility tree — the same structure screen readers use — to find elements by role and name (<code>button "Submit"</code>) rather than by CSS selector or position. Every action is followed by a verification pass: did the URL change, did new content appear, did the expected element show up. If not, it re-perceives the page and retries with a fresh strategy, up to 3 attempts.</p>
+  <pre><code>{"action":"smart_browser_task","label":"Post a job listing","steps":[
+  {"description":"Post a job button","action":"click","expectedChange":"navigate to new form page"},
+  {"description":"Job title","action":"type","value":"Senior Engineer"},
+  {"description":"Submit","action":"click","expectedChange":"show confirmation"}
+]}</code><span class="lang-tag">action format</span></pre>
+  <div class="callout tip"><div class="callout-icon" style="display:flex"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.2 1 2.05V17h6v-.25c0-.85.4-1.55 1-2.05A7 7 0 0012 2z"/></svg></div><div class="callout-body"><div class="callout-title">Survives layout changes</div><p>Because elements are found by role and accessible name rather than CSS selector, a site redesign that moves a button around the page usually doesn't break the automation — the agent finds "Submit" wherever it now sits.</p></div></div>
+
+  <h3>Learn by demonstration</h3>
+  <p>Many useful tools — video generators, ad platforms, niche SaaS dashboards — have no API and no MCP server. Rather than trying to script them blind, show the agent once: it records what you click, type, and select, then generalizes those actions into a replayable macro that can run again with different data.</p>
+  <ul class="steps-list">
+    <li class="step-item"><div class="step-num">1</div><div><div class="step-title">Start recording</div><div class="step-desc">Tell the agent to record a task by name, then perform it manually in the browser as you normally would.</div></div></li>
+    <li class="step-item"><div class="step-num">2</div><div><div class="step-title">Stop and save</div><div class="step-desc">The agent generalizes the raw clicks and keystrokes into semantic steps — dropping pixel coordinates and timestamps, keeping element roles and labels.</div></div></li>
+    <li class="step-item"><div class="step-num">3</div><div><div class="step-title">Replay with new data</div><div class="step-desc">Values that looked like "data" during recording (titles, numbers, URLs) become swappable parameters — replay the same macro with a different title, image, or amount each time.</div></div></li>
+  </ul>
+  <pre><code>record: Create Creatify video
+[you perform the task manually]
+stop recording
+
+replay: Create Creatify video with title "Winter Sale"</code><span class="lang-tag">example flow</span></pre>
+  <p>Recorded macros live in the <strong>Automation</strong> tab of your workspace settings — see run count, last run date, and remove any that are no longer needed.</p>
+
+  <h3>Pause and resume</h3>
+  <p>A long task doesn't have to restart from zero when it hits a login wall, a CAPTCHA, or a step that needs your sign-off. The agent saves the browser's full state — cookies, local storage, current URL, scroll position — plus exactly which step it was on, then pauses. Resume with one tap and it continues from that precise point, not the beginning.</p>
+  <div class="table-wrap"><table><thead><tr><th>Status</th><th>Meaning</th></tr></thead><tbody>
+    <tr><td><strong>Running</strong></td><td>Actively executing steps</td></tr>
+    <tr><td><strong>Paused</strong></td><td>Stopped after a failed step — will not auto-retry further without input</td></tr>
+    <tr><td><strong>Waiting Approval</strong></td><td>Hit a sensitive step (login, payment, 2FA) and needs your sign-off</td></tr>
+    <tr><td><strong>Completed</strong></td><td>All steps finished successfully</td></tr>
+    <tr><td><strong>Failed</strong></td><td>Could not recover after retries</td></tr>
+  </tbody></table></div>
+  <div class="callout info"><div class="callout-icon" style="display:flex"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-3px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div><div class="callout-body"><div class="callout-title">Telegram notifies you</div><p>When a task moves to Waiting Approval, you get a Telegram notification (rate-limited to once per 15 minutes per task, so it won't spam). Approve and resume right from your phone.</p></div></div>
+
+  <h3>Where to manage it</h3>
+  <p>Workspace → Settings → Automation has two tabs: <strong>Tasks</strong> shows every running, paused, or completed automation with a progress bar and an Approve & Resume button; <strong>Recorded Macros</strong> lists everything you've taught the agent, with run counts and a remove option.</p>
+
   <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
 </section>
 
@@ -1101,6 +1158,15 @@ sudo apt install libfuse2t64</code><span class="lang-tag">bash</span></pre>
   <h3>telegramBot.js — Remote control</h3>
   <p>Long-polling bot using the Telegram Bot API — no webhook or public URL needed. Routes slash commands to their handlers, falls through to direct command execution for plain text, and pushes proactive notifications (morning briefings, weekly reports) to all linked chats automatically.</p>
 
+  <h3>accessibilityEngine.js — Perception and verification</h3>
+  <p>Reads the page's accessibility tree via Playwright to build a list of interactive elements by role and accessible name, with a raw DOM query as a fallback when the tree is unavailable. Locates elements semantically (exact match → contains → fuzzy word-overlap) rather than by CSS selector, acts on them through role-based Playwright locators, and verifies each action against URL, title, and element-count changes before moving to the next step — retrying up to 3 times with fresh perception on failure.</p>
+
+  <h3>demonstrationRecorder.js — Learn by example</h3>
+  <p>Injects a lightweight event listener into the page to capture clicks, typed values, and selections during a manual demonstration. Generalizes the raw event log by dropping timestamps and pixel coordinates, collapsing corrected retypes into their final value, and flagging title-like or numeric values as swappable parameters. Saved macros live at <code>~/.vnus-agent/macros/</code> and replay through the same accessibility-based locators used elsewhere, so they're resilient to minor layout drift too.</p>
+
+  <h3>sessionPersistence.js — Pause and resume</h3>
+  <p>Maintains a task registry at <code>~/.vnus-agent/sessions/registry.json</code> tracking status, current step, and arbitrary step data for every long-running task. Saves the browser's full <code>storageState</code> (cookies, local storage) plus current URL and scroll position on pause, and restores a fresh browser context from that exact snapshot on resume — so cookies, login sessions, and position in a multi-page flow all survive a pause, an approval wait, or an agent restart.</p>
+
   <div class="helpful"><span class="helpful-text">Was this page useful?</span><button class="helpful-btn" onclick="markHelpful(this,'yes')">Yes</button><button class="helpful-btn" onclick="markHelpful(this,'no')">No</button></div>
 </section>
 
@@ -1141,6 +1207,7 @@ const IDX = [
   {t:"Self-Improving Skills",  d:"Tasks get faster with repeated use",                s:"skills"},
   {t:"Scheduler",              d:"6 trigger types, background automation",             s:"scheduler"},
   {t:"Browser Control",        d:"Playwright stealth browser automation",              s:"browser"},
+  {t:"Reliable Automation",    d:"Accessibility-based control, learn-by-demonstration, pause/resume", s:"reliable-automation"},
   {t:"GitHub Integration",     d:"Full REST API — commits, PRs, issues",              s:"github"},
   {t:"Business DNA",           d:"20-question setup, drift detection, weekly health check", s:"business-dna"},
   {t:"Agent Roles",            d:"CEO, CMO, CTO, CFO, Sales, or custom role",         s:"agent-roles"},
