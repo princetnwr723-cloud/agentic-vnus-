@@ -75,7 +75,7 @@ export default function AutomationSection({ workspaceId }: { workspaceId: string
       </div>
 
       <div style={{ background: "rgba(96,165,250,.05)", border: "1px solid rgba(96,165,250,.15)", borderLeft: "3px solid #60a5fa", borderRadius: 9, padding: "10px 14px", fontSize: 11, color: "#80b0e0", lineHeight: 1.6 }}>
-        <strong style={{ color: "#60a5fa" }}>How it works:</strong> Long tasks pause here when they hit an approval step, a CAPTCHA, or an unexpected screen — resume with one tap and the agent continues from that exact step. Record a workflow once for tools with no API, then replay it with new data any time.
+        <strong style={{ color: "#60a5fa" }}>Smart Approval:</strong> only genuinely ambiguous steps pause here — clear matches run straight through. Record the same task twice with different data and the agent compares both runs to detect real parameters instead of guessing. Long tasks pause here on a login wall, CAPTCHA, or unexpected screen — resume with one tap from that exact step.
       </div>
 
       <div style={{ display: "flex", background: "rgba(255,255,255,.04)", borderRadius: 8, padding: 3, gap: 3 }}>
