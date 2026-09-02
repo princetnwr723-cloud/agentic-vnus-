@@ -15,6 +15,7 @@ import ConnectorsSection   from "@/components/ConnectorsSection";
 import MCPSection          from "@/components/MCPSection";
 import TelegramSection     from "@/components/TelegramSection";
 import AutomationSection   from "@/components/AutomationSection";
+import MarketplaceSection  from "@/components/MarketplaceSection";
 import TeamSection         from "@/components/TeamSection";
 import Link               from "next/link";
 
@@ -735,6 +736,11 @@ export default function WorkspacePage({ params }: { params: { id:string } }) {
             {/* ── Automation (long tasks + macros) ── */}
             <div className="rounded-xl p-5 mb-4" style={{background:"rgba(255,255,255,.03)",border:"1px solid rgba(255,255,255,.06)"}}>
               <AutomationSection workspaceId={params.id}/>
+            </div>
+
+            {/* ── Marketplace (share agents/teams) ── */}
+            <div className="rounded-xl p-5 mb-4" style={{background:"rgba(255,255,255,.03)",border:"1px solid rgba(255,255,255,.06)"}}>
+              <MarketplaceSection workspaceId={params.id}/>
             </div>
 
             {/* Disconnect */}
