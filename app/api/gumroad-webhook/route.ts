@@ -3,8 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { initializeApp, getApps, cert } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import { getAuth } from "firebase-admin/auth";
+import { getDatabase } from "firebase-admin/database"; // ← ADDED
 
-// ── Product name → plan key ───────────────────────────────
+// ── Product name → plan key ─────────────────────────────
 const PLAN_MAP: Record<string, string> = {
   "agentic vnus — free":        "free",
   "agentic vnus — starter":     "starter",
@@ -34,6 +35,8 @@ function initAdmin() {
       clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL || "",
       privateKey:  (process.env.FIREBASE_ADMIN_PRIVATE_KEY || "").replace(/\\n/g, "\n"),
     }),
+    // ← ADDED: RTDB needs its own URL — agent listens here, not Firestore
+    databaseURL: process.env.FIREBASE_ADMIN_DATABASE_URL || process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL || "",
   });
 }
 
@@ -127,7 +130,7 @@ export async function POST(req: NextRequest) {
 
     await userRef.update({
       plan:            planKey,
-      planVerified:    true,       // ← electron app is waiting for this
+      planVerified:    true,
       tasksLimit:      TASK_LIMITS[planKey] || 50,
       tasksUsed:       0,
       planActivatedAt: new Date().toISOString(),
@@ -135,6 +138,22 @@ export async function POST(req: NextRequest) {
       gumroadEmail:    fields["email"]           || "",
       subscriptionId:  fields["subscription_id"] || "",
     });
+
+    // ← ADDED: RTDB update — electron agent listens HERE for plan
+    // verification (listenForPlanVerification in main.js reads
+    // /users/{userId} from Realtime Database, not Firestore).
+    // Wrapped in its own try/catch so a failure here never breaks
+    // the Firestore update above or the webhook's 200 response.
+    try {
+      const rtdb = getDatabase();
+      await rtdb.ref(`users/${userId}`).update({
+        plan: planKey,
+        planVerified: true,
+      });
+      console.log(`✅ RTDB plan synced: user=${userId} plan=${planKey}`);
+    } catch (rtdbErr) {
+      console.error("❌ RTDB plan sync failed:", rtdbErr);
+    }
 
     // Agent connections me bhi plan sync karo
     const agentSnap = await db
