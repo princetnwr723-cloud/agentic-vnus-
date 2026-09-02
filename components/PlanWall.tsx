@@ -4,8 +4,9 @@
 // Free plan seedha activate, paid plans Gumroad ke baad
 
 import { useState, useEffect } from "react";
-import { db } from "@/lib/firebase";
+import { db, rtdb } from "@/lib/firebase";          // ← ADDED rtdb import
 import { doc, onSnapshot } from "firebase/firestore";
+import { ref, set } from "firebase/database";        // ← ADDED
 import { useAuth } from "@/lib/AuthContext";
 import PricingModal from "./PricingModal";
 
@@ -50,9 +51,24 @@ export default function PlanWall({
     return () => unsub();
   }, [waitingPay, user, chosenPlan, workspaceId, onPlanChosen]);
 
-  const handleContinue = (planKey: string) => {
+  // ← CHANGED: made async + free plan now also writes to RTDB so
+  // the Electron agent's listenForPlanVerification() (which reads
+  // /users/{userId} from Realtime Database, not Firestore) actually
+  // fires. Paid plan branch is untouched — Gumroad webhook already
+  // handles both databases now.
+  const handleContinue = async (planKey: string) => {
     if (planKey === "free") {
       // Free plan — seedha activate, no payment needed
+      if (user) {
+        try {
+          await set(ref(rtdb, `users/${user.uid}`), {
+            plan: "free",
+            planVerified: true,
+          });
+        } catch (err) {
+          console.error("❌ RTDB free plan sync failed:", err);
+        }
+      }
       setModalOpen(false);
       localStorage.setItem(`plan_wall_done_${workspaceId}`, "true");
       onPlanChosen("free");
