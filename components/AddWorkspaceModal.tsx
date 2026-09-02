@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { doc, getDoc, updateDoc, collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { ref, get, update } from "firebase/database";
+import { rtdb } from "@/lib/firebase";
 import { useAuth } from "@/lib/AuthContext";
 import toast from "react-hot-toast";
 
@@ -62,6 +62,12 @@ export default function AddWorkspaceModal({ isOpen, onClose, onConnected }: AddW
     inputRefs.current[nextEmpty === -1 ? 9 : nextEmpty]?.focus();
   };
 
+  // ── Connect — reads/writes Realtime Database, NOT Firestore ──
+  // The Electron agent (main.js → rtdbRegisterAgent) writes the
+  // connection code to RTDB at /workspaces/{code} with status:
+  // "waiting". The code itself IS the RTDB key — no query needed,
+  // just a direct path lookup. Firestore's agent_connections
+  // collection was never where the agent actually writes to.
   const handleConnect = async () => {
     const code = digits.join("");
     if (code.length !== 10) {
@@ -69,45 +75,55 @@ export default function AddWorkspaceModal({ isOpen, onClose, onConnected }: AddW
       return;
     }
     if (!user) return;
+    if (!rtdb) {
+      setError("Realtime Database isn't configured on this build — check lib/firebase.ts exports `rtdb`.");
+      return;
+    }
 
     setLoading(true);
     setError("");
 
     try {
-      const q = query(
-        collection(db, "agent_connections"),
-        where("code", "==", code),
-        where("status", "==", "waiting")
-      );
-      const snap = await getDocs(q);
+      const wsRef = ref(rtdb, `workspaces/${code}`);
+      const snap  = await get(wsRef);
 
-      if (snap.empty) {
+      if (!snap.exists()) {
         setError("Invalid or expired code. Please generate a new one from your agent.");
         setLoading(false);
         return;
       }
 
-      const agentDoc = snap.docs[0];
-      const agentData = agentDoc.data();
+      const agentData = snap.val();
 
-      const createdAt = new Date(agentData.createdAt).getTime();
-      const now = Date.now();
-      if (now - createdAt > 10 * 60 * 1000) {
+      if (agentData.status !== "waiting") {
+        setError(
+          agentData.status === "connected"
+            ? "This code has already been used to connect a workspace."
+            : "This workspace isn't ready to connect right now."
+        );
+        setLoading(false);
+        return;
+      }
+
+      // registeredAt is a raw millisecond timestamp (Date.now() on
+      // the agent side) — not an ISO string, so no new Date(...) wrap
+      const registeredAt = agentData.registeredAt || 0;
+      if (Date.now() - registeredAt > 10 * 60 * 1000) {
         setError("This code has expired. Please restart your agent to get a new code.");
         setLoading(false);
         return;
       }
 
-      await updateDoc(doc(db, "agent_connections", agentDoc.id), {
+      await update(wsRef, {
         userId: user.uid,
         status: "connected",
-        connectedAt: new Date().toISOString(),
+        connectedAt: Date.now(),
       });
 
       const workspace: WorkspaceData = {
-        id: agentDoc.id,
-        code,
-        pcName: agentData.pcName || "My PC",
+        id: code,          // the code IS the workspace id — same key
+        code,               // the rest of the app (workspace/[id]/page.tsx)
+        pcName: agentData.pcName || "My PC",  // already routes on this
         os: agentData.os || "Unknown OS",
         status: "online",
         connectedAt: new Date().toISOString(),
@@ -117,22 +133,13 @@ export default function AddWorkspaceModal({ isOpen, onClose, onConnected }: AddW
       onConnected(workspace);
       onClose();
     } catch (err: unknown) {
-      // Surface the REAL Firebase error instead of hiding it — this is
-      // the difference between "code not found" (empty result, handled
-      // above) and an actual query failure (permission-denied, a missing
-      // composite index, or network issue). Hiding this made the real
-      // cause impossible to diagnose.
       const fbErr = err as { code?: string; message?: string };
       console.error("Workspace connect error:", fbErr);
 
-      if (fbErr.code === "permission-denied") {
-        setError("Permission denied by Firestore rules — the app can't read agent_connections right now. This needs a rules fix, not a code re-entry.");
-      } else if (fbErr.code === "failed-precondition" || fbErr.message?.includes("index")) {
-        setError("Firestore needs an index for this lookup that isn't set up yet. Check the browser console (F12) for a link Firebase provides to auto-create it.");
-      } else if (fbErr.code === "unavailable") {
-        setError("Can't reach Firestore right now — check your internet connection and try again.");
+      if (fbErr.code === "PERMISSION_DENIED" || fbErr.message?.includes("permission")) {
+        setError("Realtime Database rules are blocking this read/write. Check your RTDB security rules allow authenticated users to read/update /workspaces/{code}.");
       } else {
-        setError(`Connection failed: ${fbErr.code || fbErr.message || "unknown error"}. Check the browser console (F12) for full details.`);
+        setError(`Connection failed: ${fbErr.code || fbErr.message || "unknown error"}. Check the browser console (F12) for details.`);
       }
     } finally {
       setLoading(false);
