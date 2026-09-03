@@ -2,11 +2,20 @@
 // components/PlanWall.tsx
 // Payment verify hone ke baad hi plan activate hota hai
 // Free plan seedha activate, paid plans Gumroad ke baad
+//
+// ── FIX: the Electron agent has NO Firebase Auth session — it can
+// only read/write open RTDB paths (like /workspaces/{code}), never
+// auth-protected paths like /users/{uid}. Previously this component
+// only wrote the plan to /users/{uid}, which the agent's
+// listenForPlanVerification() could never read, so the model picker
+// never appeared. Now the plan is ALSO mirrored to
+// /workspaces/{workspaceId}, which is open in RTDB rules and is
+// what main.js now actually listens on.
 
 import { useState, useEffect } from "react";
-import { db, rtdb } from "@/lib/firebase";          // ← ADDED rtdb import
+import { db, rtdb } from "@/lib/firebase";          // ← rtdb import
 import { doc, onSnapshot } from "firebase/firestore";
-import { ref, set } from "firebase/database";        // ← ADDED
+import { ref, set, update } from "firebase/database"; // ← added update
 import { useAuth } from "@/lib/AuthContext";
 import PricingModal from "./PricingModal";
 
@@ -51,11 +60,12 @@ export default function PlanWall({
     return () => unsub();
   }, [waitingPay, user, chosenPlan, workspaceId, onPlanChosen]);
 
-  // ← CHANGED: made async + free plan now also writes to RTDB so
-  // the Electron agent's listenForPlanVerification() (which reads
-  // /users/{userId} from Realtime Database, not Firestore) actually
-  // fires. Paid plan branch is untouched — Gumroad webhook already
-  // handles both databases now.
+  // ── CHANGED: free plan now writes to BOTH /users/{uid} (for the
+  // website's own Firestore-mirrored state / future features) AND
+  // /workspaces/{workspaceId} (which is what the Electron agent's
+  // listenForPlanVerification() actually listens on — see main.js).
+  // Paid plan branch unchanged — Gumroad webhook now mirrors into
+  // /workspaces/{code} too, see gumroad-webhook/route.ts.
   const handleContinue = async (planKey: string) => {
     if (planKey === "free") {
       // Free plan — seedha activate, no payment needed
@@ -66,7 +76,17 @@ export default function PlanWall({
             planVerified: true,
           });
         } catch (err) {
-          console.error("❌ RTDB free plan sync failed:", err);
+          console.error("❌ RTDB free plan sync (/users) failed:", err);
+        }
+
+        // ── NEW: mirror into the workspace node the agent can read ──
+        try {
+          await update(ref(rtdb, `workspaces/${workspaceId}`), {
+            plan: "free",
+            planVerified: true,
+          });
+        } catch (err) {
+          console.error("❌ RTDB free plan sync (/workspaces) failed:", err);
         }
       }
       setModalOpen(false);
