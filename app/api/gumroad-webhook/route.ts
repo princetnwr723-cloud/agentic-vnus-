@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { initializeApp, getApps, cert } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import { getAuth } from "firebase-admin/auth";
-import { getDatabase } from "firebase-admin/database"; // ← ADDED
+import { getDatabase } from "firebase-admin/database"; // ← RTDB
 
 // ── Product name → plan key ─────────────────────────────
 const PLAN_MAP: Record<string, string> = {
@@ -35,7 +35,7 @@ function initAdmin() {
       clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL || "",
       privateKey:  (process.env.FIREBASE_ADMIN_PRIVATE_KEY || "").replace(/\\n/g, "\n"),
     }),
-    // ← ADDED: RTDB needs its own URL — agent listens here, not Firestore
+    // RTDB needs its own URL — agent listens here, not Firestore
     databaseURL: process.env.FIREBASE_ADMIN_DATABASE_URL || process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL || "",
   });
 }
@@ -139,11 +139,12 @@ export async function POST(req: NextRequest) {
       subscriptionId:  fields["subscription_id"] || "",
     });
 
-    // ← ADDED: RTDB update — electron agent listens HERE for plan
+    // RTDB update — electron agent listens HERE for plan
     // verification (listenForPlanVerification in main.js reads
     // /users/{userId} from Realtime Database, not Firestore).
     // Wrapped in its own try/catch so a failure here never breaks
     // the Firestore update above or the webhook's 200 response.
+    let workspaceIds: string[] = [];
     try {
       const rtdb = getDatabase();
       await rtdb.ref(`users/${userId}`).update({
@@ -151,6 +152,29 @@ export async function POST(req: NextRequest) {
         planVerified: true,
       });
       console.log(`✅ RTDB plan synced: user=${userId} plan=${planKey}`);
+
+      // ── NEW: mirror plan into every workspace this user has
+      // connected, via the reverse index written by
+      // AddWorkspaceModal.tsx at /userWorkspaces/{userId}/{code}.
+      // This is the path the Electron agent's
+      // listenForPlanVerification() actually listens on now
+      // (main.js), since the agent has no Firebase Auth session
+      // and can never read the auth-protected /users/{userId} node.
+      const userWorkspacesSnap = await rtdb.ref(`userWorkspaces/${userId}`).once("value");
+      if (userWorkspacesSnap.exists()) {
+        workspaceIds = Object.keys(userWorkspacesSnap.val() || {});
+        await Promise.all(
+          workspaceIds.map(wsId =>
+            rtdb.ref(`workspaces/${wsId}`).update({
+              plan: planKey,
+              planVerified: true,
+            })
+          )
+        );
+        console.log(`✅ Mirrored plan to ${workspaceIds.length} workspace(s): ${workspaceIds.join(", ")}`);
+      } else {
+        console.warn(`⚠️ No userWorkspaces found for ${userId} — agent won't see this plan update until it reconnects`);
+      }
     } catch (rtdbErr) {
       console.error("❌ RTDB plan sync failed:", rtdbErr);
     }
@@ -168,7 +192,7 @@ export async function POST(req: NextRequest) {
     }
 
     console.log(`✅ Plan activated: user=${userId} plan=${planKey}`);
-    return NextResponse.json({ ok: true, userId, planKey });
+    return NextResponse.json({ ok: true, userId, planKey, workspacesMirrored: workspaceIds.length });
 
   } catch (err) {
     console.error("❌ Webhook error:", err);
