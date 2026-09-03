@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { ref, get, update } from "firebase/database";
+import { ref, get, update, set } from "firebase/database";
 import { rtdb } from "@/lib/firebase";
 import { useAuth } from "@/lib/AuthContext";
 import toast from "react-hot-toast";
@@ -66,8 +66,13 @@ export default function AddWorkspaceModal({ isOpen, onClose, onConnected }: AddW
   // The Electron agent (main.js → rtdbRegisterAgent) writes the
   // connection code to RTDB at /workspaces/{code} with status:
   // "waiting". The code itself IS the RTDB key — no query needed,
-  // just a direct path lookup. Firestore's agent_connections
-  // collection was never where the agent actually writes to.
+  // just a direct path lookup.
+  //
+  // ── FIX: also writes a reverse index at /userWorkspaces/{uid}/{code}
+  // so the Gumroad webhook (and anything else server-side) can look
+  // up which workspace(s) belong to a user without querying all of
+  // /workspaces. This is what lets plan updates get mirrored into
+  // /workspaces/{code} after checkout — see gumroad-webhook/route.ts.
   const handleConnect = async () => {
     const code = digits.join("");
     if (code.length !== 10) {
@@ -119,6 +124,14 @@ export default function AddWorkspaceModal({ isOpen, onClose, onConnected }: AddW
         status: "connected",
         connectedAt: Date.now(),
       });
+
+      // ── NEW: reverse index so server-side code (Gumroad webhook)
+      // can find this user's workspace(s) later ──────────────────
+      try {
+        await set(ref(rtdb, `userWorkspaces/${user.uid}/${code}`), true);
+      } catch (idxErr) {
+        console.error("⚠️ userWorkspaces index write failed (non-fatal):", idxErr);
+      }
 
       const workspace: WorkspaceData = {
         id: code,          // the code IS the workspace id — same key
