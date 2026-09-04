@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { ref, get, update, set } from "firebase/database";
-import { rtdb } from "@/lib/firebase";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 import { useAuth } from "@/lib/AuthContext";
 import toast from "react-hot-toast";
 
@@ -62,17 +62,13 @@ export default function AddWorkspaceModal({ isOpen, onClose, onConnected }: AddW
     inputRefs.current[nextEmpty === -1 ? 9 : nextEmpty]?.focus();
   };
 
-  // ── Connect — reads/writes Realtime Database, NOT Firestore ──
-  // The Electron agent (main.js → rtdbRegisterAgent) writes the
-  // connection code to RTDB at /workspaces/{code} with status:
-  // "waiting". The code itself IS the RTDB key — no query needed,
-  // just a direct path lookup.
-  //
-  // ── FIX: also writes a reverse index at /userWorkspaces/{uid}/{code}
-  // so the Gumroad webhook (and anything else server-side) can look
-  // up which workspace(s) belong to a user without querying all of
-  // /workspaces. This is what lets plan updates get mirrored into
-  // /workspaces/{code} after checkout — see gumroad-webhook/route.ts.
+  // ── Connect — now reads/writes FIRESTORE (agent_workspaces/{code})
+  // instead of Realtime Database. The Electron agent (main.js →
+  // registerAgentEverywhere) writes this same document using
+  // Anonymous Auth. The code itself IS the Firestore document ID —
+  // direct doc() lookup, no query needed. This is more reliable than
+  // RTDB's raw SSE, since Firestore's client SDK automatically falls
+  // back to long-polling when WebSocket is blocked by a firewall/AV.
   const handleConnect = async () => {
     const code = digits.join("");
     if (code.length !== 10) {
@@ -80,17 +76,13 @@ export default function AddWorkspaceModal({ isOpen, onClose, onConnected }: AddW
       return;
     }
     if (!user) return;
-    if (!rtdb) {
-      setError("Realtime Database isn't configured on this build — check lib/firebase.ts exports `rtdb`.");
-      return;
-    }
 
     setLoading(true);
     setError("");
 
     try {
-      const wsRef = ref(rtdb, `workspaces/${code}`);
-      const snap  = await get(wsRef);
+      const wsRef = doc(db, "agent_workspaces", code);
+      const snap  = await getDoc(wsRef);
 
       if (!snap.exists()) {
         setError("Invalid or expired code. Please generate a new one from your agent.");
@@ -98,7 +90,7 @@ export default function AddWorkspaceModal({ isOpen, onClose, onConnected }: AddW
         return;
       }
 
-      const agentData = snap.val();
+      const agentData = snap.data() as any;
 
       if (agentData.status !== "waiting") {
         setError(
@@ -110,8 +102,6 @@ export default function AddWorkspaceModal({ isOpen, onClose, onConnected }: AddW
         return;
       }
 
-      // registeredAt is a raw millisecond timestamp (Date.now() on
-      // the agent side) — not an ISO string, so no new Date(...) wrap
       const registeredAt = agentData.registeredAt || 0;
       if (Date.now() - registeredAt > 10 * 60 * 1000) {
         setError("This code has expired. Please restart your agent to get a new code.");
@@ -119,24 +109,16 @@ export default function AddWorkspaceModal({ isOpen, onClose, onConnected }: AddW
         return;
       }
 
-      await update(wsRef, {
+      await updateDoc(wsRef, {
         userId: user.uid,
         status: "connected",
         connectedAt: Date.now(),
       });
 
-      // ── NEW: reverse index so server-side code (Gumroad webhook)
-      // can find this user's workspace(s) later ──────────────────
-      try {
-        await set(ref(rtdb, `userWorkspaces/${user.uid}/${code}`), true);
-      } catch (idxErr) {
-        console.error("⚠️ userWorkspaces index write failed (non-fatal):", idxErr);
-      }
-
       const workspace: WorkspaceData = {
-        id: code,          // the code IS the workspace id — same key
-        code,               // the rest of the app (workspace/[id]/page.tsx)
-        pcName: agentData.pcName || "My PC",  // already routes on this
+        id: code,
+        code,
+        pcName: agentData.pcName || "My PC",
         os: agentData.os || "Unknown OS",
         status: "online",
         connectedAt: new Date().toISOString(),
@@ -149,8 +131,8 @@ export default function AddWorkspaceModal({ isOpen, onClose, onConnected }: AddW
       const fbErr = err as { code?: string; message?: string };
       console.error("Workspace connect error:", fbErr);
 
-      if (fbErr.code === "PERMISSION_DENIED" || fbErr.message?.includes("permission")) {
-        setError("Realtime Database rules are blocking this read/write. Check your RTDB security rules allow authenticated users to read/update /workspaces/{code}.");
+      if (fbErr.code === "permission-denied") {
+        setError("Firestore rules are blocking this. Check that agent_workspaces rules allow authenticated read/write.");
       } else {
         setError(`Connection failed: ${fbErr.code || fbErr.message || "unknown error"}. Check the browser console (F12) for details.`);
       }
