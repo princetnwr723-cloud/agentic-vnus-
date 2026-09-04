@@ -3,19 +3,16 @@
 // Payment verify hone ke baad hi plan activate hota hai
 // Free plan seedha activate, paid plans Gumroad ke baad
 //
-// ── FIX: the Electron agent has NO Firebase Auth session — it can
-// only read/write open RTDB paths (like /workspaces/{code}), never
-// auth-protected paths like /users/{uid}. Previously this component
-// only wrote the plan to /users/{uid}, which the agent's
-// listenForPlanVerification() could never read, so the model picker
-// never appeared. Now the plan is ALSO mirrored to
-// /workspaces/{workspaceId}, which is open in RTDB rules and is
-// what main.js now actually listens on.
+// ── FIX: free plan now mirrors into agent_workspaces/{workspaceId}
+// (Firestore) — this is what main.js's listenForPlanVerification
+// actually watches now (see main.js). Paid plan flow is unchanged —
+// it already used a Firestore onSnapshot on /users/{uid}, which
+// always worked correctly (Firestore, real user auth); the Gumroad
+// webhook now also mirrors into agent_workspaces (see webhook file).
 
 import { useState, useEffect } from "react";
-import { db, rtdb } from "@/lib/firebase";          // ← rtdb import
-import { doc, onSnapshot } from "firebase/firestore";
-import { ref, set, update } from "firebase/database"; // ← added update
+import { db } from "@/lib/firebase";
+import { doc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import { useAuth } from "@/lib/AuthContext";
 import PricingModal from "./PricingModal";
 
@@ -37,11 +34,10 @@ export default function PlanWall({
   const [waitingPay,   setWaitingPay]     = useState(false);
   const [chosenPlan,   setChosenPlan]     = useState<string | null>(null);
 
-  // Firebase me plan verify hone ka wait karo
+  // Firestore me plan verify hone ka wait karo (paid plan flow)
   useEffect(() => {
     if (!waitingPay || !user || !chosenPlan) return;
 
-    // Poll Firebase — jab planVerified=true aaye tab activate karo
     const unsub = onSnapshot(doc(db, "users", user.uid), (snap) => {
       if (!snap.exists()) return;
       const data         = snap.data();
@@ -51,7 +47,6 @@ export default function PlanWall({
       if (plan === chosenPlan && planVerified === true) {
         unsub();
         setWaitingPay(false);
-        // Mark done in localStorage
         localStorage.setItem(`plan_wall_done_${workspaceId}`, "true");
         onPlanChosen(plan);
       }
@@ -60,33 +55,22 @@ export default function PlanWall({
     return () => unsub();
   }, [waitingPay, user, chosenPlan, workspaceId, onPlanChosen]);
 
-  // ── CHANGED: free plan now writes to BOTH /users/{uid} (for the
-  // website's own Firestore-mirrored state / future features) AND
-  // /workspaces/{workspaceId} (which is what the Electron agent's
-  // listenForPlanVerification() actually listens on — see main.js).
-  // Paid plan branch unchanged — Gumroad webhook now mirrors into
-  // /workspaces/{code} too, see gumroad-webhook/route.ts.
   const handleContinue = async (planKey: string) => {
     if (planKey === "free") {
-      // Free plan — seedha activate, no payment needed
       if (user) {
         try {
-          await set(ref(rtdb, `users/${user.uid}`), {
-            plan: "free",
-            planVerified: true,
-          });
+          await setDoc(doc(db, "users", user.uid), { plan: "free", planVerified: true }, { merge: true });
         } catch (err) {
-          console.error("❌ RTDB free plan sync (/users) failed:", err);
+          console.error("❌ Firestore free plan sync (/users) failed:", err);
         }
-
-        // ── NEW: mirror into the workspace node the agent can read ──
+        // ── NEW: mirror into the workspace doc the agent watches ──
         try {
-          await update(ref(rtdb, `workspaces/${workspaceId}`), {
+          await updateDoc(doc(db, "agent_workspaces", workspaceId), {
             plan: "free",
             planVerified: true,
           });
         } catch (err) {
-          console.error("❌ RTDB free plan sync (/workspaces) failed:", err);
+          console.error("❌ Firestore free plan sync (/agent_workspaces) failed:", err);
         }
       }
       setModalOpen(false);
@@ -96,7 +80,6 @@ export default function PlanWall({
     }
 
     // Paid plan — Gumroad checkout khulega PricingModal se
-    // Hum sirf Firebase me verify hone ka wait karenge
     setChosenPlan(planKey);
     setModalOpen(false);
     setWaitingPay(true);
@@ -126,7 +109,6 @@ export default function PlanWall({
           border:       "1px solid rgba(255,59,48,0.2)",
           background:   "rgba(8,4,4,0.98)",
         }}>
-          {/* Spinner */}
           <div style={{
             width:        48,
             height:       48,
@@ -181,7 +163,6 @@ export default function PlanWall({
 
   return (
     <>
-      {/* Background overlay */}
       {!modalOpen && (
         <div style={{
           position:       "fixed",
